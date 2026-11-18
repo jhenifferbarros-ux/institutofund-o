@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR" class="scroll-smooth bg-[#050505]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Instituto Fundão • Cultura, Resistência e Comunidade em Itapevi</title>
+    <title>Instituto Fundão • Cultura, Rima & Comunidade em Itapevi</title>
 
-    <!-- Tailwind CSS via CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Bebas Neue, Permanent Marker & Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans (limpa/moderna), Bebas Neue (impacto urbano) & Permanent Marker (lettering brush/grafite) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Configuração Customizada Tailwind -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
+                        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
                         bebas: ['"Bebas Neue"', 'sans-serif'],
                         marker: ['"Permanent Marker"', 'cursive'],
-                        jakarta: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        arena: '#050505',
+                        surface: '#0b0b0b',
+                        borderline: '#1a1a1a',
                     }
                 }
             }
@@ -29,7 +33,7 @@
     </script>
 
     <style>
-        /* Reset rigoroso contra estouro horizontal em telas mobile (320px - 430px) */
+        /* Blindagem total contra cortes e rolagem horizontal em telas mobile (320px - 430px) */
         *, *::before, *::after {
             box-sizing: border-box;
         }
@@ -40,109 +44,56 @@
             max-width: 100%;
             margin: 0;
             padding: 0;
-            background-color: #0a0a0a;
-            color: #FFFFFF;
+            background-color: #050505;
+            color: #ffffff;
             overflow-x: hidden;
-            scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
 
-        /* Tipografia fluida protegida contra quebra ou corte no mobile */
-        .title-hero {
-            font-size: clamp(3.3rem, 11vw, 7.6rem);
-            line-height: 0.9;
-            word-break: normal;
+        /* Tipografia fluida protegida contra quebra no mobile */
+        .hero-heading {
+            font-size: clamp(2.35rem, 6.2vw, 4.75rem);
+            line-height: 0.96;
             overflow-wrap: break-word;
         }
 
-        .title-section {
-            font-size: clamp(2.4rem, 7.5vw, 4.6rem);
-            line-height: 0.94;
-            word-break: normal;
+        .section-heading {
+            font-size: clamp(1.75rem, 4.2vw, 2.85rem);
+            line-height: 1.08;
             overflow-wrap: break-word;
         }
 
-        .title-artist {
-            font-size: clamp(2.1rem, 6vw, 3.2rem);
-            line-height: 0.95;
-            word-break: normal;
-            overflow-wrap: break-word;
+        /* Padrão geométrico sutil dentro dos banners horizontais estilo Ranking BDA */
+        .bda-pattern {
+            background-image:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
+                linear-gradient(315deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%);
+            background-position: 28px 0, 28px 0, 0 0, 0 0;
+            background-size: 56px 56px;
         }
 
-        /* Contornos orgânicos assimétricos para fotos lambe-lambe e stickers (zero retângulo rígido) */
-        .blob-photo-1 {
-            border-radius: 34% 66% 52% 48% / 26% 32% 68% 74%;
-        }
-
-        .blob-photo-2 {
-            border-radius: 62% 38% 34% 66% / 44% 28% 72% 56%;
-        }
-
-        .blob-photo-3 {
-            border-radius: 42% 58% 65% 35% / 30% 48% 52% 70%;
-        }
-
-        .lambe-organic {
-            border-radius: 26px 10px 32px 14px / 14px 28px 12px 30px;
+        /* Moldura texturizada estilo carta/pôster urbano dos artistas */
+        .artist-card-frame {
             position: relative;
+            border-radius: 14px;
+            padding: 3px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.65), rgba(255,255,255,0.12), rgba(255,255,255,0.55));
         }
 
-        .lambe-tape {
-            position: relative;
-        }
-
-        .lambe-tape::before {
-            content: "";
-            position: absolute;
-            top: -9px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-3deg);
-            width: 56px;
-            height: 15px;
-            background: rgba(255, 255, 255, 0.18);
-            border-radius: 4px 10px 3px 8px;
-            z-index: 20;
-            pointer-events: none;
-        }
-
-        /* Botões e pílulas orgânicas */
-        .pill-organic {
-            border-radius: 999px 26px 999px 22px / 24px 999px 22px 999px;
-        }
-
-        /* Inputs apenas com traço inferior (zero caixa retangular de formulário) */
-        .input-line {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.25);
-            border-radius: 0;
-            padding: 0.75rem 0.25rem;
-            color: #FFFFFF;
-            width: 100%;
-            outline: none;
-            transition: border-color 0.25s ease;
-        }
-
-        .input-line:focus {
-            border-bottom-color: #dc2626;
-        }
-
-        .input-line::placeholder {
-            color: rgba(161, 161, 170, 0.75);
-        }
-
-        /* Animação contínua fluida da faixa amarela inclinada */
+        /* Faixa amarela inclinada com loop contínuo */
         .marquee-track {
             display: flex;
             width: max-content;
-            animation: marqueeScroll 26s linear infinite;
+            animation: marqueeRun 28s linear infinite;
         }
 
         .marquee-track:hover {
             animation-play-state: paused;
         }
 
-        @keyframes marqueeScroll {
+        @keyframes marqueeRun {
             0% {
                 transform: translate3d(0, 0, 0);
             }
@@ -150,727 +101,1171 @@
                 transform: translate3d(-50%, 0, 0);
             }
         }
+
+        /* Barra de rolagem discreta para a tira horizontal de destaques */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
-<body class="font-jakarta bg-[#0a0a0a] text-white antialiased selection:bg-[#9333ea] selection:text-white">
+<body class="font-jakarta bg-[#050505] text-white antialiased selection:bg-[#7C3AED] selection:text-white">
 
-    <!-- Wrapper raiz blindado contra rolagem horizontal -->
-    <div class="w-full max-w-full overflow-x-hidden relative flex flex-col min-h-screen">
+    <!-- Container Raiz Anti-Overflow -->
+    <div class="w-full max-w-full overflow-x-hidden flex flex-col min-h-screen bg-[#050505]">
 
-        <!-- ================= 1. TOP NAV MINIMALISTA E ORGÂNICA ================= -->
-        <header class="sticky top-0 z-50 w-full bg-[#0a0a0a]/90 backdrop-blur-md">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3">
-                <div class="flex items-center justify-between gap-2">
-                    <!-- Logo Circular Avatar + Identificação -->
-                    <a href="#" class="flex items-center gap-2.5 sm:gap-3 min-w-0 group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0a0a0a] shrink-0 relative flex items-center justify-center overflow-hidden ring-2 ring-white/20 group-hover:ring-[#9333ea] transition-all">
-                            <svg viewBox="0 0 100 100" class="w-full h-full" aria-label="Logo Instituto Fundão">
-                                <circle cx="50" cy="50" r="48" fill="#0a0a0a" />
-                                <path d="M 14 34 A 40 40 0 0 1 55 10" stroke="#f97316" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <path d="M 55 10 A 40 40 0 0 1 89 38" stroke="#dc2626" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <path d="M 89 38 A 40 40 0 0 1 78 80" stroke="#16a34a" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <path d="M 78 80 A 40 40 0 0 1 36 88" stroke="#facc15" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <path d="M 36 88 A 40 40 0 0 1 12 62" stroke="#2563eb" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <path d="M 12 62 A 40 40 0 0 1 14 34" stroke="#9333ea" stroke-width="10" stroke-linecap="round" fill="none" />
-                                <circle cx="50" cy="50" r="34" fill="#0a0a0a" />
-                                <path d="M 33 36 L 38 20 L 49 30 L 60 19 L 66 35 L 33 38 Z" fill="#facc15" stroke="#facc15" stroke-width="1.5" stroke-linejoin="round" />
-                                <path d="M 39 76 L 44 43 L 69 40 L 67 47 L 50 49 L 48 56 L 63 54 L 62 60 L 47 62 L 45 76 Z" fill="#FFFFFF" />
-                                <path d="M 41 80 Q 54 76 68 78" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" fill="none" />
-                                <path d="M 45 83 Q 55 81 65 82" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" fill="none" />
-                            </svg>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-2.5 min-w-0">
-                            <span class="font-bebas text-xl sm:text-3xl tracking-wider text-white leading-none truncate">
-                                INSTITUTO FUNDÃO
-                            </span>
-                            <span class="font-marker text-[11px] sm:text-xs text-[#facc15] tracking-wider uppercase leading-none mt-0.5 sm:mt-0">
-                                ITAPEVI • SP
-                            </span>
-                        </div>
-                    </a>
-
-                    <div class="flex items-center gap-5 shrink-0">
-                        <!-- Links Desktop sem molduras -->
-                        <nav aria-label="Navegação Principal Desktop" class="hidden lg:flex items-center gap-6">
-                            <a href="#sobre-nos" class="font-bebas text-lg tracking-wider text-zinc-300 hover:text-[#f97316] transition-colors uppercase">
-                                Sobre Nós
-                            </a>
-                            <a href="#direito-comunidade" class="font-bebas text-lg tracking-wider text-zinc-300 hover:text-[#2563eb] transition-colors uppercase">
-                                Direito na Comunidade
-                            </a>
-                            <a href="#natal-quebrada" class="font-bebas text-lg tracking-wider text-zinc-300 hover:text-[#16a34a] transition-colors uppercase">
-                                Convite
-                            </a>
-                            <a href="#participar" onclick="selecionarAba('voluntariado')" class="font-bebas text-lg tracking-wider text-zinc-300 hover:text-[#dc2626] transition-colors uppercase">
-                                Contato
-                            </a>
-                        </nav>
-
-                        <!-- Pílula orgânica Doar -->
-                        <a href="#participar" onclick="selecionarAba('doar')" class="bg-[#facc15] hover:bg-yellow-300 text-black font-extrabold text-xs sm:text-sm px-4 sm:px-5 py-2 transition-transform hover:-rotate-2 active:scale-95 uppercase tracking-wider pill-organic">
-                            Doar
-                        </a>
+        <!-- =====================================================================
+             1. HEADER MINIMALISTA FIXO (ESTILO BATALHA DA ALDEIA)
+        ====================================================================== -->
+        <header class="sticky top-0 z-50 w-full bg-[#050505]/90 backdrop-blur-md border-b border-[#1a1a1a]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+                <!-- Esquerda: Emblema Urbano/Grafite do Instituto Fundão -->
+                <a href="#" class="flex items-center gap-3 min-w-0 group">
+                    <!-- Emblema SVG com coroa e chamas em roxo e laranja -->
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#0f0f0f] border border-[#262626] group-hover:border-[#F97316] transition-colors flex items-center justify-center shrink-0 relative overflow-hidden">
+                        <svg viewBox="0 0 100 100" class="w-9 h-9" aria-label="Emblema Instituto Fundão">
+                            <!-- Chamas de fundo Roxo e Laranja -->
+                            <path d="M22 72 C14 54, 24 34, 34 26 C31 40, 38 44, 42 30 C46 16, 56 12, 54 28 C62 18, 74 24, 68 40 C78 36, 84 52, 76 72 Z" fill="#7C3AED" opacity="0.85"/>
+                            <path d="M28 74 C22 58, 30 42, 38 36 C36 47, 43 50, 47 38 C51 27, 60 25, 58 39 C65 32, 72 38, 67 52 C74 49, 78 60, 72 74 Z" fill="#F97316"/>
+                            <!-- Coroa urbana -->
+                            <path d="M31 33 L37 19 L49 28 L61 18 L68 33 Z" fill="#FACC15"/>
+                            <!-- Letra F grafite central -->
+                            <path d="M40 78 L44 43 L68 41 L66 48 L51 49 L50 56 L63 55 L62 61 L49 62 L47 78 Z" fill="#FFFFFF"/>
+                        </svg>
                     </div>
-                </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="font-bebas text-xl sm:text-2xl tracking-wider text-white leading-none truncate">
+                            INSTITUTO <span class="text-[#F97316]">FUNDÃO</span>
+                        </span>
+                        <span class="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-zinc-400 uppercase mt-0.5">
+                            ITAPEVI • SP
+                        </span>
+                    </div>
+                </a>
 
-                <!-- Links Mobile fluidos sem caixas -->
-                <nav aria-label="Navegação Principal Mobile" class="lg:hidden mt-2 pt-1 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-zinc-300">
-                    <a href="#sobre-nos" class="font-bebas text-sm sm:text-base tracking-wider hover:text-[#f97316] transition-colors uppercase py-0.5">
-                        Sobre Nós
+                <!-- Direita: Links Rápidos Enxutos + Menu ≡ -->
+                <div class="flex items-center gap-3 sm:gap-6 shrink-0">
+                    <!-- Link destaque em lettering brush laranja/amarelo -->
+                    <a href="#natal-fundao" class="hidden sm:inline-block font-marker text-sm lg:text-base text-[#F97316] hover:text-[#FACC15] tracking-wider uppercase transition-colors">
+                        NATAL FUNDÃO
                     </a>
-                    <a href="#direito-comunidade" class="font-bebas text-sm sm:text-base tracking-wider hover:text-[#2563eb] transition-colors uppercase py-0.5">
+
+                    <a href="#direito-comunidade" class="hidden md:inline-block text-sm font-medium text-zinc-300 hover:text-white transition-colors">
                         Direito na Comunidade
                     </a>
-                    <a href="#natal-quebrada" class="font-bebas text-sm sm:text-base tracking-wider hover:text-[#16a34a] transition-colors uppercase py-0.5">
-                        Convite
+
+                    <a href="#sobre-fundao" class="hidden lg:inline-block text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                        Sobre Nós
                     </a>
-                    <a href="#participar" onclick="selecionarAba('voluntariado')" class="font-bebas text-sm sm:text-base tracking-wider hover:text-[#dc2626] transition-colors uppercase py-0.5">
-                        Contato
+
+                    <!-- Pílula discreta Doar -->
+                    <a href="#contato-natalia" onclick="ativarAba('doar')" class="px-3.5 sm:px-4 py-1.5 rounded-full bg-[#141414] hover:bg-[#7C3AED] border border-[#2c2c2c] hover:border-[#7C3AED] text-xs sm:text-sm font-semibold text-white transition-all">
+                        Doar
                     </a>
-                </nav>
+
+                    <!-- Botão Menu ≡ -->
+                    <button type="button" onclick="toggleDrawer()" aria-label="Abrir menu completo" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0d0d0d] hover:bg-[#171717] border border-[#242424] text-xs sm:text-sm font-semibold text-zinc-200 hover:text-[#F97316] transition-colors cursor-pointer">
+                        <span>Menu</span>
+                        <svg class="w-4 h-4 text-[#F97316]" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </header>
 
-        <!-- ================= 2. HERO SECTION (ROXO #9333ea & PRETO #0a0a0a) ================= -->
-        <section class="w-full bg-[#0a0a0a] relative overflow-hidden pt-8 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-6">
-            <!-- Aura orgânica roxa -->
-            <div class="absolute -top-12 right-0 w-72 h-72 sm:w-[32rem] sm:h-[32rem] bg-[#9333ea] rounded-full blur-[150px] opacity-25 pointer-events-none"></div>
-
-            <div class="max-w-5xl mx-auto relative z-10 min-w-0">
-                <!-- Pincelada marcador inclinada à esquerda -->
-                <div class="inline-flex items-center gap-2 mb-4 -rotate-2">
-                    <span class="font-marker text-xs sm:text-base tracking-widest text-[#c084fc] uppercase">
-                        ★ CULTURA • RESISTÊNCIA • ITAPEVI
+        <!-- DRAWER / OVERLAY URBANO COMPLETO -->
+        <div id="menu-drawer" class="fixed inset-0 z-[90] hidden bg-[#050505]/95 backdrop-blur-lg">
+            <div class="max-w-4xl mx-auto h-full px-5 py-6 flex flex-col justify-between overflow-y-auto">
+                <div class="flex items-center justify-between border-b border-[#1c1c1c] pb-4">
+                    <span class="font-marker text-lg sm:text-xl text-[#F97316] tracking-wider">
+                        INSTITUTO FUNDÃO • ARENA ITAPEVI
                     </span>
+                    <button type="button" onclick="toggleDrawer()" class="px-4 py-1.5 rounded-full bg-[#151515] border border-[#2b2b2b] text-sm font-semibold text-white hover:border-[#F97316] cursor-pointer">
+                        Fechar ✕
+                    </button>
                 </div>
 
-                <!-- Headline principal com sublinhado orgânico à mão em roxo -->
-                <h1 class="font-bebas title-hero uppercase text-white tracking-wide mb-7 w-full">
-                    INSTITUTO
-                    <span class="relative inline-block text-[#a855f7] ml-1 sm:ml-2">
-                        FUNDÃO
-                        <svg viewBox="0 0 280 26" preserveAspectRatio="none" class="w-full h-3.5 sm:h-5 absolute -bottom-1.5 left-0 text-[#9333ea]" aria-hidden="true">
-                            <path d="M3,17 Q72,4 145,14 T277,9" fill="none" stroke="currentColor" stroke-width="7.5" stroke-linecap="round" />
-                            <path d="M24,22 Q130,14 252,18" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round" />
-                        </svg>
-                    </span>
-                </h1>
+                <nav class="my-auto py-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="#hero-arena" onclick="toggleDrawer()" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#7C3AED] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#7C3AED]">01 • Início</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">Manifesto & Cena</p>
+                    </a>
+                    <a href="#sobre-fundao" onclick="toggleDrawer()" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#F97316] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#F97316]">02 • Nossa História</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">O Começo / Sobre o Fundão</p>
+                    </a>
+                    <a href="#direito-comunidade" onclick="toggleDrawer()" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#2563EB] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#2563EB]">03 • Fase 01</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">Direito na Comunidade</p>
+                    </a>
+                    <a href="#artistas-cena" onclick="toggleDrawer()" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#F97316] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#F97316]">04 • Line-up Local</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">Artistas de Itapevi</p>
+                    </a>
+                    <a href="#natal-fundao" onclick="toggleDrawer()" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#16A34A] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#16A34A]">05 • Edição Especial</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">Natal na Quebrada Fundão</p>
+                    </a>
+                    <a href="#contato-natalia" onclick="toggleDrawer(); ativarAba('doar')" class="p-4 rounded-xl bg-[#0c0c0c] border border-[#1d1d1d] hover:border-[#DC2626] transition-colors">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#DC2626]">06 • Mobilização</span>
+                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wide mt-1">Doar / Apoiar / Patrocinar</p>
+                    </a>
+                </nav>
 
-                <!-- Bloco editorial escalonado à direita no mobile e desktop (quebrando o eixo quadrado) -->
-                <div class="ml-4 sm:ml-16 md:ml-28 max-w-2xl mb-10">
-                    <p class="text-base sm:text-xl md:text-2xl font-medium text-zinc-200 leading-relaxed">
-                        Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade no fundão da zona oeste. Conectando a força da juventude periférica com marcas que querem fazer história.
-                    </p>
+                <!-- Card direto da Ponto Focal Natália no Drawer -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-[#0f0f0f] border border-[#242424] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-widest text-[#FACC15]">Atendimento Direto</span>
+                        <p class="text-base font-bold text-white mt-0.5">Natália • Ponto Focal do Instituto Fundão</p>
+                        <p class="text-xs text-zinc-400">WhatsApp Oficial: +55 11 97657-5094</p>
+                    </div>
+                    <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Estou%20falando%20com%20voc%C3%AA%20como%20Ponto%20Focal%20do%20Instituto%20Fund%C3%A3o%20em%20Itapevi." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#16A34A] hover:bg-green-500 text-white font-bold text-xs sm:text-sm transition-colors">
+                        <span>Chamar Natália no WhatsApp</span>
+                        <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================================
+             2. HERO BANNER DE CENA + FAIXA DE DESTAQUES (INSPIRADO NA IMAGEM 1)
+        ====================================================================== -->
+        <section id="hero-arena" class="w-full pt-5 sm:pt-8 pb-8 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <!-- Contêiner Fotográfico Panorâmico Centralizado estilo Arena/Palco -->
+                <div class="relative w-full rounded-2xl overflow-hidden border border-[#222222] bg-[#0b0b0b] shadow-[0_25px_70px_rgba(124,58,237,0.18)] min-h-[430px] sm:min-h-[500px] lg:min-h-[540px] flex flex-col justify-between">
+
+                    <!-- Imagem de fundo dinâmica dos slides -->
+                    <img id="hero-slide-img"
+                         src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg"
+                         alt="Movimento Instituto Fundão em Itapevi"
+                         class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 scale-105"
+                         onerror="this.onerror=null;this.src='https://placehold.co/1400x800/0b0b0b/7C3AED?text=INSTITUTO+FUNDAO+ITAPEVI';" />
+
+                    <!-- Iluminação dramática de palco (Roxo #7C3AED, Laranja #F97316 e vinheta preta #050505) -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-[#050505]/45"></div>
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_22%_20%,rgba(124,58,237,0.45),transparent_55%),radial-gradient(circle_at_82%_25%,rgba(249,115,22,0.38),transparent_52%)]"></div>
+
+                    <!-- Topo do Banner: Barras de Progresso Estilo Stories (como na imagem 1) -->
+                    <div class="relative z-10 p-4 sm:p-6">
+                        <div class="max-w-md mx-auto grid grid-cols-4 gap-2 mb-4" role="tablist" aria-label="Destaques visuais do Instituto Fundão">
+                            <button type="button" onclick="mudarSlideHero(0)" aria-label="Slide 1" class="h-1 rounded-full bg-white/25 overflow-hidden cursor-pointer">
+                                <span id="story-bar-0" class="block h-full w-full bg-[#F97316] transition-all duration-300"></span>
+                            </button>
+                            <button type="button" onclick="mudarSlideHero(1)" aria-label="Slide 2" class="h-1 rounded-full bg-white/25 overflow-hidden cursor-pointer">
+                                <span id="story-bar-1" class="block h-full w-0 bg-[#F97316] transition-all duration-300"></span>
+                            </button>
+                            <button type="button" onclick="mudarSlideHero(2)" aria-label="Slide 3" class="h-1 rounded-full bg-white/25 overflow-hidden cursor-pointer">
+                                <span id="story-bar-2" class="block h-full w-0 bg-[#F97316] transition-all duration-300"></span>
+                            </button>
+                            <button type="button" onclick="mudarSlideHero(3)" aria-label="Slide 4" class="h-1 rounded-full bg-white/25 overflow-hidden cursor-pointer">
+                                <span id="story-bar-3" class="block h-full w-0 bg-[#F97316] transition-all duration-300"></span>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#050505]/80 border border-[#7C3AED]/60 text-[11px] sm:text-xs font-bold tracking-widest text-white uppercase backdrop-blur-sm">
+                                <span class="w-2 h-2 rounded-full bg-[#F97316] animate-pulse"></span>
+                                ITAPEVI • ZONA OESTE
+                            </span>
+                            <span id="hero-slide-tag" class="font-marker text-xs sm:text-sm text-[#FACC15] tracking-wider uppercase">
+                                CULTURA • RIMA • CIDADANIA
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Base do Banner: Título de Impacto + Manifesto Oficial -->
+                    <div class="relative z-10 p-5 sm:p-8 lg:p-10">
+                        <h1 class="font-bebas hero-heading tracking-wide text-white uppercase mb-3 sm:mb-4">
+                            INSTITUTO <span class="font-marker text-[#F97316] text-[0.82em] tracking-normal">FUNDÃO</span>
+                        </h1>
+
+                        <p class="text-sm sm:text-lg lg:text-xl text-zinc-200 font-medium max-w-3xl leading-relaxed mb-6">
+                            Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade em Itapevi. Conectando a força da juventude periférica com marcas que querem fazer história.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                            <a href="#contato-natalia" onclick="ativarAba('doar')" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 rounded-full bg-[#7C3AED] hover:bg-purple-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_0_25px_rgba(124,58,237,0.45)]">
+                                <span>Apoiar o Movimento</span>
+                                <span>→</span>
+                            </a>
+                            <a href="#artistas-cena" class="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-[#050505]/85 hover:bg-[#141414] border border-white/20 text-white font-semibold text-xs sm:text-sm uppercase tracking-wider transition-colors">
+                                <span>Ver Artistas da Cena</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Fluxo assimétrico de CTAs sem caixas -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 ml-2 sm:ml-16 md:ml-28">
-                    <a href="#participar" onclick="selecionarAba('apoiar')" class="bg-[#9333ea] hover:bg-purple-500 text-white font-bebas text-2xl sm:text-3xl px-8 py-3.5 transition-all uppercase tracking-wider pill-organic -rotate-1 hover:rotate-0 shadow-[0_12px_32px_rgba(147,51,234,0.35)]">
-                        QUERO APOIAR ESSA HISTÓRIA
-                    </a>
-                    <a href="#direito-comunidade" class="group inline-flex items-center gap-2.5 text-white hover:text-[#c084fc] font-bebas text-2xl sm:text-3xl py-2 uppercase tracking-wider transition-colors ml-6 sm:ml-0">
-                        <span>VER NOSSA TRAJETÓRIA</span>
-                        <svg viewBox="0 0 32 32" class="w-6 h-6 text-[#a855f7] group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M7 7 L25 25 M25 11 L25 25 L11 25" />
-                        </svg>
-                    </a>
+                <!-- TIRA HORIZONTAL INFERIOR DE DESTAQUES (COMO 'Últimas Edições — CAMPEÕES' NA IMAGEM 1) -->
+                <div class="mt-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-xs sm:text-sm font-medium text-zinc-400">
+                            Ações & Destaques — <span class="font-marker text-[#F97316] tracking-wider uppercase">MOVIMENTO</span>
+                        </p>
+                        <span class="text-[11px] text-zinc-500 hidden sm:inline">Navegação rápida da arena</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
+                        <!-- Item 1 -->
+                        <a href="#direito-comunidade" class="shrink-0 flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#0b0b0b] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#2563EB] transition-colors">
+                            <span class="font-marker text-xs text-[#2563EB] whitespace-nowrap">FASE 01 • DIREITO</span>
+                            <span class="h-4 w-px bg-[#242424]"></span>
+                            <img src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg" alt="Fase 01 Direito" class="w-7 h-7 rounded-full object-cover border border-[#2563EB]">
+                            <span class="text-xs font-bold text-white uppercase tracking-wide whitespace-nowrap">Assessoria Jurídica</span>
+                        </a>
+
+                        <!-- Item 2 -->
+                        <a href="#sobre-fundao" class="shrink-0 flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#0b0b0b] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#7C3AED] transition-colors">
+                            <span class="font-marker text-xs text-[#7C3AED] whitespace-nowrap">FASE 02 • CULTURA</span>
+                            <span class="h-4 w-px bg-[#242424]"></span>
+                            <img src="https://i.postimg.cc/2yR1tCqD/IMG-4133-JPG.jpg" alt="Fase 02 Cultura" class="w-7 h-7 rounded-full object-cover border border-[#7C3AED]">
+                            <span class="text-xs font-bold text-white uppercase tracking-wide whitespace-nowrap">Instituto Fundão</span>
+                        </a>
+
+                        <!-- Item 3 -->
+                        <a href="#natal-fundao" class="shrink-0 flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#0b0b0b] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#16A34A] transition-colors">
+                            <span class="font-marker text-xs text-[#16A34A] whitespace-nowrap">NATAL FUNDÃO</span>
+                            <span class="h-4 w-px bg-[#242424]"></span>
+                            <span class="w-7 h-7 rounded-full bg-[#16A34A] text-[#050505] font-bebas text-sm flex items-center justify-center">NF</span>
+                            <span class="text-xs font-bold text-white uppercase tracking-wide whitespace-nowrap">Edição Especial</span>
+                        </a>
+
+                        <!-- Item 4 -->
+                        <a href="#artistas-cena" class="shrink-0 flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#0b0b0b] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#F97316] transition-colors">
+                            <span class="font-marker text-xs text-[#F97316] whitespace-nowrap">ITAPEVI • SP</span>
+                            <span class="h-4 w-px bg-[#242424]"></span>
+                            <img src="https://i.postimg.cc/d17WBjCH/Whats-App-Image-2026-11-18-at-15-37-09.jpg" alt="Artistas Itapevi" class="w-7 h-7 rounded-full object-cover border border-[#F97316]">
+                            <span class="text-xs font-bold text-white uppercase tracking-wide whitespace-nowrap">SANTOS • RCP • VP7</span>
+                        </a>
+
+                        <!-- Item 5 -->
+                        <a href="#contato-natalia" class="shrink-0 flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#0b0b0b] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#DC2626] transition-colors">
+                            <span class="font-marker text-xs text-[#FACC15] whitespace-nowrap">PONTO FOCAL • NATÁLIA</span>
+                            <span class="h-4 w-px bg-[#242424]"></span>
+                            <span class="w-7 h-7 rounded-full bg-[#DC2626] text-white font-bold text-xs flex items-center justify-center">N</span>
+                            <span class="text-xs font-bold text-white uppercase tracking-wide whitespace-nowrap">WhatsApp Direto</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= 3. FAIXA DE PASSAGEM INCLINADA (AMARELO #facc15 & PRETO #0a0a0a) ================= -->
+        <!-- =====================================================================
+             3. BLOCO EDITORIAL 'O COMEÇO / SOBRE O FUNDÃO' + 3 CARDS ESCALONADOS (INSPIRADO NA IMAGEM 3)
+        ====================================================================== -->
+        <section id="sobre-fundao" class="w-full py-14 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-[#151515]">
+            <div class="max-w-5xl mx-auto">
+                <!-- Cabeçalho dividido por linha vertical fina (exatamente como imagem 3) -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center pb-10 sm:pb-12 border-b border-[#1a1a1a]">
+                    <!-- Esquerda: Tag 'O começo' com badge laranja + Título 'Sobre o FUNDÃO' -->
+                    <div class="md:col-span-5">
+                        <div class="inline-flex items-center gap-2.5 mb-2">
+                            <span class="text-xs sm:text-sm font-semibold text-zinc-300">O começo</span>
+                            <span class="w-6 h-6 rounded-md bg-[#F97316] text-[#050505] inline-flex items-center justify-center shadow-[0_0_12px_rgba(249,115,22,0.45)]">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <h2 class="section-heading font-bold text-white tracking-tight">
+                            Sobre o <span class="font-marker text-[#F97316] tracking-wider">FUNDÃO</span>
+                        </h2>
+                    </div>
+
+                    <!-- Divisor vertical fino no desktop -->
+                    <div class="hidden md:flex md:col-span-1 justify-center">
+                        <div class="w-px h-20 bg-[#222222]"></div>
+                    </div>
+
+                    <!-- Direita: Texto editorial -->
+                    <div class="md:col-span-6">
+                        <p class="text-sm sm:text-base lg:text-lg text-zinc-300 leading-relaxed">
+                            O <strong class="text-white font-semibold">Instituto Fundão</strong> nasceu da força real da quebrada em <strong class="text-[#F97316] font-semibold">Itapevi</strong>, unindo acesso gratuito a direitos, cultura hip-hop, batalhas de rima, arte urbana e protagonismo juvenil para transformar o território de dentro para fora.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3 Cards Escalonados (efeito degrau/pódio como imagem 3) com barra luminosa colorida na base -->
+                <div class="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-end">
+                    <!-- Card 1 (altura média — Laranja #F97316) -->
+                    <div class="bg-[#0b0b0b] border border-[#1f1f1f] rounded-2xl p-6 sm:p-8 min-h-[210px] md:min-h-[245px] flex flex-col items-center justify-center text-center relative overflow-hidden group hover:border-[#F97316]/60 transition-colors">
+                        <span class="font-marker text-4xl sm:text-5xl lg:text-6xl text-[#F97316] tracking-wider mb-3 drop-shadow-[0_0_18px_rgba(249,115,22,0.35)]">
+                            +500
+                        </span>
+                        <p class="text-xs sm:text-sm font-medium text-zinc-300 max-w-[200px]">
+                            Famílias alcançadas em Itapevi
+                        </p>
+                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#F97316] shadow-[0_0_16px_#F97316]"></div>
+                    </div>
+
+                    <!-- Card 2 (mais baixo/centralizado — Roxo #7C3AED) -->
+                    <div class="bg-[#0b0b0b] border border-[#1f1f1f] rounded-2xl p-6 sm:p-8 min-h-[195px] md:min-h-[215px] flex flex-col items-center justify-center text-center relative overflow-hidden group hover:border-[#7C3AED]/60 transition-colors">
+                        <span class="font-marker text-3xl sm:text-4xl lg:text-5xl text-[#7C3AED] tracking-wider mb-3 drop-shadow-[0_0_18px_rgba(124,58,237,0.4)]">
+                            2 FASES
+                        </span>
+                        <p class="text-xs sm:text-sm font-medium text-zinc-300 max-w-[230px]">
+                            Direito na Comunidade → Instituto Fundão
+                        </p>
+                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#7C3AED] shadow-[0_0_16px_#7C3AED]"></div>
+                    </div>
+
+                    <!-- Card 3 (mais alto — Amarelo #FACC15) -->
+                    <div class="bg-[#0b0b0b] border border-[#1f1f1f] rounded-2xl p-6 sm:p-8 min-h-[225px] md:min-h-[275px] flex flex-col items-center justify-center text-center relative overflow-hidden group hover:border-[#FACC15]/60 transition-colors">
+                        <span class="font-marker text-4xl sm:text-5xl lg:text-6xl text-[#FACC15] tracking-wider mb-3 drop-shadow-[0_0_18px_rgba(250,204,21,0.35)]">
+                            100%
+                        </span>
+                        <p class="text-xs sm:text-sm font-medium text-zinc-300 max-w-[220px]">
+                            Cultura periférica, rima e cidadania
+                        </p>
+                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#FACC15] shadow-[0_0_16px_#FACC15]"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             4. FITA AMARELA INCLINADA DE PASSAGEM (ESTILO PODPAH / PISTA URBANA)
+        ====================================================================== -->
         <div class="w-full overflow-hidden py-4 relative z-20 select-none pointer-events-none">
-            <div class="w-[116%] -ml-[8%] -rotate-2 bg-[#facc15] text-black py-3 shadow-lg">
-                <div class="marquee-track font-bebas text-2xl sm:text-4xl tracking-widest uppercase">
+            <div class="w-[112%] -ml-[6%] -rotate-1 bg-[#FACC15] text-[#050505] py-2.5 sm:py-3 shadow-[0_10px_30px_rgba(250,204,21,0.2)]">
+                <div class="marquee-track font-bebas text-xl sm:text-3xl tracking-widest uppercase">
                     <div class="flex items-center shrink-0">
-                        <span class="mx-3 sm:mx-4">CULTURA PERIFÉRICA •</span>
-                        <span class="mx-3 sm:mx-4">RESISTÊNCIA •</span>
-                        <span class="mx-3 sm:mx-4">ITAPEVI •</span>
-                        <span class="mx-3 sm:mx-4">DIREITO NA COMUNIDADE •</span>
-                        <span class="mx-3 sm:mx-4">ARTE URBANA •</span>
-                        <span class="mx-3 sm:mx-4">FUTURO •</span>
+                        <span class="mx-3 sm:mx-5">INSTITUTO FUNDÃO •</span>
+                        <span class="mx-3 sm:mx-5">ITAPEVI SP •</span>
+                        <span class="mx-3 sm:mx-5">CULTURA DE RUA •</span>
+                        <span class="mx-3 sm:mx-5">DIREITO NA COMUNIDADE •</span>
+                        <span class="mx-3 sm:mx-5">BATALHAS & RIMAS •</span>
+                        <span class="mx-3 sm:mx-5">NATAL NA QUEBRADA •</span>
                     </div>
                     <div class="flex items-center shrink-0" aria-hidden="true">
-                        <span class="mx-3 sm:mx-4">CULTURA PERIFÉRICA •</span>
-                        <span class="mx-3 sm:mx-4">RESISTÊNCIA •</span>
-                        <span class="mx-3 sm:mx-4">ITAPEVI •</span>
-                        <span class="mx-3 sm:mx-4">DIREITO NA COMUNIDADE •</span>
-                        <span class="mx-3 sm:mx-4">ARTE URBANA •</span>
-                        <span class="mx-3 sm:mx-4">FUTURO •</span>
+                        <span class="mx-3 sm:mx-5">INSTITUTO FUNDÃO •</span>
+                        <span class="mx-3 sm:mx-5">ITAPEVI SP •</span>
+                        <span class="mx-3 sm:mx-5">CULTURA DE RUA •</span>
+                        <span class="mx-3 sm:mx-5">DIREITO NA COMUNIDADE •</span>
+                        <span class="mx-3 sm:mx-5">BATALHAS & RIMAS •</span>
+                        <span class="mx-3 sm:mx-5">NATAL NA QUEBRADA •</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= 4. PRIMEIRA FASE: DIREITO NA COMUNIDADE (AZUL #2563eb & PRETO #0a0a0a) ================= -->
-        <section id="direito-comunidade" class="w-full bg-[#0a0a0a] py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-            <div class="absolute -left-20 top-24 w-72 h-72 sm:w-96 sm:h-96 bg-[#2563eb] rounded-full blur-[150px] opacity-20 pointer-events-none"></div>
+        <!-- =====================================================================
+             5. PRIMEIRA PARTE DO PROJETO: 'Direito na Comunidade — FASE 01' (AZUL #2563EB & PRETO)
+        ====================================================================== -->
+        <section id="direito-comunidade" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <!-- Glow azul sutil -->
+            <div class="absolute -left-28 top-24 w-80 h-80 bg-[#2563EB] rounded-full blur-[160px] opacity-20 pointer-events-none"></div>
 
-            <div class="max-w-6xl mx-auto min-w-0 relative z-10">
-                <!-- Cabeçalho livre alinhado à esquerda -->
-                <span class="inline-block font-marker text-xs sm:text-sm text-[#60a5fa] tracking-widest uppercase mb-2 -rotate-1">
-                    PRIMEIRA FASE • ASSESSORIA JURÍDICA PÚBLICA ITINERANTE
-                </span>
-
-                <div class="mb-7">
-                    <h2 class="font-bebas title-section text-white uppercase inline-block relative">
-                        DIREITO NA <span class="text-[#2563eb]">COMUNIDADE</span>
-                        <svg viewBox="0 0 280 20" preserveAspectRatio="none" class="w-full h-3.5 mt-1 text-[#2563eb]" aria-hidden="true">
-                            <path d="M2,13 Q95,3 185,14 T278,7" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-                        </svg>
-                    </h2>
-                </div>
-
-                <!-- Fluxo editorial escalonado: Bloco 1 (recuado à direita no mobile/desktop) -->
-                <div class="ml-4 sm:ml-14 md:ml-24 max-w-3xl mb-8">
-                    <p class="text-base sm:text-xl text-zinc-200 leading-relaxed">
-                        Tudo começou levando justiça para dentro da quebrada: consultorias jurídicas gratuitas duas vezes por mês aos sábados em parceria com o <strong class="text-white font-semibold">Escritório Paiva Advogados</strong>, orientando famílias sobre <strong class="text-[#60a5fa] font-semibold">Salário Maternidade, Bolsa Família, BPC/LOAS, Auxílio Acidente e Auxílio Doença</strong>.
-                    </p>
-                </div>
-
-                <!-- Bloco 2 (alinhado à esquerda, alternando o ritmo visual sem caixas) -->
-                <div class="mr-4 sm:mr-16 max-w-2xl mb-12">
-                    <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed">
-                        Ao lado do atendimento jurídico, abrimos espaço para <strong class="text-white">apresentações culturais de jovens locais</strong> e rodas de <strong class="text-white">educação cidadã</strong>, transformando informação em protagonismo comunitário.
-                    </p>
-                </div>
-
-                <!-- Chamada orgânica de transição para a Segunda Fase (Instituto Fundão) -->
-                <div class="ml-3 sm:ml-12 md:ml-20 max-w-4xl mb-14 relative">
-                    <svg viewBox="0 0 420 18" preserveAspectRatio="none" class="w-48 sm:w-72 h-3 mb-3 text-[#2563eb]" aria-hidden="true">
-                        <path d="M2,10 Q140,2 280,12 T418,6" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                    </svg>
-                    <span class="font-marker text-xs sm:text-sm text-[#60a5fa] uppercase tracking-widest block mb-1">
-                        A EVOLUÇÃO DO MOVIMENTO • FASE 02
-                    </span>
-                    <h3 class="font-bebas text-3xl sm:text-5xl text-white leading-none tracking-wide uppercase mb-3">
-                        O INSTITUTO FUNDÃO É A SEGUNDA PARTE — <span class="text-[#3b82f6]">AINDA MAIS FORTE</span> E AMPLA
-                    </h3>
-                    <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed max-w-3xl">
-                        O que nasceu com o Direito na Comunidade cresceu e ganhou corpo: hoje o <strong class="text-white">Instituto Fundão</strong> amplia esse alcance unindo cidadania, cultura urbana, esporte e grandes ações sociais para transformar toda Itapevi.
-                    </p>
-                </div>
-
-                <!-- 6 Fotos Reais em disposição escalonada estilo lambe-lambe solto -->
-                <div>
-                    <div class="flex flex-wrap items-baseline justify-between gap-2 mb-7">
-                        <span class="font-marker text-sm sm:text-lg text-[#60a5fa] -rotate-1">
-                            REGISTROS DA PRIMEIRA FASE NA RUA
-                        </span>
-                        <span class="text-xs text-zinc-400">Toque nas fotos para ampliar</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8 pt-2">
-                        <!-- Foto 1 (elevada, leve inclinação esquerda) -->
-                        <button type="button" onclick="abrirLightbox(0)" class="group lambe-tape relative aspect-[4/3] w-full -rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg"
-                                    alt="Direito na Comunidade — Registro 01"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+01';"
-                                />
-                            </div>
-                        </button>
-
-                        <!-- Foto 2 (deslocada para baixo no mobile e desktop) -->
-                        <button type="button" onclick="abrirLightbox(1)" class="group lambe-tape relative aspect-[4/3] w-full translate-y-4 sm:translate-y-6 rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg"
-                                    alt="Direito na Comunidade — Registro 02"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+02';"
-                                />
-                            </div>
-                        </button>
-
-                        <!-- Foto 3 -->
-                        <button type="button" onclick="abrirLightbox(2)" class="group lambe-tape relative aspect-[4/3] w-full mt-3 sm:mt-0 -rotate-1 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/SQPn37Mz/Whats-App-Image-2026-11-18-at-15-48-31-(2).jpg"
-                                    alt="Direito na Comunidade — Registro 03"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+03';"
-                                />
-                            </div>
-                        </button>
-
-                        <!-- Foto 4 -->
-                        <button type="button" onclick="abrirLightbox(3)" class="group lambe-tape relative aspect-[4/3] w-full translate-y-4 sm:translate-y-3 rotate-1 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/R0vhKgkt/Whats-App-Image-2026-11-18-at-15-48-31-(3).jpg"
-                                    alt="Direito na Comunidade — Registro 04"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+04';"
-                                />
-                            </div>
-                        </button>
-
-                        <!-- Foto 5 -->
-                        <button type="button" onclick="abrirLightbox(4)" class="group lambe-tape relative aspect-[4/3] w-full mt-3 sm:translate-y-7 -rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/wMRjgZmD/Whats-App-Image-2026-11-18-at-15-48-31-(4).jpg"
-                                    alt="Direito na Comunidade — Registro 05"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+05';"
-                                />
-                            </div>
-                        </button>
-
-                        <!-- Foto 6 -->
-                        <button type="button" onclick="abrirLightbox(5)" class="group lambe-tape relative aspect-[4/3] w-full translate-y-4 sm:translate-y-2 rotate-2 hover:rotate-0 transition-transform duration-300 cursor-pointer focus:outline-none">
-                            <div class="w-full h-full overflow-hidden lambe-organic shadow-2xl">
-                                <img
-                                    src="https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg"
-                                    alt="Direito na Comunidade — Registro 06"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/0a0a0a/2563eb?text=Direito+na+Comunidade+06';"
-                                />
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= 5. SOBRE NÓS / NOSSA POTÊNCIA (LARANJA #f97316 & PRETO #0a0a0a) ================= -->
-        <section id="sobre-nos" class="w-full bg-[#0a0a0a] py-20 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
-            <div class="absolute right-0 top-1/3 w-72 h-72 sm:w-96 sm:h-96 bg-[#f97316] rounded-full blur-[150px] opacity-20 pointer-events-none"></div>
-
-            <div class="max-w-5xl mx-auto min-w-0 relative z-10">
-                <!-- Título deslocado à direita no mobile e desktop -->
-                <div class="ml-4 sm:ml-16 md:ml-28 mb-8">
-                    <span class="font-marker text-xs sm:text-sm text-[#f97316] tracking-widest uppercase block mb-2 rotate-1">
-                        SOBRE NÓS • NOSSA POTÊNCIA
-                    </span>
-                    <h2 class="font-bebas title-section text-white uppercase inline-block relative">
-                        A FORÇA CRIATIVA DE <span class="text-[#f97316]">ITAPEVI</span>
-                        <svg viewBox="0 0 280 20" preserveAspectRatio="none" class="w-full h-3.5 mt-1 text-[#f97316]" aria-hidden="true">
-                            <path d="M4,13 Q105,3 195,14 T276,8" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-                        </svg>
-                    </h2>
-                </div>
-
-                <!-- Fluxo editorial escalonado (alternando esquerda -> direita -> esquerda) -->
-                <div class="space-y-10 sm:space-y-14">
-                    <!-- Parágrafo 1 à esquerda -->
-                    <div class="max-w-2xl mr-4 sm:mr-20">
-                        <span class="font-bebas text-3xl sm:text-4xl text-[#f97316] block mb-1">
-                            01 • PROTAGONISMO JUVENIL
-                        </span>
-                        <p class="text-base sm:text-xl text-zinc-200 leading-relaxed">
-                            Nascemos no Fundão para provar que a periferia não é carência — é potência. Formamos e impulsionamos jovens de Itapevi através da cultura urbana, esporte e educação cidadã.
-                        </p>
-                    </div>
-
-                    <!-- Parágrafo 2 recuado à direita -->
-                    <div class="max-w-2xl ml-6 sm:ml-auto">
-                        <span class="font-bebas text-3xl sm:text-4xl text-[#f97316] block mb-1">
-                            02 • CULTURA QUE TRANSFORMA
-                        </span>
-                        <p class="text-base sm:text-xl text-zinc-200 leading-relaxed">
-                            Música, rima, dança e arte de rua ocupam o território como ferramentas reais de identidade, pertencimento e geração de oportunidades para a juventude periférica.
-                        </p>
-                    </div>
-
-                    <!-- Parágrafo 3 à esquerda com números soltos -->
-                    <div class="max-w-3xl mr-2 sm:mr-12 pt-2">
-                        <span class="font-bebas text-3xl sm:text-4xl text-[#f97316] block mb-2">
-                            03 • PONTES COM MARCAS DE VERDADE
-                        </span>
-                        <p class="text-base sm:text-xl text-zinc-300 leading-relaxed mb-6">
-                            Conectamos empresas e apoiadores que querem investir em impacto social autêntico, transparente e enraizado diretamente nas ruas de Itapevi.
-                        </p>
-
-                        <!-- Métricas livres sem caixas -->
-                        <div class="flex flex-wrap items-baseline gap-x-8 gap-y-4">
-                            <div>
-                                <span class="font-bebas text-4xl sm:text-5xl text-[#f97316]">+1.500</span>
-                                <span class="block text-xs sm:text-sm text-zinc-400 uppercase tracking-wider">Famílias alcançadas</span>
-                            </div>
-                            <div>
-                                <span class="font-bebas text-4xl sm:text-5xl text-white">100%</span>
-                                <span class="block text-xs sm:text-sm text-zinc-400 uppercase tracking-wider">Território Itapevi</span>
-                            </div>
-                            <div>
-                                <span class="font-bebas text-4xl sm:text-5xl text-[#f97316]">FASE 02</span>
-                                <span class="block text-xs sm:text-sm text-zinc-400 uppercase tracking-wider">Expansão Cultural</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= 6. A VOZ QUE MOVIMENTA A CENA (LARANJA #f97316 / AMARELO #facc15 & PRETO) ================= -->
-        <section id="artistas" class="w-full bg-[#0a0a0a] py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-            <div class="absolute -left-20 top-1/3 w-80 h-80 bg-[#f97316] rounded-full blur-[160px] opacity-15 pointer-events-none"></div>
-
-            <div class="max-w-6xl mx-auto min-w-0 relative z-10">
-                <div class="mb-12 sm:mb-16">
-                    <span class="font-marker text-xs sm:text-sm text-[#facc15] tracking-widest uppercase block mb-2 -rotate-1">
-                        CENA LOCAL • ITAPEVI SP
-                    </span>
-                    <h2 class="font-bebas title-section text-white uppercase mb-3">
-                        A VOZ QUE <span class="text-[#f97316]">MOVIMENTA</span> <span class="text-[#facc15]">A CENA</span>
-                    </h2>
-                    <p class="text-base sm:text-xl text-zinc-300 max-w-2xl leading-relaxed ml-3 sm:ml-10">
-                        Artistas de Itapevi que apoiam a causa, fortalecem a cultura da quebrada e caminham junto com o Instituto Fundão.
-                    </p>
-                </div>
-
-                <!-- Layout editorial escalonado com molduras orgânicas inclinadas (zero cards retangulares) -->
-                <div class="space-y-16 sm:space-y-20">
-
-                    <!-- Artista 1: SANTOS (Foto à esquerda, texto fluido à direita) -->
-                    <article class="flex flex-col md:flex-row items-start md:items-center gap-6 sm:gap-10 max-w-4xl">
-                        <div class="w-64 sm:w-72 md:w-80 aspect-[4/5] shrink-0 overflow-hidden blob-photo-1 -rotate-2 hover:rotate-0 transition-transform duration-500 shadow-[0_20px_50px_rgba(249,115,22,0.2)]">
-                            <img
-                                src="https://i.postimg.cc/2yR1tCqD/IMG-4133-JPG.jpg"
-                                alt="SANTOS — Artista de Itapevi que apoia a causa"
-                                class="w-full h-full object-cover object-top"
-                                onerror="this.onerror=null;this.src='https://placehold.co/800x1000/0a0a0a/f97316?text=SANTOS';"
-                            />
-                        </div>
-                        <div class="ml-4 md:ml-0 min-w-0">
-                            <span class="font-marker text-xs sm:text-sm text-[#facc15] uppercase tracking-wider block mb-1">
-                                ARTISTA DE ITAPEVI QUE APOIA A CAUSA
-                            </span>
-                            <h3 class="font-bebas title-artist text-white uppercase mb-2">
-                                SANTOS
-                            </h3>
-                            <svg viewBox="0 0 180 14" preserveAspectRatio="none" class="w-32 h-2.5 mb-3 text-[#f97316]" aria-hidden="true">
-                                <path d="M2,8 Q65,2 178,10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                            </svg>
-                            <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed max-w-md">
-                                Representando a força feminina e a autenticidade da música urbana de Itapevi em apoio direto ao Instituto Fundão.
-                            </p>
-                        </div>
-                    </article>
-
-                    <!-- Artista 2: RCP (Deslocado à direita — foto à direita no desktop, recuado à direita no mobile) -->
-                    <article class="flex flex-col md:flex-row-reverse items-end md:items-center gap-6 sm:gap-10 max-w-4xl ml-auto text-right md:text-right">
-                        <div class="w-64 sm:w-72 md:w-80 aspect-[4/5] shrink-0 overflow-hidden blob-photo-2 rotate-2 hover:rotate-0 transition-transform duration-500 shadow-[0_20px_50px_rgba(250,204,21,0.18)]">
-                            <img
-                                src="https://i.postimg.cc/d17WBjCH/Whats-App-Image-2026-11-18-at-15-37-09.jpg"
-                                alt="RCP — Artista de Itapevi que apoia a causa"
-                                class="w-full h-full object-cover object-center"
-                                onerror="this.onerror=null;this.src='https://placehold.co/800x1000/0a0a0a/facc15?text=RCP';"
-                            />
-                        </div>
-                        <div class="mr-2 md:mr-0 min-w-0 flex flex-col items-end">
-                            <span class="font-marker text-xs sm:text-sm text-[#f97316] uppercase tracking-wider block mb-1">
-                                ARTISTA DE ITAPEVI QUE APOIA A CAUSA
-                            </span>
-                            <h3 class="font-bebas title-artist text-white uppercase mb-2">
-                                RCP
-                            </h3>
-                            <svg viewBox="0 0 180 14" preserveAspectRatio="none" class="w-32 h-2.5 mb-3 text-[#facc15]" aria-hidden="true">
-                                <path d="M2,10 Q95,2 178,8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                            </svg>
-                            <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed max-w-md">
-                                Voz da quebrada de Itapevi somando forças pela cultura periférica e transformação social da nossa comunidade.
-                            </p>
-                        </div>
-                    </article>
-
-                    <!-- Artista 3: VP7 (Foto à esquerda com inclinação suave, texto fluido à direita) -->
-                    <article class="flex flex-col md:flex-row items-start md:items-center gap-6 sm:gap-10 max-w-4xl ml-2 sm:ml-12">
-                        <div class="w-64 sm:w-72 md:w-80 aspect-[4/5] shrink-0 overflow-hidden blob-photo-3 -rotate-1 hover:rotate-0 transition-transform duration-500 shadow-[0_20px_50px_rgba(249,115,22,0.2)]">
-                            <img
-                                src="https://i.postimg.cc/6qt9Rq2p/Whats-App-Image-2026-11-18-at-15-32-03.jpg"
-                                alt="VP7 — Artista de Itapevi que apoia a causa"
-                                class="w-full h-full object-cover object-top"
-                                onerror="this.onerror=null;this.src='https://placehold.co/800x1000/0a0a0a/f97316?text=VP7';"
-                            />
-                        </div>
-                        <div class="ml-4 md:ml-0 min-w-0">
-                            <span class="font-marker text-xs sm:text-sm text-[#facc15] uppercase tracking-wider block mb-1">
-                                ARTISTA DE ITAPEVI QUE APOIA A CAUSA
-                            </span>
-                            <h3 class="font-bebas title-artist text-white uppercase mb-2">
-                                VP7
-                            </h3>
-                            <svg viewBox="0 0 180 14" preserveAspectRatio="none" class="w-32 h-2.5 mb-3 text-[#f97316]" aria-hidden="true">
-                                <path d="M2,8 Q85,14 178,5" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                            </svg>
-                            <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed max-w-md">
-                                Potência musical de Itapevi fortalecendo o movimento e inspirando a nova geração do Fundão.
-                            </p>
-                        </div>
-                    </article>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= 7. CONVITE OFICIAL: NATAL NA QUEBRADA FUNDÃO (VERDE #16a34a, AMARELO #facc15 & PRETO) ================= -->
-        <section id="natal-quebrada" class="w-full bg-[#0a0a0a] py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-            <div class="absolute right-10 top-1/2 -translate-y-1/2 w-80 h-80 bg-[#16a34a] rounded-full blur-[160px] opacity-20 pointer-events-none"></div>
-
-            <!-- Divisor superior curvo em SVG (efeito papel rasgado/orgânico sem retângulo) -->
-            <svg viewBox="0 0 1200 36" preserveAspectRatio="none" class="w-full h-6 sm:h-9 mb-10 text-[#16a34a]/50" aria-hidden="true">
-                <path d="M0,22 Q180,4 360,24 T720,16 T1080,26 L1200,14" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="10 6" />
-            </svg>
-
-            <div class="max-w-5xl mx-auto min-w-0 relative z-10">
-                <span class="font-marker text-xs sm:text-sm text-[#facc15] tracking-widest uppercase block mb-2 -rotate-1">
-                    CONVITE OFICIAL • CELEBRAÇÃO COMUNITÁRIA
-                </span>
-
-                <h2 class="font-bebas title-section text-white uppercase mb-8">
-                    NATAL NA <span class="text-[#16a34a]">QUEBRADA</span> <span class="text-[#facc15]">FUNDÃO</span>
-                </h2>
-
-                <!-- Cartaz tipográfico livre com fluxo escalonado -->
-                <div class="ml-3 sm:ml-14 max-w-3xl mb-10">
-                    <p class="text-base sm:text-xl text-zinc-200 leading-relaxed mb-6">
-                        Um dia inteiro de alegria, arte e dignidade para as crianças e famílias de Itapevi. Uma festa feita pela comunidade, para a comunidade:
-                    </p>
-
-                    <!-- Atrações em tags orgânicas livres (sem grid quadrado) -->
-                    <div class="flex flex-wrap gap-3 sm:gap-4 mb-8">
-                        <span class="font-bebas text-xl sm:text-2xl text-black bg-[#facc15] px-4 py-1 pill-organic -rotate-1">
-                            ★ DISTRIBUIÇÃO DE BRINQUEDOS
-                        </span>
-                        <span class="font-bebas text-xl sm:text-2xl text-white bg-[#16a34a] px-4 py-1 pill-organic rotate-1">
-                            ★ CESTAS BÁSICAS
-                        </span>
-                        <span class="font-bebas text-xl sm:text-2xl text-[#facc15] px-3 py-1">
-                            • BATALHA DE RIMA
-                        </span>
-                        <span class="font-bebas text-xl sm:text-2xl text-[#4ade80] px-3 py-1">
-                            • APRESENTAÇÕES CULTURAIS
-                        </span>
-                        <span class="font-bebas text-xl sm:text-2xl text-white px-3 py-1">
-                            • RECREAÇÃO INFANTIL
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Chamada aberta recuada à direita -->
-                <div class="ml-6 sm:ml-28 md:ml-44 max-w-2xl">
-                    <p class="text-sm sm:text-lg text-zinc-300 leading-relaxed mb-6">
-                        <strong class="text-white">Convite aberto:</strong> traga sua família para celebrar conosco ou apadrinhe esta edição com brinquedos, cestas básicas ou cota de patrocínio.
-                    </p>
-
-                    <a href="#participar" onclick="selecionarAba('apoiar')" class="inline-flex items-center gap-2.5 bg-[#16a34a] hover:bg-green-500 text-white font-bebas text-2xl sm:text-3xl px-8 py-3.5 transition-all uppercase tracking-wider pill-organic -rotate-1 hover:rotate-0 shadow-[0_12px_30px_rgba(22,163,74,0.3)]">
-                        <span>APADRINHAR O NATAL NA QUEBRADA</span>
-                        <span>→</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Divisor inferior curvo em SVG -->
-            <svg viewBox="0 0 1200 36" preserveAspectRatio="none" class="w-full h-6 sm:h-9 mt-12 text-[#facc15]/40" aria-hidden="true">
-                <path d="M0,14 Q240,32 480,12 T960,24 L1200,10" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="12 8" />
-            </svg>
-        </section>
-
-        <!-- ================= 8. FAÇA PARTE / CONTATO & DOAÇÃO (VERMELHO #dc2626 & PRETO #0a0a0a) ================= -->
-        <section id="participar" class="w-full bg-[#0a0a0a] pt-14 sm:pt-20 pb-16 px-4 sm:px-6 relative overflow-hidden">
-            <div class="absolute left-1/3 top-16 w-80 h-80 bg-[#dc2626] rounded-full blur-[160px] opacity-20 pointer-events-none"></div>
-
-            <div class="max-w-4xl mx-auto min-w-0 relative z-10">
-                <div class="mb-8 sm:mb-10">
-                    <span class="font-marker text-xs sm:text-sm text-[#f87171] tracking-widest uppercase block mb-2">
-                        MOBILIZAÇÃO & CONTATO DIRETO
-                    </span>
-                    <h2 class="font-bebas title-section text-white uppercase inline-block relative mb-3">
-                        FAÇA PARTE <span class="text-[#dc2626]">DESSA HISTÓRIA</span>
-                        <svg viewBox="0 0 280 20" preserveAspectRatio="none" class="w-full h-3.5 mt-1 text-[#dc2626]" aria-hidden="true">
-                            <path d="M2,12 Q95,3 190,13 T278,7" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-                        </svg>
-                    </h2>
-                    <p class="text-sm sm:text-lg text-zinc-300 max-w-2xl ml-2 sm:ml-6 leading-relaxed">
-                        Escolha como deseja somar com o Instituto Fundão em Itapevi e fale diretamente no WhatsApp com a <strong class="text-white font-semibold">Natália — Ponto Focal do Instituto Fundão</strong>.
-                    </p>
-                </div>
-
-                <!-- Abas em pílulas orgânicas (sem caixas retangulares) -->
-                <div role="tablist" aria-label="Escolha como participar" class="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
-                    <button type="button" role="tab" aria-selected="true" id="tab-apoiar" onclick="selecionarAba('apoiar')" class="font-bebas text-xl sm:text-2xl px-5 py-2 bg-[#dc2626] text-white pill-organic transition-all uppercase tracking-wider cursor-pointer -rotate-1">
-                        Quero Apoiar / Patrocinar
-                    </button>
-                    <button type="button" role="tab" aria-selected="false" id="tab-doar" onclick="selecionarAba('doar')" class="font-bebas text-xl sm:text-2xl px-5 py-2 bg-zinc-900/90 text-zinc-300 hover:text-white pill-organic transition-all uppercase tracking-wider cursor-pointer">
-                        Fazer uma Doação
-                    </button>
-                    <button type="button" role="tab" aria-selected="false" id="tab-voluntariado" onclick="selecionarAba('voluntariado')" class="font-bebas text-xl sm:text-2xl px-5 py-2 bg-zinc-900/90 text-zinc-300 hover:text-white pill-organic transition-all uppercase tracking-wider cursor-pointer rotate-1">
-                        Voluntariado / Parceria
-                    </button>
-                </div>
-
-                <!-- Formulário livre apenas com linhas inferiores (zero caixas retangulares) -->
-                <form onsubmit="enviarWhatsApp(event)" class="w-full min-w-0 space-y-7">
-                    <input type="hidden" id="campo-aba" value="Quero Apoiar / Patrocinar">
-
-                    <p id="contexto-aba" class="text-xs sm:text-sm text-[#fca5a5] font-medium ml-1">
-                        Patrocínio corporativo, cota cultural ou apoio institucional para os projetos em Itapevi.
-                    </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
-                        <div class="min-w-0">
-                            <label for="input-nome" class="block font-bebas text-lg sm:text-xl text-zinc-200 tracking-wider">
-                                Nome / Empresa *
-                            </label>
-                            <input type="text" id="input-nome" required placeholder="Seu nome ou nome da sua marca" class="input-line text-sm sm:text-base">
-                        </div>
-
-                        <div class="min-w-0">
-                            <label for="input-contato" class="block font-bebas text-lg sm:text-xl text-zinc-200 tracking-wider">
-                                Telefone / WhatsApp *
-                            </label>
-                            <input type="text" id="input-contato" required placeholder="(11) 99999-9999" class="input-line text-sm sm:text-base">
-                        </div>
-                    </div>
-
-                    <div class="min-w-0">
-                        <label for="input-apoio" id="label-apoio" class="block font-bebas text-lg sm:text-xl text-zinc-200 tracking-wider">
-                            Tipo de Apoio / Patrocínio *
-                        </label>
-                        <input type="text" id="input-apoio" required placeholder="Ex: Cota Natal na Quebrada, Apoio Cultural ou Parceria Institucional" class="input-line text-sm sm:text-base">
-                    </div>
-
-                    <div class="min-w-0">
-                        <label for="input-mensagem" class="block font-bebas text-lg sm:text-xl text-zinc-200 tracking-wider">
-                            Mensagem para Natália (Ponto Focal)
-                        </label>
-                        <textarea id="input-mensagem" rows="2" placeholder="Conte como gostaria de caminhar junto com o Instituto Fundão!" class="input-line text-sm sm:text-base resize-y"></textarea>
-                    </div>
-
-                    <div class="pt-2">
-                        <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[#dc2626] hover:bg-red-500 text-white font-bebas text-2xl sm:text-3xl px-9 py-3.5 transition-all uppercase tracking-wider cursor-pointer pill-organic -rotate-[0.6deg] hover:rotate-0 shadow-[0_12px_30px_rgba(220,38,38,0.35)]">
-                            <span>FALAR NO WHATSAPP COM NATÁLIA • PONTO FOCAL</span>
-                            <span>↗</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- ================= RODAPÉ MINIMALISTA ESCURO ================= -->
-        <footer class="w-full bg-[#0a0a0a] pt-10 pb-10 px-4 sm:px-6 mt-auto">
-            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-full bg-[#0a0a0a] shrink-0 overflow-hidden ring-2 ring-white/15">
-                        <svg viewBox="0 0 100 100" class="w-full h-full" aria-label="Logo Instituto Fundão Rodapé">
-                            <circle cx="50" cy="50" r="48" fill="#0a0a0a" />
-                            <path d="M 14 34 A 40 40 0 0 1 55 10" stroke="#f97316" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <path d="M 55 10 A 40 40 0 0 1 89 38" stroke="#dc2626" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <path d="M 89 38 A 40 40 0 0 1 78 80" stroke="#16a34a" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <path d="M 78 80 A 40 40 0 0 1 36 88" stroke="#facc15" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <path d="M 36 88 A 40 40 0 0 1 12 62" stroke="#2563eb" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <path d="M 12 62 A 40 40 0 0 1 14 34" stroke="#9333ea" stroke-width="10" stroke-linecap="round" fill="none" />
-                            <circle cx="50" cy="50" r="34" fill="#0a0a0a" />
-                            <path d="M 33 36 L 38 20 L 49 30 L 60 19 L 66 35 L 33 38 Z" fill="#facc15" stroke="#facc15" stroke-width="1.5" stroke-linejoin="round" />
-                            <path d="M 39 76 L 44 43 L 69 40 L 67 47 L 50 49 L 48 56 L 63 54 L 62 60 L 47 62 L 45 76 Z" fill="#FFFFFF" />
-                        </svg>
-                    </div>
+            <div class="max-w-6xl mx-auto relative z-10">
+                <!-- Cabeçalho padrão arena -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                     <div>
-                        <p class="font-bebas text-2xl sm:text-3xl text-white tracking-wider uppercase leading-none">
-                            INSTITUTO FUNDÃO
-                        </p>
-                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-                            Itapevi • SP • Cultura, Resistência e Comunidade
-                        </p>
+                        <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#2563EB] mb-2">
+                            <span class="w-2 h-2 rounded-full bg-[#2563EB]"></span>
+                            ASSESSORIA JURÍDICA PÚBLICA ITINERANTE
+                        </span>
+                        <h2 class="section-heading font-bold text-white">
+                            Direito na Comunidade — <span class="font-marker text-[#2563EB] tracking-wider">FASE 01</span>
+                        </h2>
+                    </div>
+                    <span class="text-xs font-semibold text-zinc-400 border border-[#1f1f1f] bg-[#0b0b0b] px-3.5 py-1.5 rounded-full self-start md:self-auto">
+                        Parceria: Escritório Paiva Advogados
+                    </span>
+                </div>
+
+                <!-- Resumo objetivo + Banner de transição para a Segunda Fase -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
+                    <!-- Resumo Fase 01 -->
+                    <div class="lg:col-span-7 p-6 sm:p-7 rounded-2xl bg-[#0b0b0b] border border-[#1d1d1d] flex flex-col justify-between">
+                        <div>
+                            <p class="text-sm sm:text-base text-zinc-300 leading-relaxed mb-5">
+                                Nossa caminhada começou levando orientação jurídica gratuita <strong class="text-white">2 sábados por mês</strong> diretamente para as famílias da quebrada em parceria com o <strong class="text-[#2563EB]">Escritório Paiva Advogados</strong>, somando atendimento cidadão e rodas culturais com a juventude.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/40 text-xs font-semibold text-blue-200">Salário Maternidade</span>
+                                <span class="px-3 py-1 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/40 text-xs font-semibold text-blue-200">Bolsa Família</span>
+                                <span class="px-3 py-1 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/40 text-xs font-semibold text-blue-200">BPC / LOAS</span>
+                                <span class="px-3 py-1 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/40 text-xs font-semibold text-blue-200">Auxílio Acidente</span>
+                                <span class="px-3 py-1 rounded-lg bg-[#2563EB]/15 border border-[#2563EB]/40 text-xs font-semibold text-blue-200">Auxílio Doença</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Destaque Segunda Parte ainda mais forte -->
+                    <div class="lg:col-span-5 p-6 sm:p-7 rounded-2xl bg-gradient-to-br from-[#172554] via-[#0f172a] to-[#0b0b0b] border border-[#2563EB]/50 flex flex-col justify-between relative overflow-hidden">
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded bg-[#2563EB] text-[11px] font-extrabold uppercase tracking-widest text-white mb-3">
+                                EVOLUÇÃO • FASE 02
+                            </span>
+                            <h3 class="font-bebas text-2xl sm:text-3xl text-white tracking-wide leading-tight mb-2">
+                                O INSTITUTO FUNDÃO É A SEGUNDA PARTE — <span class="text-[#60A5FA]">AINDA MAIS FORTE</span>
+                            </h3>
+                            <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                                Expandimos a base construída no Direito na Comunidade para um movimento permanente de cultura hip-hop, batalhas, música, esporte e mobilização social em toda Itapevi.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:items-end gap-1.5 text-sm font-medium text-zinc-300">
-                    <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Estou%20entrando%20em%20contato%20com%20voc%C3%AA%20como%20Ponto%20Focal%20do%20Instituto%20Fund%C3%A3o." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white hover:text-[#facc15] transition-colors">
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#16a34a] shrink-0"></span>
-                        <span>WhatsApp • Natália (Ponto Focal do Instituto): +55 11 97657-5094</span>
-                    </a>
-                    <span class="text-xs text-zinc-500">
-                        © 2026 Instituto Fundão • Itapevi - SP
+                <!-- Galeria Interativa das 6 Fotos Reais com Lightbox -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                            Registros Reais • Direito na Comunidade (6 fotos)
+                        </span>
+                        <span class="text-xs text-[#60A5FA] font-medium">Clique para ampliar</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <button type="button" onclick="abrirLightbox(0)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg" alt="Direito na Comunidade Foto 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+01';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">01 • Atendimento</span>
+                        </button>
+
+                        <button type="button" onclick="abrirLightbox(1)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg" alt="Direito na Comunidade Foto 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+02';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">02 • Orientação</span>
+                        </button>
+
+                        <button type="button" onclick="abrirLightbox(2)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/SQPn37Mz/Whats-App-Image-2026-11-18-at-15-48-31-(2).jpg" alt="Direito na Comunidade Foto 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+03';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">03 • Comunidade</span>
+                        </button>
+
+                        <button type="button" onclick="abrirLightbox(3)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/R0vhKgkt/Whats-App-Image-2026-11-18-at-15-48-31-(3).jpg" alt="Direito na Comunidade Foto 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+04';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">04 • Cidadania</span>
+                        </button>
+
+                        <button type="button" onclick="abrirLightbox(4)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/wMRjgZmD/Whats-App-Image-2026-11-18-at-15-48-31-(4).jpg" alt="Direito na Comunidade Foto 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+05';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">05 • Equipe</span>
+                        </button>
+
+                        <button type="button" onclick="abrirLightbox(5)" class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-[#0b0b0b] border border-[#1f1f1f] hover:border-[#2563EB] transition-all cursor-pointer focus:outline-none">
+                            <img src="https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg" alt="Direito na Comunidade Foto 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/0b0b0b/2563EB?text=Registro+06';">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                            <span class="absolute bottom-2.5 left-3 text-[11px] font-bold text-white uppercase tracking-wider">06 • Impacto Real</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             6. ARTISTAS DE ITAPEVI QUE APOIAM A CAUSA — BANNERS HORIZONTAIS ESTILO RANKING BDA (INSPIRADO NA IMAGEM 2)
+        ====================================================================== -->
+        <section id="artistas-cena" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#151515] relative overflow-hidden">
+            <div class="max-w-5xl mx-auto">
+                <!-- Título no padrão da imagem 2 -->
+                <div class="flex items-center justify-between gap-4 mb-10 sm:mb-12">
+                    <div>
+                        <h2 class="section-heading font-bold text-white">
+                            A Voz que Movimenta a Cena — <span class="font-marker text-[#F97316] tracking-wider">ARTISTAS</span>
+                        </h2>
+                        <p class="text-xs sm:text-sm text-zinc-400 mt-1.5">
+                            Artistas de Itapevi que apoiam a causa, fortalecem a cena hip-hop e caminham com o Instituto Fundão.
+                        </p>
+                    </div>
+                    <span class="hidden sm:inline-flex items-center justify-center px-3.5 py-2 rounded-xl bg-[#0d0d0d] border border-[#222222] text-xs font-bold text-zinc-300 shrink-0">
+                        3/3 Artistas Locais
                     </span>
+                </div>
+
+                <!-- Lista Vertical de Banners Horizontais Largos com Glow Externo Difuso -->
+                <div class="space-y-8 sm:space-y-10">
+
+                    <!-- BANNER 1: SANTOS (Gradiente Roxo Profundo #4C1D95 -> #7C3AED com glow roxo) -->
+                    <div class="relative group">
+                        <!-- Glow externo difuso atrás do card -->
+                        <div class="absolute -inset-2 sm:-inset-3 rounded-3xl bg-[#7C3AED]/30 blur-2xl opacity-75 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                        <article class="relative rounded-2xl overflow-hidden border border-[#8B5CF6]/45 bg-gradient-to-r from-[#2E1065] via-[#4C1D95] to-[#7C3AED] bda-pattern p-4 sm:p-6 shadow-2xl">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 sm:gap-6">
+                                <!-- Foto vertical emoldurada à esquerda com etiqueta de nome na base (igual imagem 2) -->
+                                <div class="w-36 sm:w-32 md:w-36 aspect-[3/4] shrink-0 artist-card-frame shadow-[0_0_25px_rgba(124,58,237,0.65)]">
+                                    <div class="w-full h-full rounded-[11px] overflow-hidden relative bg-[#0b0b0b]">
+                                        <img src="https://i.postimg.cc/2yR1tCqD/IMG-4133-JPG.jpg" alt="SANTOS — Artista de Itapevi" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://placehold.co/600x800/2E1065/FFFFFF?text=SANTOS';">
+                                        <div class="absolute bottom-2 inset-x-2 bg-white text-[#050505] font-bebas text-sm sm:text-base tracking-widest text-center py-0.5 rounded shadow">
+                                            SANTOS
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Conteúdo central + selo direito -->
+                                <div class="flex-1 min-w-0 w-full flex flex-col justify-between text-center sm:text-left">
+                                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                                        <div>
+                                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                                                SANTOS
+                                            </h3>
+                                            <!-- Badges estilo selo urbano -->
+                                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                                                <span class="px-2.5 py-0.5 rounded bg-[#FACC15] text-[#050505] text-[11px] font-extrabold tracking-wider">
+                                                    #ITAPEVI
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-purple-100">
+                                                    Artista Local • Apoia a Causa
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-amber-200">
+                                                    ★ Rima & Resistência
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Indicador à direita (como '44 títulos' na imagem 2) -->
+                                        <div class="sm:text-right shrink-0 mt-1 sm:mt-0">
+                                            <span class="font-marker text-xl sm:text-2xl text-white tracking-wider block leading-none">
+                                                CENA SP
+                                            </span>
+                                            <span class="text-[11px] text-purple-200 font-medium">
+                                                Voz Feminina
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Descrição e barra de impacto na base -->
+                                    <div class="mt-4">
+                                        <p class="text-xs sm:text-sm text-purple-100/90 leading-relaxed mb-3">
+                                            Representando a força feminina e a lírica da música urbana de Itapevi em apoio direto às ações culturais do Instituto Fundão.
+                                        </p>
+                                        <div class="flex items-center justify-between text-[11px] text-purple-200/80 mb-1">
+                                            <span>Conexão com a Quebrada</span>
+                                            <span>Itapevi • Zona Oeste</span>
+                                        </div>
+                                        <div class="w-full h-1.5 rounded-full bg-[#050505]/50 overflow-hidden">
+                                            <div class="h-full w-[88%] rounded-full bg-gradient-to-r from-[#F97316] to-[#FACC15]"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- BANNER 2: RCP (Gradiente Laranja Queimado #9A3412 -> #EA580C com glow laranja) -->
+                    <div class="relative group">
+                        <div class="absolute -inset-2 sm:-inset-3 rounded-3xl bg-[#F97316]/30 blur-2xl opacity-75 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                        <article class="relative rounded-2xl overflow-hidden border border-[#FB923C]/45 bg-gradient-to-r from-[#431407] via-[#9A3412] to-[#EA580C] bda-pattern p-4 sm:p-6 shadow-2xl">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 sm:gap-6">
+                                <!-- Foto vertical emoldurada à esquerda -->
+                                <div class="w-36 sm:w-32 md:w-36 aspect-[3/4] shrink-0 artist-card-frame shadow-[0_0_25px_rgba(249,115,22,0.65)]">
+                                    <div class="w-full h-full rounded-[11px] overflow-hidden relative bg-[#0b0b0b]">
+                                        <img src="https://i.postimg.cc/d17WBjCH/Whats-App-Image-2026-11-18-at-15-37-09.jpg" alt="RCP — Artista de Itapevi" class="w-full h-full object-cover object-center" onerror="this.onerror=null;this.src='https://placehold.co/600x800/431407/FFFFFF?text=RCP';">
+                                        <div class="absolute bottom-2 inset-x-2 bg-white text-[#050505] font-bebas text-sm sm:text-base tracking-widest text-center py-0.5 rounded shadow">
+                                            RCP
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Conteúdo central + selo direito -->
+                                <div class="flex-1 min-w-0 w-full flex flex-col justify-between text-center sm:text-left">
+                                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                                        <div>
+                                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                                                RCP
+                                            </h3>
+                                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                                                <span class="px-2.5 py-0.5 rounded bg-[#FACC15] text-[#050505] text-[11px] font-extrabold tracking-wider">
+                                                    #ITAPEVI
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-orange-100">
+                                                    Artista Local • Apoia a Causa
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-amber-200">
+                                                    ★ Trap & Vivência
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:text-right shrink-0 mt-1 sm:mt-0">
+                                            <span class="font-marker text-xl sm:text-2xl text-white tracking-wider block leading-none">
+                                                ZONA OESTE
+                                            </span>
+                                            <span class="text-[11px] text-orange-200 font-medium">
+                                                Representatividade
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <p class="text-xs sm:text-sm text-orange-100/90 leading-relaxed mb-3">
+                                            Som autêntico nascido nas ruas de Itapevi, fortalecendo a juventude periférica e somando na linha de frente do Instituto Fundão.
+                                        </p>
+                                        <div class="flex items-center justify-between text-[11px] text-orange-200/80 mb-1">
+                                            <span>Conexão com a Quebrada</span>
+                                            <span>Itapevi • Zona Oeste</span>
+                                        </div>
+                                        <div class="w-full h-1.5 rounded-full bg-[#050505]/50 overflow-hidden">
+                                            <div class="h-full w-[92%] rounded-full bg-gradient-to-r from-[#FACC15] to-white"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- BANNER 3: VP7 (Gradiente Vermelho/Carmesim #7F1D1D -> #DC2626 com glow vermelho) -->
+                    <div class="relative group">
+                        <div class="absolute -inset-2 sm:-inset-3 rounded-3xl bg-[#DC2626]/30 blur-2xl opacity-75 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                        <article class="relative rounded-2xl overflow-hidden border border-[#F87171]/45 bg-gradient-to-r from-[#450A0A] via-[#7F1D1D] to-[#DC2626] bda-pattern p-4 sm:p-6 shadow-2xl">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 sm:gap-6">
+                                <!-- Foto vertical emoldurada à esquerda -->
+                                <div class="w-36 sm:w-32 md:w-36 aspect-[3/4] shrink-0 artist-card-frame shadow-[0_0_25px_rgba(220,38,38,0.65)]">
+                                    <div class="w-full h-full rounded-[11px] overflow-hidden relative bg-[#0b0b0b]">
+                                        <img src="https://i.postimg.cc/6qt9Rq2p/Whats-App-Image-2026-11-18-at-15-32-03.jpg" alt="VP7 — Artista de Itapevi" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://placehold.co/600x800/450A0A/FFFFFF?text=VP7';">
+                                        <div class="absolute bottom-2 inset-x-2 bg-white text-[#050505] font-bebas text-sm sm:text-base tracking-widest text-center py-0.5 rounded shadow">
+                                            VP7
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Conteúdo central + selo direito -->
+                                <div class="flex-1 min-w-0 w-full flex flex-col justify-between text-center sm:text-left">
+                                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                                        <div>
+                                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                                                VP7
+                                            </h3>
+                                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                                                <span class="px-2.5 py-0.5 rounded bg-[#FACC15] text-[#050505] text-[11px] font-extrabold tracking-wider">
+                                                    #ITAPEVI
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-red-100">
+                                                    Artista Local • Apoia a Causa
+                                                </span>
+                                                <span class="px-2.5 py-0.5 rounded bg-[#050505]/50 border border-white/15 text-[11px] font-semibold text-amber-200">
+                                                    ★ Cultura de Rua
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm:text-right shrink-0 mt-1 sm:mt-0">
+                                            <span class="font-marker text-xl sm:text-2xl text-white tracking-wider block leading-none">
+                                                FUNDÃO
+                                            </span>
+                                            <span class="text-[11px] text-red-200 font-medium">
+                                                Aliado da Causa
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <p class="text-xs sm:text-sm text-red-100/90 leading-relaxed mb-3">
+                                            Potência musical de Itapevi impulsionando a nova geração e fortalecendo a cultura como ferramenta de transformação social.
+                                        </p>
+                                        <div class="flex items-center justify-between text-[11px] text-red-200/80 mb-1">
+                                            <span>Conexão com a Quebrada</span>
+                                            <span>Itapevi • Zona Oeste</span>
+                                        </div>
+                                        <div class="w-full h-1.5 rounded-full bg-[#050505]/50 overflow-hidden">
+                                            <div class="h-full w-[90%] rounded-full bg-gradient-to-r from-[#F97316] to-[#FACC15]"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             7. CONVITE OFICIAL: 'Natal na Quebrada Fundão' (VERDE #16A34A, AMARELO #FACC15 & PRETO)
+        ====================================================================== -->
+        <section id="natal-fundao" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#151515] relative overflow-hidden">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 bg-[#16A34A] rounded-full blur-[160px] opacity-20 pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto relative z-10">
+                <!-- Pôster de Edição Especial estilo Batalha Comemorativa -->
+                <div class="rounded-3xl overflow-hidden border border-[#16A34A]/50 bg-gradient-to-br from-[#062412] via-[#0b0b0b] to-[#050505] p-6 sm:p-10 lg:p-12 shadow-[0_20px_60px_rgba(22,163,74,0.18)]">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#16A34A] text-white text-xs font-extrabold uppercase tracking-widest">
+                            EDIÇÃO COMEMORATIVA • CONVITE OFICIAL
+                        </span>
+                        <span class="font-marker text-sm sm:text-base text-[#FACC15] tracking-wider uppercase">
+                            ENTRADA SOLIDÁRIA • ITAPEVI SP
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7">
+                            <h2 class="font-bebas text-4xl sm:text-6xl lg:text-7xl text-white uppercase leading-[0.95] tracking-wide mb-4">
+                                NATAL NA <span class="text-[#16A34A]">QUEBRADA</span> <span class="font-marker text-[#FACC15] text-[0.75em] tracking-normal">FUNDÃO</span>
+                            </h2>
+                            <p class="text-sm sm:text-base lg:text-lg text-zinc-300 leading-relaxed mb-6">
+                                Um encontro histórico de cultura urbana, música e solidariedade para as crianças e famílias de Itapevi. Uma edição especial feita pela comunidade, unindo batalha de rima, pocket shows locais e entrega de presentes e cestas básicas.
+                            </p>
+
+                            <!-- Grid de atrações do evento -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-7">
+                                <div class="p-3.5 rounded-xl bg-[#050505]/70 border border-[#16A34A]/35 flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-[#FACC15] text-[#050505] font-bebas text-lg flex items-center justify-center shrink-0">01</span>
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Batalha de Rima & Pocket Shows</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-[#050505]/70 border border-[#16A34A]/35 flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-[#16A34A] text-white font-bebas text-lg flex items-center justify-center shrink-0">02</span>
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Distribuição de Brinquedos</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-[#050505]/70 border border-[#16A34A]/35 flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-[#16A34A] text-white font-bebas text-lg flex items-center justify-center shrink-0">03</span>
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Entrega de Cestas Básicas</span>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-[#050505]/70 border border-[#16A34A]/35 flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-[#FACC15] text-[#050505] font-bebas text-lg flex items-center justify-center shrink-0">04</span>
+                                    <span class="text-xs sm:text-sm font-semibold text-white">Recreação & Ação Comunitária</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                                <a href="#contato-natalia" onclick="ativarAba('doar')" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#16A34A] hover:bg-green-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_0_25px_rgba(22,163,74,0.4)]">
+                                    <span>Confirmar Presença / Apoiar com Natália</span>
+                                    <span>→</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Card lateral estilo Ticket de Arena -->
+                        <div class="lg:col-span-5">
+                            <div class="rounded-2xl bg-[#050505] border border-[#FACC15]/40 p-6 relative">
+                                <div class="flex items-center justify-between border-b border-dashed border-[#262626] pb-4 mb-4">
+                                    <div>
+                                        <span class="text-[11px] font-bold uppercase tracking-widest text-[#FACC15]">PASSAPORTE SOLIDÁRIO</span>
+                                        <p class="font-bebas text-2xl text-white tracking-wide mt-0.5">FUNDÃO • ITAPEVI</p>
+                                    </div>
+                                    <span class="px-3 py-1 rounded-lg bg-[#FACC15] text-[#050505] font-bebas text-lg tracking-wider">
+                                        GRATUITO
+                                    </span>
+                                </div>
+
+                                <ul class="space-y-3 text-xs sm:text-sm text-zinc-300 mb-5">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="text-[#16A34A] font-bold">✓</span>
+                                        <span><strong class="text-white">Entrada Solidária:</strong> Leve 1kg de alimento não perecível ou 1 brinquedo novo/em bom estado (opcional).</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="text-[#16A34A] font-bold">✓</span>
+                                        <span><strong class="text-white">Apadrinhamento:</strong> Marcas e apoiadores podem doar cotas de brinquedos e cestas direto com a Natália.</span>
+                                    </li>
+                                </ul>
+
+                                <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Quero%20confirmar%20presen%C3%A7a%20ou%20apoiar%20o%20Natal%20na%20Quebrada%20Fund%C3%A3o!" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#FACC15] hover:bg-yellow-300 text-[#050505] font-extrabold text-xs uppercase tracking-wider transition-colors">
+                                    <span>Falar com Natália (Ponto Focal)</span>
+                                    <span>↗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             8. VITRINE SOCIAL & PARCEIROS + CONTATO DIRETO COM NATÁLIA (INSPIRADO NA IMAGEM 4 + VERMELHO #DC2626)
+        ====================================================================== -->
+        <section class="w-full py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-[#151515]">
+            <div class="max-w-5xl mx-auto">
+
+                <!-- Barra de Ícones Sociais Escuros Quadrados/Arredondados (exatamente como imagem 4) -->
+                <div class="grid grid-cols-4 gap-3 sm:gap-5 mb-8">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram Instituto Fundão" class="aspect-[16/10] sm:aspect-[16/9] rounded-xl bg-[#0a0a0a] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#F97316] flex items-center justify-center text-white hover:text-[#F97316] transition-all">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+
+                    <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Estou%20entrando%20em%20contato%20com%20voc%C3%AA%20como%20Ponto%20Focal%20do%20Instituto%20Fund%C3%A3o." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Natália Ponto Focal" class="aspect-[16/10] sm:aspect-[16/9] rounded-xl bg-[#0a0a0a] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#16A34A] flex items-center justify-center text-white hover:text-[#16A34A] transition-all">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                        </svg>
+                    </a>
+
+                    <a href="#artistas-cena" aria-label="YouTube e Batalhas" class="aspect-[16/10] sm:aspect-[16/9] rounded-xl bg-[#0a0a0a] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#DC2626] flex items-center justify-center text-white hover:text-[#DC2626] transition-all">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+
+                    <a href="#artistas-cena" aria-label="TikTok e Spotify Cena Local" class="aspect-[16/10] sm:aspect-[16/9] rounded-xl bg-[#0a0a0a] hover:bg-[#121212] border border-[#1d1d1d] hover:border-[#7C3AED] flex items-center justify-center text-white hover:text-[#7C3AED] transition-all">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Vitrine Social em Grade de Flyers Urbanos + Chamada Instagram (como imagem 4) -->
+                <div class="rounded-2xl overflow-hidden bg-[#090909] border border-[#1d1d1d] grid grid-cols-1 md:grid-cols-12">
+                    <!-- Grade de Flyers Urbanos à Esquerda -->
+                    <div class="md:col-span-6 p-3 sm:p-4 bg-[#060606] grid grid-cols-3 gap-2.5">
+                        <!-- Flyer 1 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#140b24]">
+                            <img src="https://i.postimg.cc/2yR1tCqD/IMG-4133-JPG.jpg" alt="Flyer SANTOS" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#7C3AED]/40 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-[#FACC15] tracking-wider">FUNDÃO #01</span>
+                                <span class="font-bebas text-base text-white leading-none">SANTOS</span>
+                            </div>
+                        </div>
+
+                        <!-- Flyer 2 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#241206]">
+                            <img src="https://i.postimg.cc/d17WBjCH/Whats-App-Image-2026-11-18-at-15-37-09.jpg" alt="Flyer RCP" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#F97316]/40 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-[#F97316] tracking-wider">CENA ITAPEVI</span>
+                                <span class="font-bebas text-base text-white leading-none">RCP</span>
+                            </div>
+                        </div>
+
+                        <!-- Flyer 3 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#240909]">
+                            <img src="https://i.postimg.cc/6qt9Rq2p/Whats-App-Image-2026-11-18-at-15-32-03.jpg" alt="Flyer VP7" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#DC2626]/40 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-[#FACC15] tracking-wider">ARENA OESTE</span>
+                                <span class="font-bebas text-base text-white leading-none">VP7</span>
+                            </div>
+                        </div>
+
+                        <!-- Flyer 4 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#06182c]">
+                            <img src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg" alt="Flyer Direito na Comunidade" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#2563EB]/40 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-[#60A5FA] tracking-wider">FASE 01</span>
+                                <span class="font-bebas text-sm text-white leading-none">DIREITO</span>
+                            </div>
+                        </div>
+
+                        <!-- Flyer 5 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#062412]">
+                            <img src="https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg" alt="Flyer Natal na Quebrada" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#16A34A]/40 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-[#FACC15] tracking-wider">ESPECIAL</span>
+                                <span class="font-bebas text-sm text-white leading-none">NATAL</span>
+                            </div>
+                        </div>
+
+                        <!-- Flyer 6 -->
+                        <div class="aspect-[3/4] rounded-lg overflow-hidden relative border border-[#242424] bg-[#1a1204]">
+                            <img src="https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg" alt="Flyer Comunidade" class="w-full h-full object-cover opacity-75">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#FACC15]/35 p-2 flex flex-col justify-between">
+                                <span class="font-bebas text-xs text-white tracking-wider">ITAPEVI</span>
+                                <span class="font-bebas text-sm text-[#FACC15] leading-none">FUNDÃO</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chamada à Direita -->
+                    <div class="md:col-span-6 p-6 sm:p-10 flex flex-col justify-center">
+                        <span class="font-marker text-lg sm:text-2xl text-[#F97316] tracking-wider uppercase mb-3">
+                            COMUNIDADE & INSTAGRAM
+                        </span>
+                        <p class="text-sm sm:text-base text-zinc-300 leading-relaxed mb-6">
+                            Siga o <strong class="text-white">Instituto Fundão</strong> para acompanhar as próximas ações, batalhas de rima, oficinas culturais e entregas comunitárias em Itapevi.
+                        </p>
+                        <div>
+                            <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Quero%20acompanhar%20a%20agenda%20e%20as%20redes%20do%20Instituto%20Fund%C3%A3o%20em%20Itapevi." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1a1a1a] hover:bg-[#F97316] text-white hover:text-[#050505] font-bold text-xs sm:text-sm transition-colors">
+                                <span>Conferir & Conectar</span>
+                                <span>↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================================================================
+                     SEÇÃO DE CONTATO & ENGAJAMENTO DIRETO COM NATÁLIA (VERMELHO #DC2626 & PRETO)
+                ================================================================== -->
+                <div id="contato-natalia" class="mt-14 sm:mt-20 rounded-3xl bg-[#0b0b0b] border border-[#DC2626]/45 p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_60px_rgba(220,38,38,0.14)]">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#DC2626] rounded-full blur-[140px] opacity-20 pointer-events-none"></div>
+
+                    <div class="relative z-10">
+                        <span class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#DC2626] mb-2">
+                            <span class="w-2 h-2 rounded-full bg-[#DC2626] animate-ping"></span>
+                            ATENDIMENTO DIRETO • WHATSAPP OFICIAL
+                        </span>
+                        <h2 class="section-heading font-bold text-white mb-2">
+                            Faça Parte do Movimento — <span class="font-marker text-[#DC2626] tracking-wider">SOMAR</span>
+                        </h2>
+                        <p class="text-sm sm:text-base text-zinc-300 max-w-2xl mb-6">
+                            Escolha sua forma de participação e envie sua mensagem diretamente no WhatsApp para <strong class="text-white">Natália, Ponto Focal do Instituto Fundão</strong> (<span class="text-[#FACC15] font-semibold">+55 11 97657-5094</span>).
+                        </p>
+
+                        <!-- Abas Interativas -->
+                        <div role="tablist" aria-label="Escolha como somar com o Instituto Fundão" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 mb-7">
+                            <button type="button" id="tab-doar" onclick="ativarAba('doar')" class="py-3 px-4 rounded-xl bg-[#DC2626] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer">
+                                Quero Doar / Apoiar
+                            </button>
+                            <button type="button" id="tab-patrocinar" onclick="ativarAba('patrocinar')" class="py-3 px-4 rounded-xl bg-[#141414] hover:bg-[#1c1c1c] text-zinc-300 border border-[#262626] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer">
+                                Patrocinar / Marca
+                            </button>
+                            <button type="button" id="tab-voluntario" onclick="ativarAba('voluntario')" class="py-3 px-4 rounded-xl bg-[#141414] hover:bg-[#1c1c1c] text-zinc-300 border border-[#262626] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer">
+                                Voluntariado / Artista
+                            </button>
+                        </div>
+
+                        <!-- Formulário conectado à Natália (Ponto Focal) -->
+                        <form onsubmit="enviarWhatsAppNatalia(event)" class="space-y-5">
+                            <input type="hidden" id="aba-selecionada" value="Quero Doar / Apoiar">
+
+                            <p id="descricao-aba" class="text-xs sm:text-sm text-red-200 bg-[#DC2626]/10 border border-[#DC2626]/30 rounded-xl px-4 py-2.5">
+                                Contribua com doações financeiras, brinquedos ou cestas básicas diretamente com <strong>Natália (Ponto Focal do Instituto Fundão)</strong>.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="form-nome" class="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1.5">
+                                        Seu Nome ou Marca *
+                                    </label>
+                                    <input type="text" id="form-nome" required placeholder="Ex: João Silva ou Nome da Empresa" class="w-full px-4 py-3 rounded-xl bg-[#050505] border border-[#242424] focus:border-[#DC2626] text-sm text-white placeholder-zinc-500 outline-none transition-colors">
+                                </div>
+
+                                <div>
+                                    <label for="form-whats" class="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1.5">
+                                        Seu WhatsApp / Telefone *
+                                    </label>
+                                    <input type="text" id="form-whats" required placeholder="(11) 99999-9999" class="w-full px-4 py-3 rounded-xl bg-[#050505] border border-[#242424] focus:border-[#DC2626] text-sm text-white placeholder-zinc-500 outline-none transition-colors">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="form-detalhe" id="label-detalhe" class="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1.5">
+                                    Como deseja apoiar? *
+                                </label>
+                                <input type="text" id="form-detalhe" required placeholder="Ex: Doação de brinquedos, cestas básicas ou apoio financeiro" class="w-full px-4 py-3 rounded-xl bg-[#050505] border border-[#242424] focus:border-[#DC2626] text-sm text-white placeholder-zinc-500 outline-none transition-colors">
+                            </div>
+
+                            <div>
+                                <label for="form-msg" class="block text-xs font-bold uppercase tracking-wider text-zinc-300 mb-1.5">
+                                    Mensagem para Natália (Ponto Focal do Instituto Fundão)
+                                </label>
+                                <textarea id="form-msg" rows="3" placeholder="Escreva sua mensagem para falar direto com a Natália no WhatsApp..." class="w-full px-4 py-3 rounded-xl bg-[#050505] border border-[#242424] focus:border-[#DC2626] text-sm text-white placeholder-zinc-500 outline-none transition-colors resize-y"></textarea>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+                                <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#DC2626] hover:bg-red-500 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer shadow-[0_0_25px_rgba(220,38,38,0.45)]">
+                                    <span>Enviar no WhatsApp para Natália • Ponto Focal</span>
+                                    <span>↗</span>
+                                </button>
+
+                                <span class="text-xs text-zinc-400">
+                                    Contato direto: <strong class="text-white">Natália (Ponto Focal)</strong> • +55 11 97657-5094
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Faixa Final 'Parceiros & Apoio' (exatamente como imagem 4) -->
+                <div class="mt-14 pt-6 border-t border-[#1c1c1c]">
+                    <p class="text-xs font-semibold text-zinc-400 mb-6">Parceiros & Apoio</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 items-center text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-start gap-3">
+                            <span class="w-9 h-9 rounded-full bg-[#2563EB]/20 border border-[#2563EB]/50 text-[#60A5FA] font-bebas text-lg flex items-center justify-center shrink-0">PA</span>
+                            <div>
+                                <p class="font-bebas text-lg text-white tracking-wider leading-none">ESCRITÓRIO PAIVA ADVOGADOS</p>
+                                <span class="text-[11px] text-zinc-500">Assessoria Jurídica Comunitária</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-3">
+                            <span class="w-9 h-9 rounded-full bg-[#7C3AED]/20 border border-[#7C3AED]/50 text-[#C084FC] font-bebas text-lg flex items-center justify-center shrink-0">CC</span>
+                            <div>
+                                <p class="font-bebas text-lg text-white tracking-wider leading-none">COLETIVOS CULTURAIS DE ITAPEVI</p>
+                                <span class="text-[11px] text-zinc-500">Articulação Territorial</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center sm:justify-end gap-3">
+                            <span class="w-9 h-9 rounded-full bg-[#F97316]/20 border border-[#F97316]/50 text-[#FB923C] font-bebas text-lg flex items-center justify-center shrink-0">HH</span>
+                            <div>
+                                <p class="font-bebas text-lg text-white tracking-wider leading-none">CENA HIP-HOP LOCAL</p>
+                                <span class="text-[11px] text-zinc-500">SANTOS • RCP • VP7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             RODAPÉ LIMPO ARENA
+        ====================================================================== -->
+        <footer class="w-full border-t border-[#161616] bg-[#050505] py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <p class="font-bebas text-xl text-white tracking-wider">
+                        INSTITUTO <span class="text-[#F97316]">FUNDÃO</span> • ITAPEVI - SP
+                    </p>
+                    <p class="text-xs text-zinc-500 mt-0.5">
+                        Cultura, Resistência e Comunidade • Zona Oeste de São Paulo
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:items-end gap-1 text-xs">
+                    <a href="https://wa.me/5511976575094?text=Salve%2C%20Nat%C3%A1lia!%20Estou%20falando%20com%20voc%C3%AA%20como%20Ponto%20Focal%20do%20Instituto%20Fund%C3%A3o." target="_blank" rel="noopener noreferrer" class="text-zinc-300 hover:text-[#FACC15] font-semibold transition-colors">
+                        WhatsApp Oficial • Natália (Ponto Focal do Instituto): +55 11 97657-5094
+                    </a>
+                    <span class="text-zinc-600">© 2026 Instituto Fundão. Todos os direitos reservados.</span>
                 </div>
             </div>
         </footer>
 
     </div>
 
-    <!-- ================= MODAL LIGHTBOX DA GALERIA (ANTERIOR / PRÓXIMA / FECHAR) ================= -->
-    <div id="lightbox-modal" onclick="fecharLightbox()" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm p-3 sm:p-8 flex items-center justify-center">
-        <div class="max-w-4xl w-full bg-[#0a0a0a] rounded-3xl overflow-hidden relative shadow-2xl" onclick="event.stopPropagation()">
-            <div class="flex items-center justify-between gap-2 px-4 py-3">
-                <p id="lightbox-legenda" class="font-bebas text-base sm:text-2xl text-white tracking-wider uppercase truncate">
-                    Direito na Comunidade
+    <!-- =====================================================================
+         MODAL LIGHTBOX DA GALERIA (ANTERIOR / PRÓXIMA / FECHAR)
+    ====================================================================== -->
+    <div id="lightbox-modal" onclick="fecharLightbox()" class="fixed inset-0 z-[100] hidden bg-[#050505]/95 backdrop-blur-md p-3 sm:p-8 flex items-center justify-center">
+        <div class="max-w-4xl w-full bg-[#0b0b0b] border border-[#2563EB]/60 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#1d1d1d]">
+                <p id="lightbox-titulo" class="text-xs sm:text-sm font-bold text-white truncate">
+                    Direito na Comunidade — Registro 01
                 </p>
-                <button type="button" onclick="fecharLightbox()" class="bg-[#2563eb] hover:bg-blue-500 text-white font-bebas text-base sm:text-xl px-4 py-1 uppercase tracking-wider cursor-pointer shrink-0 pill-organic">
-                    FECHAR ✕
+                <button type="button" onclick="fecharLightbox()" class="px-3.5 py-1 rounded-full bg-[#2563EB] hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider cursor-pointer shrink-0">
+                    Fechar ✕
                 </button>
             </div>
 
-            <div class="bg-black flex items-center justify-center max-h-[70vh] overflow-hidden">
-                <img id="lightbox-img" src="" alt="Registro ampliado Direito na Comunidade" class="max-h-[70vh] w-auto max-w-full object-contain" />
+            <div class="bg-[#050505] flex items-center justify-center max-h-[70vh] overflow-hidden">
+                <img id="lightbox-imagem" src="" alt="Registro ampliado Direito na Comunidade" class="max-h-[70vh] w-auto max-w-full object-contain">
             </div>
 
-            <div class="flex items-center justify-between gap-3 px-4 py-3">
-                <button type="button" onclick="navegarLightbox(-1)" class="bg-[#2563eb] hover:bg-blue-500 text-white font-bebas text-lg sm:text-xl px-5 py-1 uppercase tracking-wider cursor-pointer pill-organic">
-                    ← ANTERIOR
+            <div class="flex items-center justify-between gap-3 px-4 py-3 border-t border-[#1d1d1d]">
+                <button type="button" onclick="navegarLightbox(-1)" class="px-4 py-1.5 rounded-full bg-[#151515] hover:bg-[#2563EB] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer">
+                    ← Anterior
                 </button>
-                <span id="lightbox-contador" class="font-bebas text-base sm:text-lg text-zinc-300 tracking-widest">
+                <span id="lightbox-indice" class="text-xs font-bold text-zinc-400">
                     1 / 6
                 </span>
-                <button type="button" onclick="navegarLightbox(1)" class="bg-[#2563eb] hover:bg-blue-500 text-white font-bebas text-lg sm:text-xl px-5 py-1 uppercase tracking-wider cursor-pointer pill-organic">
-                    PRÓXIMA →
+                <button type="button" onclick="navegarLightbox(1)" class="px-4 py-1.5 rounded-full bg-[#151515] hover:bg-[#2563EB] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer">
+                    Próxima →
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Scripts de Interação: Lightbox, Abas Orgânicas e WhatsApp com Natália -->
+    <!-- =====================================================================
+         JAVASCRIPT DE INTERATIVIDADE (HERO STORIES, DRAWER, LIGHTBOX & WHATSAPP NATÁLIA)
+    ====================================================================== -->
     <script>
-        const fotosGaleria = [
+        /* 1. Stories Interativos do Hero Banner */
+        const heroSlides = [
             {
-                url: 'https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg',
-                legenda: '01 • Atendimento Jurídico e Acolhimento — Direito na Comunidade'
+                img: 'https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg',
+                tag: 'CULTURA • RIMA • CIDADANIA'
             },
             {
-                url: 'https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg',
-                legenda: '02 • Orientação sobre Direitos e Benefícios — Direito na Comunidade'
+                img: 'https://i.postimg.cc/2yR1tCqD/IMG-4133-JPG.jpg',
+                tag: 'SANTOS • CENA HIP-HOP ITAPEVI'
             },
             {
-                url: 'https://i.postimg.cc/SQPn37Mz/Whats-App-Image-2026-11-18-at-15-48-31-(2).jpg',
-                legenda: '03 • Mobilização Comunitária em Itapevi — Direito na Comunidade'
+                img: 'https://i.postimg.cc/R0vhKgkt/Whats-App-Image-2026-11-18-at-15-48-31-(3).jpg',
+                tag: 'DIREITO NA COMUNIDADE • FASE 01'
             },
             {
-                url: 'https://i.postimg.cc/R0vhKgkt/Whats-App-Image-2026-11-18-at-15-48-31-(3).jpg',
-                legenda: '04 • Educação Cidadã e Cultura — Direito na Comunidade'
-            },
-            {
-                url: 'https://i.postimg.cc/wMRjgZmD/Whats-App-Image-2026-11-18-at-15-48-31-(4).jpg',
-                legenda: '05 • Equipe e Parceiros em Ação — Direito na Comunidade'
-            },
-            {
-                url: 'https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg',
-                legenda: '06 • Impacto Real na Comunidade de Itapevi — Direito na Comunidade'
+                img: 'https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg',
+                tag: 'INSTITUTO FUNDÃO • FORÇA DA QUEBRADA'
             }
         ];
 
-        let indiceAtualLightbox = 0;
+        let slideHeroAtual = 0;
+        let timerHero = null;
 
-        function atualizarLightbox() {
-            const item = fotosGaleria[indiceAtualLightbox];
-            const img = document.getElementById('lightbox-img');
-            const legenda = document.getElementById('lightbox-legenda');
-            const contador = document.getElementById('lightbox-contador');
-            if (!item || !img || !legenda || !contador) return;
+        function mudarSlideHero(indice) {
+            slideHeroAtual = indice;
+            const imgEl = document.getElementById('hero-slide-img');
+            const tagEl = document.getElementById('hero-slide-tag');
+            if (imgEl && heroSlides[indice]) {
+                imgEl.src = heroSlides[indice].img;
+            }
+            if (tagEl && heroSlides[indice]) {
+                tagEl.textContent = heroSlides[indice].tag;
+            }
 
-            img.src = item.url;
-            legenda.textContent = item.legenda;
-            contador.textContent = `${indiceAtualLightbox + 1} / ${fotosGaleria.length}`;
+            for (let i = 0; i < heroSlides.length; i++) {
+                const bar = document.getElementById(`story-bar-${i}`);
+                if (!bar) continue;
+                bar.style.width = i <= indice ? '100%' : '0%';
+            }
         }
 
-        function abrirLightbox(indice) {
-            indiceAtualLightbox = indice;
-            atualizarLightbox();
+        function iniciarAutoStories() {
+            if (timerHero) clearInterval(timerHero);
+            timerHero = setInterval(() => {
+                const proximo = (slideHeroAtual + 1) % heroSlides.length;
+                mudarSlideHero(proximo);
+            }, 5000);
+        }
+
+        iniciarAutoStories();
+
+        /* 2. Menu Drawer Urbano */
+        function toggleDrawer() {
+            const drawer = document.getElementById('menu-drawer');
+            if (!drawer) return;
+            const aberto = !drawer.classList.contains('hidden');
+            if (aberto) {
+                drawer.classList.add('hidden');
+                document.body.style.overflow = '';
+            } else {
+                drawer.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        /* 3. Galeria Lightbox Direito na Comunidade */
+        const fotosDireito = [
+            {
+                url: 'https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg',
+                titulo: '01 • Atendimento Jurídico Comunitário — Direito na Comunidade'
+            },
+            {
+                url: 'https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg',
+                titulo: '02 • Orientação sobre Benefícios Sociais — Direito na Comunidade'
+            },
+            {
+                url: 'https://i.postimg.cc/SQPn37Mz/Whats-App-Image-2026-11-18-at-15-48-31-(2).jpg',
+                titulo: '03 • Mobilização em Itapevi — Direito na Comunidade'
+            },
+            {
+                url: 'https://i.postimg.cc/R0vhKgkt/Whats-App-Image-2026-11-18-at-15-48-31-(3).jpg',
+                titulo: '04 • Educação Cidadã e Juventude — Direito na Comunidade'
+            },
+            {
+                url: 'https://i.postimg.cc/wMRjgZmD/Whats-App-Image-2026-11-18-at-15-48-31-(4).jpg',
+                titulo: '05 • Equipe e Parceiros — Direito na Comunidade'
+            },
+            {
+                url: 'https://i.postimg.cc/05zYzNGT/Whats-App-Image-2026-11-18-at-15-48-32.jpg',
+                titulo: '06 • Impacto Social na Quebrada — Direito na Comunidade'
+            }
+        ];
+
+        let indiceFotoAtual = 0;
+
+        function renderizarLightbox() {
+            const item = fotosDireito[indiceFotoAtual];
+            const img = document.getElementById('lightbox-imagem');
+            const tit = document.getElementById('lightbox-titulo');
+            const ind = document.getElementById('lightbox-indice');
+            if (!item || !img || !tit || !ind) return;
+
+            img.src = item.url;
+            tit.textContent = item.titulo;
+            ind.textContent = `${indiceFotoAtual + 1} / ${fotosDireito.length}`;
+        }
+
+        function abrirLightbox(idx) {
+            indiceFotoAtual = idx;
+            renderizarLightbox();
             const modal = document.getElementById('lightbox-modal');
             if (modal) {
                 modal.classList.remove('hidden');
@@ -878,106 +1273,98 @@
             }
         }
 
-        function navegarLightbox(direcao) {
-            indiceAtualLightbox = (indiceAtualLightbox + direcao + fotosGaleria.length) % fotosGaleria.length;
-            atualizarLightbox();
+        function navegarLightbox(passo) {
+            indiceFotoAtual = (indiceFotoAtual + passo + fotosDireito.length) % fotosDireito.length;
+            renderizarLightbox();
         }
 
         function fecharLightbox() {
             const modal = document.getElementById('lightbox-modal');
-            const img = document.getElementById('lightbox-img');
+            const img = document.getElementById('lightbox-imagem');
             if (modal) modal.classList.add('hidden');
             if (img) img.src = '';
             document.body.style.overflow = '';
         }
 
-        document.addEventListener('keydown', function (event) {
+        document.addEventListener('keydown', (e) => {
             const modal = document.getElementById('lightbox-modal');
-            if (!modal || modal.classList.contains('hidden')) return;
-            if (event.key === 'Escape') fecharLightbox();
-            if (event.key === 'ArrowLeft') navegarLightbox(-1);
-            if (event.key === 'ArrowRight') navegarLightbox(1);
+            if (modal && !modal.classList.contains('hidden')) {
+                if (e.key === 'Escape') fecharLightbox();
+                if (e.key === 'ArrowLeft') navegarLightbox(-1);
+                if (e.key === 'ArrowRight') navegarLightbox(1);
+            }
         });
 
-        const configAbas = {
-            apoiar: {
-                titulo: 'Quero Apoiar / Patrocinar',
-                contexto: 'Patrocínio corporativo, cota cultural ou apoio institucional para os projetos em Itapevi.',
-                labelApoio: 'Tipo de Apoio / Patrocínio *',
-                placeholderApoio: 'Ex: Cota Natal na Quebrada, Apoio Cultural ou Parceria Institucional',
-                placeholderMensagem: 'Ex: Represento uma marca e quero caminhar junto com o Instituto Fundão!'
-            },
+        /* 4. Abas de Participação & Mensagem Automática para Natália (Ponto Focal) */
+        const abasConfig = {
             doar: {
-                titulo: 'Fazer uma Doação',
-                contexto: 'Doação financeira, brinquedos ou cestas básicas diretamente para as ações em Itapevi.',
-                labelApoio: 'Valor / Tipo de Doação *',
-                placeholderApoio: 'Ex: R$ 100,00, 10 brinquedos ou 2 cestas básicas',
-                placeholderMensagem: 'Conte como gostaria de contribuir com o Instituto Fundão!'
+                nome: 'Quero Doar / Apoiar',
+                desc: 'Contribua com doações financeiras, brinquedos ou cestas básicas diretamente com Natália (Ponto Focal do Instituto Fundão).',
+                label: 'Como deseja apoiar? *',
+                placeholder: 'Ex: Doação de brinquedos, cestas básicas ou apoio financeiro'
             },
-            voluntariado: {
-                titulo: 'Voluntariado / Parceria',
-                contexto: 'Atuação voluntária nos eventos, recreação, cultura ou parceria comunitária.',
-                labelApoio: 'Área de Voluntariado / Parceria *',
-                placeholderApoio: 'Ex: Produção de Evento, Recreação Infantil, Cultura, Jurídico',
-                placeholderMensagem: 'Ex: Quero somar como voluntário(a) ou parceiro(a) do Instituto Fundão!'
+            patrocinar: {
+                nome: 'Patrocinar / Marca',
+                desc: 'Conecte sua empresa às ações culturais e sociais do Instituto Fundão em Itapevi falando direto com Natália (Ponto Focal).',
+                label: 'Tipo de Patrocínio / Cota *',
+                placeholder: 'Ex: Patrocínio Natal na Quebrada, Apoio Cultural ou Parceria Institucional'
+            },
+            voluntario: {
+                nome: 'Voluntariado / Artista',
+                desc: 'Some como voluntário(a), coletivo ou artista local nas batalhas e ações comunitárias com Natália (Ponto Focal).',
+                label: 'Área de Atuação / Arte *',
+                placeholder: 'Ex: MC / Batalha de Rima, Produção, Recreação Infantil ou Apoio Jurídico'
             }
         };
 
-        function selecionarAba(chaveAba) {
-            const dados = configAbas[chaveAba] || configAbas.apoiar;
+        function ativarAba(chave) {
+            const cfg = abasConfig[chave] || abasConfig.doar;
+            const inputAba = document.getElementById('aba-selecionada');
+            const descEl = document.getElementById('descricao-aba');
+            const labelEl = document.getElementById('label-detalhe');
+            const detalheEl = document.getElementById('form-detalhe');
 
-            const campoAba = document.getElementById('campo-aba');
-            const contextoAba = document.getElementById('contexto-aba');
-            const labelApoio = document.getElementById('label-apoio');
-            const inputApoio = document.getElementById('input-apoio');
-            const inputMensagem = document.getElementById('input-mensagem');
+            if (inputAba) inputAba.value = cfg.nome;
+            if (descEl) descEl.innerHTML = cfg.desc.replace('Natália (Ponto Focal do Instituto Fundão)', '<strong>Natália (Ponto Focal do Instituto Fundão)</strong>');
+            if (labelEl) labelEl.textContent = cfg.label;
+            if (detalheEl) detalheEl.placeholder = cfg.placeholder;
 
-            if (campoAba) campoAba.value = dados.titulo;
-            if (contextoAba) contextoAba.textContent = dados.contexto;
-            if (labelApoio) labelApoio.textContent = dados.labelApoio;
-            if (inputApoio) inputApoio.placeholder = dados.placeholderApoio;
-            if (inputMensagem) inputMensagem.placeholder = dados.placeholderMensagem;
-
-            ['apoiar', 'doar', 'voluntariado'].forEach((id) => {
+            ['doar', 'patrocinar', 'voluntario'].forEach((id) => {
                 const btn = document.getElementById(`tab-${id}`);
                 if (!btn) return;
-                const ativo = id === chaveAba;
-                btn.setAttribute('aria-selected', ativo ? 'true' : 'false');
-                if (ativo) {
-                    btn.classList.remove('bg-zinc-900/90', 'text-zinc-300');
-                    btn.classList.add('bg-[#dc2626]', 'text-white');
+                if (id === chave) {
+                    btn.className = 'py-3 px-4 rounded-xl bg-[#DC2626] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer';
                 } else {
-                    btn.classList.remove('bg-[#dc2626]', 'text-white');
-                    btn.classList.add('bg-zinc-900/90', 'text-zinc-300');
+                    btn.className = 'py-3 px-4 rounded-xl bg-[#141414] hover:bg-[#1c1c1c] text-zinc-300 border border-[#262626] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer';
                 }
             });
         }
 
-        function enviarWhatsApp(event) {
+        function enviarWhatsAppNatalia(event) {
             event.preventDefault();
 
-            const modalidade = document.getElementById('campo-aba').value;
-            const nome = document.getElementById('input-nome').value.trim();
-            const contato = document.getElementById('input-contato').value.trim();
-            const apoio = document.getElementById('input-apoio').value.trim();
-            const mensagem = document.getElementById('input-mensagem').value.trim();
+            const modalidade = document.getElementById('aba-selecionada').value;
+            const nome = document.getElementById('form-nome').value.trim();
+            const whats = document.getElementById('form-whats').value.trim();
+            const detalhe = document.getElementById('form-detalhe').value.trim();
+            const msg = document.getElementById('form-msg').value.trim();
 
-            const linhas = [
-                'Salve, Natália! Tudo bem? 👑✊',
-                'Estou entrando em contato com você como *Ponto Focal do Instituto Fundão*:',
+            const texto = [
+                'Salve, Natália! Tudo bem? 👑🔥',
+                'Estou entrando em contato com você como *Ponto Focal do Instituto Fundão* (Itapevi - SP):',
                 '',
                 `*Modalidade:* ${modalidade}`,
-                `*Nome / Empresa:* ${nome}`,
-                `*Telefone / WhatsApp:* ${contato}`,
-                `*Apoio / Contribuição:* ${apoio}`
+                `*Nome / Marca:* ${nome}`,
+                `*WhatsApp / Contato:* ${whats}`,
+                `*Interesse / Apoio:* ${detalhe}`
             ];
 
-            if (mensagem) {
-                linhas.push(`*Mensagem:* ${mensagem}`);
+            if (msg) {
+                texto.push(`*Mensagem:* ${msg}`);
             }
 
-            const urlWhatsApp = `https://wa.me/5511976575094?text=${encodeURIComponent(linhas.join('\n'))}`;
-            window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
+            const url = `https://wa.me/5511976575094?text=${encodeURIComponent(texto.join('\n'))}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
         }
     </script>
 </body>
