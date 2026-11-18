@@ -392,7 +392,7 @@
                         </h1>
 
                         <p class="text-sm sm:text-lg text-[#f4f1ea]/90 font-medium max-w-3xl leading-relaxed mb-7">
-                            Movimento urbano que une batalhas de rima, assessoria jurídica comunitária e protagonismo juvenil em Itapevi, SP — fortalecendo famílias e abrindo caminhos reais na quebrada.
+                            Movimento urbano que une batalhas de rima, assessoria jurídica comunitária e protagonismo juvenil no fundão da zona oeste — fortalecendo famílias e abrindo caminhos reais na quebrada.
                         </p>
 
                         <div class="flex flex-wrap items-center gap-3 sm:gap-4">
@@ -1506,7 +1506,7 @@
                             <span>✓</span>
                         </button>
                         <span class="text-[11px] font-bold text-[#b5b0a6]">
-                            Registro direto para curadoria & planilha oficial
+                            Registro direto na nuvem para a curadoria
                         </span>
                     </div>
                 </form>
@@ -1515,7 +1515,7 @@
     </div>
 
     <!-- =====================================================================
-         PAINEL ADMINISTRATIVO RESTRITO (ÁREA DA EQUIPE • PROTEGIDO POR SENHA)
+         PAINEL ADMINISTRATIVO RESTRITO (ÁREA DA EQUIPE • SUPABASE CLOUD)
     ====================================================================== -->
     <div id="modal-equipe" onclick="fecharPainelEquipe()" class="fixed inset-0 z-[110] hidden bg-[#0b0b0b]/96 backdrop-blur-md p-3 sm:p-6 flex items-center justify-center overflow-y-auto">
         <div class="max-w-4xl w-full my-auto bg-[#131313] border border-[#d4a13b]/40 rounded-2xl overflow-hidden" onclick="event.stopPropagation()">
@@ -1540,7 +1540,7 @@
                     Acesso Exclusivo da Coordenação
                 </h4>
                 <p class="text-xs sm:text-sm text-[#b5b0a6] mb-5">
-                    Insira o código de acesso da equipe do Instituto Fundão para gerenciar as inscrições e sincronizar com a planilha oficial.
+                    Insira o código de acesso da equipe do Instituto Fundão para gerenciar as inscrições salvas na nuvem.
                 </p>
                 <form onsubmit="autenticarEquipe(event)" class="space-y-4">
                     <input type="password" id="equipe-pin-input" required autocomplete="off" placeholder="Código de acesso" class="input-underline text-center tracking-widest font-bold">
@@ -1555,74 +1555,41 @@
 
             <!-- Conteúdo Autenticado do Painel -->
             <div id="equipe-dashboard-box" class="hidden p-5 sm:p-6 space-y-5">
-                <!-- Barra Superior de Integração Google Sheets -->
-                <div class="p-3.5 rounded-xl bg-[#1a1a1a] border border-[#3c6e47]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <!-- Barra Superior de Status do Banco na Nuvem (Supabase) -->
+                <div class="p-3.5 rounded-xl bg-[#1a1a1a] border border-[#3c6e47]/55 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="flex items-center gap-2.5">
-                        <span class="px-2.5 py-1 rounded bg-[#3c6e47] text-[#f4f1ea] text-[11px] font-extrabold uppercase">GOOGLE SHEETS</span>
-                        <span id="sheets-status-badge" class="text-xs font-bold text-[#f4f1ea]">
-                            Planilha Oficial Conectada
+                        <span id="cloud-status-dot" class="w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0"></span>
+                        <span id="cloud-status-badge" class="text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
+                            Conectado ao Banco na Nuvem
                         </span>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2">
-                        <a href="https://docs.google.com/spreadsheets/d/1WhACPoC1nvANUOdEiVoqiUKyVPq8CJnmyq9d90N-jq4/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-extrabold transition-colors">
-                            <span>📊 Abrir Planilha Google Sheets</span>
-                            <span>↗</span>
-                        </a>
-                        <button type="button" id="btn-sync-sheets" onclick="sincronizarDaPlanilha()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
-                            <span>🔄 Sincronizar da Planilha</span>
+                        <button type="button" id="btn-atualizar-nuvem" onclick="carregarInscricoesNuvem()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
+                            <span>🔄 Atualizar Lista</span>
                         </button>
-                        <button type="button" onclick="toggleConfigAppsScript()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#131313] hover:bg-[#242424] border border-[#d4a13b]/50 text-[#d4a13b] text-xs font-extrabold transition-colors cursor-pointer">
-                            <span>⚙️ Conectar Envio Automático (Apps Script)</span>
+                        <button type="button" onclick="copiarResumoInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#131313] hover:bg-[#242424] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] cursor-pointer">
+                            📋 Copiar Lista
+                        </button>
+                        <button type="button" onclick="exportarCSVInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-xs font-extrabold text-[#f4f1ea] cursor-pointer">
+                            ⬇ Exportar CSV
+                        </button>
+                        <button type="button" onclick="sairEquipe()" class="px-3.5 py-1.5 rounded-full bg-[#131313] border border-[#a63a3a]/60 text-xs font-bold text-[#df7575] cursor-pointer">
+                            Sair
                         </button>
                     </div>
                 </div>
 
-                <!-- Painel Dobrável: Conectar Envio Automático (Apps Script) -->
-                <div id="equipe-apps-script-box" class="hidden p-4 sm:p-5 rounded-xl bg-[#0b0b0b] border border-[#d4a13b]/45 space-y-4">
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <h4 class="font-anton text-lg text-[#d4a13b] uppercase tracking-wide">
-                                Conectar Gravação Automática na Planilha Google Sheets
-                            </h4>
-                            <p class="text-xs text-[#b5b0a6] mt-0.5 leading-relaxed">
-                                Cole abaixo a URL <code class="text-[#f4f1ea]">/exec</code> do Web App publicado no Google Apps Script da sua planilha (<strong class="text-[#f4f1ea]">ID: 1WhACPoC1nvANUOdEiVoqiUKyVPq8CJnmyq9d90N-jq4</strong>):
-                            </p>
-                        </div>
-                        <button type="button" onclick="toggleConfigAppsScript()" class="text-xs font-bold text-[#b5b0a6] hover:text-[#f4f1ea] cursor-pointer">Fechar ✕</button>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-2.5">
-                        <input type="url" id="apps-script-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="flex-1 px-3.5 py-2.5 rounded-xl bg-[#131313] border border-[#f4f1ea]/20 text-xs text-[#f4f1ea] outline-none focus:border-[#d4a13b]">
-                        <button type="button" onclick="salvarUrlAppsScript()" class="px-5 py-2.5 rounded-xl bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer shrink-0">
-                            Salvar URL
-                        </button>
-                    </div>
-
-                    <div class="p-3.5 rounded-xl bg-[#131313] border border-[#f4f1ea]/12 space-y-2.5">
-                        <div class="flex flex-wrap items-center justify-between gap-2">
-                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#f4f1ea]">
-                                Código Google Apps Script pronto para colar na planilha:
-                            </span>
-                            <button type="button" onclick="copiarCodigoAppsScript()" class="px-3.5 py-1.5 rounded-full bg-[#644482] hover:bg-[#52366c] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
-                                📋 Copiar Código Apps Script
-                            </button>
-                        </div>
-                        <ol class="list-decimal list-inside text-[11px] text-[#b5b0a6] space-y-1">
-                            <li>Abra a planilha oficial e clique em <strong class="text-[#f4f1ea]">Extensões &gt; Apps Script</strong>.</li>
-                            <li>Substitua o código existente pelo código copiado acima e salve o projeto.</li>
-                            <li>Clique em <strong class="text-[#f4f1ea]">Implantar &gt; Nova implantação &gt; App da Web</strong> (Executar como: <em>Eu</em> | Quem pode acessar: <em>Qualquer pessoa</em>).</li>
-                            <li>Cole a URL <code class="text-[#d4a13b]">/exec</code> gerada no campo acima e clique em <strong>Salvar URL</strong>.</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- Filtros e Ações da Lista -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
+                <!-- Busca e Filtros -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span id="equipe-contador" class="px-3 py-1 rounded-full bg-[#644482] text-[#f4f1ea] text-xs font-extrabold uppercase">
+                        <span id="equipe-contador" class="px-3 py-1.5 rounded-full bg-[#644482] text-[#f4f1ea] text-xs font-extrabold uppercase">
                             0 inscrições
                         </span>
+                        <input type="search" id="equipe-busca-input" oninput="renderizarListaInscricoes()" placeholder="Buscar artista, bairro ou @insta..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
                         <select id="equipe-filtro-categoria" onchange="renderizarListaInscricoes()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
                             <option value="TODOS">Todas as categorias</option>
                             <option value="MC / Batalha de Rima">MC / Batalha de Rima</option>
@@ -1636,34 +1603,21 @@
                             <option value="TODOS">Todos os status</option>
                             <option value="Pendente">Pendente</option>
                             <option value="Aprovado">Aprovado</option>
-                            <option value="Contatado">Contatado</option>
                         </select>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-2">
-                        <button type="button" onclick="copiarResumoInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] cursor-pointer">
-                            📋 Copiar Lista
-                        </button>
-                        <button type="button" onclick="exportarCSVInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-xs font-extrabold text-[#f4f1ea] cursor-pointer">
-                            ⬇ Exportar CSV
-                        </button>
-                        <button type="button" onclick="sairEquipe()" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] border border-[#a63a3a]/60 text-xs font-bold text-[#df7575] cursor-pointer">
-                            Sair
-                        </button>
                     </div>
                 </div>
 
                 <div id="equipe-aviso-acao" class="hidden text-xs font-bold text-[#6cb37b] bg-[#3c6e47]/20 border border-[#3c6e47]/50 px-3.5 py-2 rounded-lg"></div>
 
                 <div id="equipe-lista-container" class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
-                    <!-- Renderizado dinamicamente via JavaScript -->
+                    <!-- Renderizado dinamicamente via Supabase REST API -->
                 </div>
             </div>
         </div>
     </div>
 
     <!-- =====================================================================
-         JAVASCRIPT COMPLETO E VALIDADO
+         JAVASCRIPT COMPLETO E INTEGRADO AO SUPABASE CLOUD
     ====================================================================== -->
     <script>
         /* 1. Menu Drawer Mobile */
@@ -1819,103 +1773,59 @@
             }
         });
 
-        /* 4. Área Exclusiva de Inscrição de Artistas + Integração Google Sheets + Painel Restrito */
+        /* 4. Integração Direta via REST API com Supabase (Banco de Dados na Nuvem) */
         const WHATSAPP_OFICIAL_NUM = '5511914800323';
-        const STORAGE_KEY_ARTISTAS = 'instituto_fundao_artistas_v1';
-        const STORAGE_KEY_APPS_SCRIPT_URL = 'instituto_fundao_sheets_webapp_url';
-        const GOOGLE_SHEET_ID = '1WhACPoC1nvANUOdEiVoqiUKyVPq8CJnmyq9d90N-jq4';
-        const GOOGLE_SHEET_EDIT_URL = 'https://docs.google.com/spreadsheets/d/1WhACPoC1nvANUOdEiVoqiUKyVPq8CJnmyq9d90N-jq4/edit?gid=0#gid=0';
-        const GOOGLE_SHEET_GVIZ_URL = 'https://docs.google.com/spreadsheets/d/1WhACPoC1nvANUOdEiVoqiUKyVPq8CJnmyq9d90N-jq4/gviz/tq?tqx=out:json&gid=0';
+        const SUPABASE_URL = 'https://iocamaeufehjqzfrqbcg.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_UrcUcryPAeU52G7diM_53w_87mub4NY';
+        const SUPABASE_ENDPOINT = `${SUPABASE_URL}/rest/v1/inscricoes_artistas`;
+        const STORAGE_KEY_FALLBACK = 'instituto_fundao_artistas_cache_v2';
         const EQUIPE_CODIGO_ACESSO = 'fundão@nc8!';
 
-        const CODIGO_APPS_SCRIPT_PRONTO = `// Código Google Apps Script — Instituto Fundão (Itapevi, SP)
-// Planilha Oficial: ${GOOGLE_SHEET_EDIT_URL}
-// Colunas: Data/Hora | Nome Artístico | Categoria | Bairro/Cidade | WhatsApp | Instagram/Portfólio | Release/Mensagem | Status
+        let listaInscricoesCache = [];
 
-function doPost(e) {
-  try {
-    var ss = SpreadsheetApp.openById('${GOOGLE_SHEET_ID}');
-    var sheet = ss.getSheets()[0];
+        function getSupabaseHeaders(preferHeader) {
+            const headers = {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json'
+            };
+            if (preferHeader) {
+                headers['Prefer'] = preferHeader;
+            }
+            return headers;
+        }
 
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        'Data/Hora',
-        'Nome Artístico',
-        'Categoria',
-        'Bairro/Cidade',
-        'WhatsApp',
-        'Instagram/Portfólio',
-        'Release/Mensagem',
-        'Status'
-      ]);
-      sheet.getRange(1, 1, 1, 8).setFontWeight('bold');
-    }
-
-    var dados = {};
-    if (e && e.postData && e.postData.contents) {
-      dados = JSON.parse(e.postData.contents);
-    } else if (e && e.parameter) {
-      dados = e.parameter;
-    }
-
-    var dataHora = dados.data || Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'dd/MM/yyyy HH:mm:ss');
-    var nomeArtistico = dados.nome || '';
-    var categoria = dados.categoria || '';
-    var bairroCidade = dados.bairro || '';
-    var whatsapp = dados.whats || '';
-    var instagramLink = dados.insta || '';
-    var releaseMensagem = dados.bio || '';
-    var status = dados.status || 'Pendente';
-
-    sheet.appendRow([
-      dataHora,
-      nomeArtistico,
-      categoria,
-      bairroCidade,
-      whatsapp,
-      instagramLink,
-      releaseMensagem,
-      status
-    ]);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true, mensagem: 'Inscrição salva na planilha do Instituto Fundão!' }))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch (erro) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, erro: erro.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ ok: true, status: 'Web App Instituto Fundão ativo' }))
-    .setMimeType(ContentService.MimeType.JSON);
-}`;
-
-        function obterUrlAppsScript() {
+        function salvarCacheLocal(lista) {
             try {
-                return (localStorage.getItem(STORAGE_KEY_APPS_SCRIPT_URL) || '').trim();
+                localStorage.setItem(STORAGE_KEY_FALLBACK, JSON.stringify(lista));
             } catch (err) {
-                return '';
+                console.error('Erro ao salvar cache local:', err);
             }
         }
 
-        function obterInscricoes() {
+        function lerCacheLocal() {
             try {
-                const salvo = localStorage.getItem(STORAGE_KEY_ARTISTAS);
+                const salvo = localStorage.getItem(STORAGE_KEY_FALLBACK);
                 return salvo ? JSON.parse(salvo) : [];
             } catch (err) {
                 return [];
             }
         }
 
-        function salvarInscricoes(lista) {
+        function formatarDataHoraBR(isoString) {
+            if (!isoString) return new Date().toLocaleString('pt-BR');
             try {
-                localStorage.setItem(STORAGE_KEY_ARTISTAS, JSON.stringify(lista));
-            } catch (err) {
-                console.error('Erro ao salvar inscrições localmente:', err);
+                const d = new Date(isoString);
+                if (isNaN(d.getTime())) return String(isoString);
+                return d.toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return String(isoString);
             }
         }
 
@@ -1937,27 +1847,6 @@ function doGet(e) {
             }
         }
 
-        async function enviarParaGoogleSheets(payload) {
-            const webAppUrl = obterUrlAppsScript();
-            if (!webAppUrl) {
-                return { enviado: false, motivo: 'local_apenas' };
-            }
-            try {
-                await fetch(webAppUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8'
-                    },
-                    body: JSON.stringify(payload)
-                });
-                return { enviado: true };
-            } catch (err) {
-                console.error('Falha ao enviar para Google Apps Script:', err);
-                return { enviado: false, motivo: 'erro_rede' };
-            }
-        }
-
         async function registrarInscricaoArtista(event) {
             event.preventDefault();
 
@@ -1965,33 +1854,60 @@ function doGet(e) {
             const nome = document.getElementById('art-nome').value.trim();
             const categoria = document.getElementById('art-categoria').value;
             const bairro = document.getElementById('art-bairro').value.trim();
-            const whats = document.getElementById('art-whats').value.trim();
-            const insta = document.getElementById('art-insta').value.trim();
-            const bio = document.getElementById('art-bio').value.trim();
+            const whatsapp = document.getElementById('art-whats').value.trim();
+            const instagram = document.getElementById('art-insta').value.trim();
+            const mensagem = document.getElementById('art-bio').value.trim();
 
             if (btnEnviar) {
                 btnEnviar.disabled = true;
-                btnEnviar.innerHTML = '<span>Registrando inscrição...</span>';
+                btnEnviar.innerHTML = '<span>Enviando para a curadoria...</span>';
             }
 
-            const novaInscricao = {
-                id: Date.now(),
-                data: new Date().toLocaleString('pt-BR'),
+            const payloadBanco = {
                 nome,
                 categoria,
                 bairro,
-                whats,
-                insta,
-                bio,
-                status: 'Pendente',
-                origem: 'Site'
+                whatsapp,
+                instagram,
+                mensagem,
+                status: 'Pendente'
             };
 
-            const lista = obterInscricoes();
-            lista.unshift(novaInscricao);
-            salvarInscricoes(lista);
+            let salvoNaNuvem = false;
 
-            const resultadoSheets = await enviarParaGoogleSheets(novaInscricao);
+            try {
+                const resposta = await fetch(SUPABASE_ENDPOINT, {
+                    method: 'POST',
+                    headers: getSupabaseHeaders('return=representation'),
+                    body: JSON.stringify(payloadBanco)
+                });
+
+                if (!resposta.ok) {
+                    const erroTxt = await resposta.text();
+                    throw new Error(`HTTP ${resposta.status}: ${erroTxt}`);
+                }
+
+                const dadosRetornados = await resposta.json();
+                salvoNaNuvem = true;
+
+                const registroCriado = Array.isArray(dadosRetornados) && dadosRetornados[0]
+                    ? dadosRetornados[0]
+                    : { ...payloadBanco, id: `local_${Date.now()}`, created_at: new Date().toISOString() };
+
+                const atuais = lerCacheLocal();
+                atuais.unshift(registroCriado);
+                salvarCacheLocal(atuais);
+            } catch (erro) {
+                console.error('Erro ao salvar no Supabase (aplicando fallback local):', erro);
+                const atuais = lerCacheLocal();
+                atuais.unshift({
+                    ...payloadBanco,
+                    id: `local_${Date.now()}`,
+                    created_at: new Date().toISOString(),
+                    _offline: true
+                });
+                salvarCacheLocal(atuais);
+            }
 
             const textoWpp = [
                 'Salve, Instituto Fundão! Tudo bem? 🎤👑',
@@ -2000,10 +1916,10 @@ function doGet(e) {
                 `*Nome Artístico:* ${nome}`,
                 `*Categoria:* ${categoria}`,
                 `*Bairro/Cidade:* ${bairro}`,
-                `*WhatsApp:* ${whats}`,
-                `*Instagram/Portfólio:* ${insta}`
+                `*WhatsApp:* ${whatsapp}`,
+                `*Instagram/Portfólio:* ${instagram}`
             ];
-            if (bio) textoWpp.push(`*Mensagem/Release:* ${bio}`);
+            if (mensagem) textoWpp.push(`*Mensagem/Release:* ${mensagem}`);
 
             const wppLink = document.getElementById('artista-wpp-link');
             if (wppLink) {
@@ -2013,12 +1929,12 @@ function doGet(e) {
             const feedbackTitulo = document.getElementById('artista-feedback-titulo');
             const feedbackSub = document.getElementById('artista-feedback-sub');
             if (feedbackTitulo && feedbackSub) {
-                if (resultadoSheets.enviado) {
-                    feedbackTitulo.textContent = '✓ Inscrição registrada e enviada automaticamente para a Planilha Google Sheets do Instituto Fundão!';
-                    feedbackSub.textContent = 'Seus dados já estão na planilha oficial da curadoria. Se quiser, você também pode enviar uma confirmação no WhatsApp oficial:';
+                if (salvoNaNuvem) {
+                    feedbackTitulo.textContent = '✓ Inscrição salva na nuvem para a equipe do Instituto Fundão!';
+                    feedbackSub.textContent = 'Seus dados já estão disponíveis em tempo real no painel da coordenação. Caso queira agilizar o contato, envie também uma confirmação no WhatsApp oficial:';
                 } else {
-                    feedbackTitulo.textContent = '✓ Inscrição registrada com sucesso para a curadoria do Instituto Fundão!';
-                    feedbackSub.textContent = 'Seus dados foram salvos no sistema do evento. Caso deseje agilizar o contato com a produção, clique abaixo para confirmar no WhatsApp oficial:';
+                    feedbackTitulo.textContent = '✓ Inscrição registrada localmente (sem conexão com o servidor no momento).';
+                    feedbackSub.textContent = 'Recomendamos enviar também a confirmação direta pelo botão do WhatsApp oficial abaixo:';
                 }
             }
 
@@ -2033,145 +1949,64 @@ function doGet(e) {
             event.target.reset();
         }
 
-        function atualizarBadgeSheets() {
-            const badge = document.getElementById('sheets-status-badge');
-            const inputUrl = document.getElementById('apps-script-url-input');
-            const urlSalva = obterUrlAppsScript();
+        function atualizarIndicadorNuvem(online, detalhe) {
+            const dot = document.getElementById('cloud-status-dot');
+            const badge = document.getElementById('cloud-status-badge');
+            if (!dot || !badge) return;
 
-            if (inputUrl && urlSalva) {
-                inputUrl.value = urlSalva;
-            }
-            if (badge) {
-                if (urlSalva) {
-                    badge.innerHTML = 'Planilha Oficial • <span class="text-[#6cb37b]">Envio Automático Ativo</span>';
-                } else {
-                    badge.innerHTML = 'Planilha Oficial • <span class="text-[#d4a13b]">Sincronização Manual / Local</span>';
-                }
+            if (online) {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0';
+                badge.className = 'text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider';
+                badge.textContent = detalhe || 'Conectado ao Banco na Nuvem';
+            } else {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-[#d4a13b] shrink-0';
+                badge.className = 'text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider';
+                badge.textContent = detalhe || 'Modo Offline • Exibindo Cache Local';
             }
         }
 
-        function toggleConfigAppsScript() {
-            const box = document.getElementById('equipe-apps-script-box');
-            if (!box) return;
-            atualizarBadgeSheets();
-            box.classList.toggle('hidden');
-        }
+        async function carregarInscricoesNuvem() {
+            const btnAtualizar = document.getElementById('btn-atualizar-nuvem');
+            const container = document.getElementById('equipe-lista-container');
 
-        function salvarUrlAppsScript() {
-            const input = document.getElementById('apps-script-url-input');
-            if (!input) return;
-            const url = input.value.trim();
+            if (btnAtualizar) {
+                btnAtualizar.disabled = true;
+                btnAtualizar.innerHTML = '<span>⏳ Carregando...</span>';
+            }
 
-            if (url && !url.startsWith('https://script.google.com/')) {
-                mostrarAvisoEquipe('⚠️ A URL deve começar com https://script.google.com/macros/s/...');
-                return;
+            if (container && listaInscricoesCache.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 rounded-2xl bg-[#1a1a1a] border border-[#f4f1ea]/12 text-center">
+                        <p class="font-anton text-lg text-[#d4a13b] uppercase tracking-wider">Sincronizando com o banco na nuvem...</p>
+                    </div>
+                `;
             }
 
             try {
-                if (url) {
-                    localStorage.setItem(STORAGE_KEY_APPS_SCRIPT_URL, url);
-                    mostrarAvisoEquipe('✓ URL do Apps Script salva! Novas inscrições serão gravadas na planilha.');
-                } else {
-                    localStorage.removeItem(STORAGE_KEY_APPS_SCRIPT_URL);
-                    mostrarAvisoEquipe('URL removida. As inscrições continuarão salvas localmente.');
-                }
-            } catch (err) {
-                console.error(err);
-            }
-            atualizarBadgeSheets();
-        }
-
-        function copiarCodigoAppsScript() {
-            const temp = document.createElement('textarea');
-            temp.value = CODIGO_APPS_SCRIPT_PRONTO;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
-            mostrarAvisoEquipe('✓ Código Apps Script copiado! Cole em Extensões > Apps Script na planilha.');
-        }
-
-        async function sincronizarDaPlanilha() {
-            const btnSync = document.getElementById('btn-sync-sheets');
-            if (btnSync) {
-                btnSync.disabled = true;
-                btnSync.innerHTML = '<span>⏳ Sincronizando...</span>';
-            }
-
-            try {
-                const resp = await fetch(GOOGLE_SHEET_GVIZ_URL);
-                const textoBruto = await resp.text();
-                const inicioJson = textoBruto.indexOf('{');
-                const fimJson = textoBruto.lastIndexOf('}');
-
-                if (inicioJson === -1 || fimJson === -1) {
-                    throw new Error('Resposta inválida da planilha');
-                }
-
-                const jsonObj = JSON.parse(textoBruto.substring(inicioJson, fimJson + 1));
-                const linhas = (jsonObj.table && jsonObj.table.rows) ? jsonObj.table.rows : [];
-
-                const registrosPlanilha = [];
-                linhas.forEach((row, index) => {
-                    const c = row.c || [];
-                    const val = (idx) => {
-                        if (!c[idx] || c[idx].v === null || c[idx].v === undefined) return '';
-                        return String(c[idx].f || c[idx].v).trim();
-                    };
-
-                    const dataHora = val(0);
-                    const nome = val(1);
-                    const categoria = val(2) || 'MC / Batalha de Rima';
-                    const bairro = val(3);
-                    const whats = val(4);
-                    const insta = val(5);
-                    const bio = val(6);
-                    const status = val(7) || 'Pendente';
-
-                    if (!nome || nome.toLowerCase() === 'nome artístico' || nome.toLowerCase() === 'nome artistico') {
-                        return;
-                    }
-
-                    registrosPlanilha.push({
-                        id: 1000000 + index,
-                        data: dataHora || 'Planilha Sheets',
-                        nome,
-                        categoria,
-                        bairro,
-                        whats,
-                        insta,
-                        bio,
-                        status: ['Pendente', 'Aprovado', 'Contatado'].includes(status) ? status : 'Pendente',
-                        origem: 'Google Sheets'
-                    });
+                const resposta = await fetch(`${SUPABASE_ENDPOINT}?select=*&order=created_at.desc`, {
+                    method: 'GET',
+                    headers: getSupabaseHeaders()
                 });
 
-                const atuais = obterInscricoes();
-                const chavesExistentes = new Set(
-                    atuais.map((i) => `${i.nome.toLowerCase()}|${i.whats.replace(/\D/g, '')}`)
-                );
+                if (!resposta.ok) {
+                    const erroTxt = await resposta.text();
+                    throw new Error(`HTTP ${resposta.status}: ${erroTxt}`);
+                }
 
-                let adicionados = 0;
-                registrosPlanilha.forEach((reg) => {
-                    const chave = `${reg.nome.toLowerCase()}|${reg.whats.replace(/\D/g, '')}`;
-                    if (!chavesExistentes.has(chave)) {
-                        atuais.push(reg);
-                        chavesExistentes.add(chave);
-                        adicionados++;
-                    }
-                });
-
-                salvarInscricoes(atuais);
-                renderizarListaInscricoes();
-                mostrarAvisoEquipe(`✓ Sincronização concluída! ${registrosPlanilha.length} linha(s) lida(s) (${adicionados} nova(s) adicionada(s)).`);
-            } catch (err) {
-                console.error('Erro ao sincronizar GViz:', err);
-                mostrarAvisoEquipe('⚠️ Não foi possível ler a planilha diretamente. Verifique se o compartilhamento está como "Qualquer pessoa com o link pode ver".');
+                const dados = await resposta.json();
+                listaInscricoesCache = Array.isArray(dados) ? dados : [];
+                salvarCacheLocal(listaInscricoesCache);
+                atualizarIndicadorNuvem(true, 'Conectado ao Banco na Nuvem');
+            } catch (erro) {
+                console.error('Erro ao buscar inscrições no Supabase:', erro);
+                listaInscricoesCache = lerCacheLocal();
+                atualizarIndicadorNuvem(false, 'Falha na conexão • Exibindo Cache Local');
             } finally {
-                if (btnSync) {
-                    btnSync.disabled = false;
-                    btnSync.innerHTML = '<span>🔄 Sincronizar da Planilha</span>';
+                if (btnAtualizar) {
+                    btnAtualizar.disabled = false;
+                    btnAtualizar.innerHTML = '<span>🔄 Atualizar Lista</span>';
                 }
+                renderizarListaInscricoes();
             }
         }
 
@@ -2187,8 +2022,7 @@ function doGet(e) {
             if (autenticado) {
                 if (loginBox) loginBox.classList.add('hidden');
                 if (dashBox) dashBox.classList.remove('hidden');
-                atualizarBadgeSheets();
-                renderizarListaInscricoes();
+                carregarInscricoesNuvem();
             } else {
                 if (loginBox) loginBox.classList.remove('hidden');
                 if (dashBox) dashBox.classList.add('hidden');
@@ -2219,8 +2053,7 @@ function doGet(e) {
                 if (erroPin) erroPin.classList.add('hidden');
                 document.getElementById('equipe-login-box').classList.add('hidden');
                 document.getElementById('equipe-dashboard-box').classList.remove('hidden');
-                atualizarBadgeSheets();
-                renderizarListaInscricoes();
+                carregarInscricoesNuvem();
             } else if (erroPin) {
                 erroPin.classList.remove('hidden');
             }
@@ -2232,18 +2065,55 @@ function doGet(e) {
             document.getElementById('equipe-login-box').classList.remove('hidden');
         }
 
-        function alterarStatusInscricao(id, novoStatus) {
-            const lista = obterInscricoes().map((item) =>
-                item.id === id ? { ...item, status: novoStatus } : item
+        async function alterarStatusInscricao(id, novoStatus) {
+            const idStr = String(id);
+            listaInscricoesCache = listaInscricoesCache.map((item) =>
+                String(item.id) === idStr ? { ...item, status: novoStatus } : item
             );
-            salvarInscricoes(lista);
+            salvarCacheLocal(listaInscricoesCache);
             renderizarListaInscricoes();
+
+            if (idStr.startsWith('local_')) return;
+
+            try {
+                const resposta = await fetch(`${SUPABASE_ENDPOINT}?id=eq.${encodeURIComponent(idStr)}`, {
+                    method: 'PATCH',
+                    headers: getSupabaseHeaders('return=representation'),
+                    body: JSON.stringify({ status: novoStatus })
+                });
+
+                if (!resposta.ok) {
+                    throw new Error(`HTTP ${resposta.status}`);
+                }
+                mostrarAvisoEquipe(`✓ Status atualizado para "${novoStatus}" na nuvem.`);
+            } catch (erro) {
+                console.error('Erro ao atualizar status no Supabase:', erro);
+                mostrarAvisoEquipe('⚠️ Status alterado localmente, mas houve erro ao sincronizar com a nuvem.');
+            }
         }
 
-        function removerInscricao(id) {
-            const lista = obterInscricoes().filter((item) => item.id !== id);
-            salvarInscricoes(lista);
+        async function removerInscricao(id) {
+            const idStr = String(id);
+            listaInscricoesCache = listaInscricoesCache.filter((item) => String(item.id) !== idStr);
+            salvarCacheLocal(listaInscricoesCache);
             renderizarListaInscricoes();
+
+            if (idStr.startsWith('local_')) return;
+
+            try {
+                const resposta = await fetch(`${SUPABASE_ENDPOINT}?id=eq.${encodeURIComponent(idStr)}`, {
+                    method: 'DELETE',
+                    headers: getSupabaseHeaders()
+                });
+
+                if (!resposta.ok) {
+                    throw new Error(`HTTP ${resposta.status}`);
+                }
+                mostrarAvisoEquipe('✓ Registro excluído permanentemente do banco na nuvem.');
+            } catch (erro) {
+                console.error('Erro ao excluir no Supabase:', erro);
+                mostrarAvisoEquipe('⚠️ Erro ao excluir no banco na nuvem. Clique em Atualizar Lista.');
+            }
         }
 
         function escaparHtml(str) {
@@ -2259,12 +2129,22 @@ function doGet(e) {
             const contador = document.getElementById('equipe-contador');
             const filtroCat = document.getElementById('equipe-filtro-categoria').value;
             const filtroStatus = document.getElementById('equipe-filtro-status').value;
+            const termoBusca = (document.getElementById('equipe-busca-input')?.value || '').trim().toLowerCase();
 
-            const todas = obterInscricoes();
+            const todas = listaInscricoesCache;
             const filtradas = todas.filter((item) => {
                 const okCat = filtroCat === 'TODOS' || item.categoria === filtroCat;
-                const okSt = filtroStatus === 'TODOS' || item.status === filtroStatus;
-                return okCat && okSt;
+                const okSt = filtroStatus === 'TODOS' || (item.status || 'Pendente') === filtroStatus;
+                const okBusca = !termoBusca || [
+                    item.nome,
+                    item.categoria,
+                    item.bairro,
+                    item.whatsapp,
+                    item.instagram,
+                    item.mensagem
+                ].some((campo) => String(campo || '').toLowerCase().includes(termoBusca));
+
+                return okCat && okSt && okBusca;
             });
 
             if (contador) {
@@ -2277,49 +2157,52 @@ function doGet(e) {
                 container.innerHTML = `
                     <div class="p-8 rounded-2xl bg-[#1a1a1a] border border-[#f4f1ea]/12 text-center">
                         <p class="font-anton text-xl text-[#f4f1ea] uppercase mb-1">Nenhuma inscrição encontrada</p>
-                        <p class="text-xs text-[#b5b0a6]">As inscrições enviadas pelos artistas ou sincronizadas da Planilha Google Sheets aparecerão aqui.</p>
+                        <p class="text-xs text-[#b5b0a6]">Todas as inscrições feitas por qualquer aparelho aparecerão automaticamente aqui.</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = filtradas.map((item) => {
-                const badgeClass = item.status === 'Aprovado'
+                const statusAtual = item.status || 'Pendente';
+                const badgeClass = statusAtual === 'Aprovado'
                     ? 'bg-[#3c6e47] text-[#f4f1ea]'
-                    : item.status === 'Contatado'
-                        ? 'bg-[#325d88] text-[#f4f1ea]'
-                        : 'bg-[#d4a13b] text-[#0b0b0b]';
+                    : 'bg-[#d4a13b] text-[#0b0b0b]';
 
-                const whatsLimpo = item.whats.replace(/\D/g, '');
+                const whatsValor = item.whatsapp || item.whats || '';
+                const instaValor = item.instagram || item.insta || '';
+                const msgValor = item.mensagem || item.bio || '';
+                const dataFormatada = formatarDataHoraBR(item.created_at || item.data);
+
+                const whatsLimpo = whatsValor.replace(/\D/g, '');
                 const wppArtistaUrl = `https://wa.me/${whatsLimpo.startsWith('55') ? whatsLimpo : '55' + whatsLimpo}?text=${encodeURIComponent(`Salve, ${item.nome}! Aqui é da equipe do Instituto Fundão sobre sua inscrição (${item.categoria}).`)}`;
+                const idSeguro = escaparHtml(String(item.id));
 
                 return `
                     <div class="p-4 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="space-y-1 min-w-0">
                             <div class="flex flex-wrap items-center gap-2">
-                                <span class="px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase ${badgeClass}">${escaparHtml(item.status)}</span>
+                                <span class="px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase ${badgeClass}">${escaparHtml(statusAtual)}</span>
                                 <span class="px-2.5 py-0.5 rounded bg-[#644482]/45 border border-[#644482] text-[11px] font-bold text-[#f4f1ea]">${escaparHtml(item.categoria)}</span>
-                                ${item.origem === 'Google Sheets' ? '<span class="px-2 py-0.5 rounded bg-[#3c6e47]/35 border border-[#3c6e47] text-[10px] font-bold text-[#6cb37b]">Sheets</span>' : ''}
-                                <span class="text-[11px] text-[#b5b0a6]">${escaparHtml(item.data)}</span>
+                                <span class="text-[11px] text-[#b5b0a6]">${escaparHtml(dataFormatada)}</span>
                             </div>
                             <h4 class="font-anton text-xl text-[#f4f1ea] tracking-wide uppercase">${escaparHtml(item.nome)}</h4>
                             <p class="text-xs text-[#f4f1ea]/90">
-                                <strong>Bairro/Cidade:</strong> ${escaparHtml(item.bairro)} • <strong>WhatsApp:</strong> ${escaparHtml(item.whats)} • <strong>Insta/Portfólio:</strong> ${escaparHtml(item.insta)}
+                                <strong>Bairro/Cidade:</strong> ${escaparHtml(item.bairro)} • <strong>WhatsApp:</strong> ${escaparHtml(whatsValor)} ${instaValor ? `• <strong>Insta/Portfólio:</strong> ${escaparHtml(instaValor)}` : ''}
                             </p>
-                            ${item.bio ? `<p class="text-xs text-[#b5b0a6] italic">"${escaparHtml(item.bio)}"</p>` : ''}
+                            ${msgValor ? `<p class="text-xs text-[#b5b0a6] italic">"${escaparHtml(msgValor)}"</p>` : ''}
                         </div>
 
                         <div class="flex flex-wrap sm:flex-col items-stretch sm:items-end gap-2 shrink-0">
-                            <select onchange="alterarStatusInscricao(${item.id}, this.value)" aria-label="Alterar status" class="px-3 py-1.5 rounded-lg bg-[#131313] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea]">
-                                <option value="Pendente" ${item.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
-                                <option value="Aprovado" ${item.status === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
-                                <option value="Contatado" ${item.status === 'Contatado' ? 'selected' : ''}>Contatado</option>
+                            <select onchange="alterarStatusInscricao('${idSeguro}', this.value)" aria-label="Alterar status" class="px-3 py-1.5 rounded-lg bg-[#131313] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea]">
+                                <option value="Pendente" ${statusAtual === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                                <option value="Aprovado" ${statusAtual === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
                             </select>
                             <div class="flex items-center gap-2">
                                 <a href="${wppArtistaUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-bold">
                                     WhatsApp ↗
                                 </a>
-                                <button type="button" onclick="removerInscricao(${item.id})" class="px-2.5 py-1.5 rounded-lg bg-[#131313] hover:bg-[#a63a3a] border border-[#f4f1ea]/15 text-xs font-bold text-[#f4f1ea] cursor-pointer">
+                                <button type="button" onclick="removerInscricao('${idSeguro}')" class="px-2.5 py-1.5 rounded-lg bg-[#131313] hover:bg-[#a63a3a] border border-[#f4f1ea]/15 text-xs font-bold text-[#f4f1ea] cursor-pointer">
                                     Excluir
                                 </button>
                             </div>
@@ -2338,13 +2221,13 @@ function doGet(e) {
         }
 
         function copiarResumoInscricoes() {
-            const lista = obterInscricoes();
+            const lista = listaInscricoesCache;
             if (!lista.length) {
                 mostrarAvisoEquipe('Nenhuma inscrição cadastrada para copiar.');
                 return;
             }
             const texto = lista.map((i, idx) =>
-                `${idx + 1}. ${i.nome} | ${i.categoria} | ${i.bairro} | ${i.whats} | ${i.insta} | Status: ${i.status}`
+                `${idx + 1}. ${i.nome} | ${i.categoria} | ${i.bairro} | ${i.whatsapp || ''} | ${i.instagram || ''} | Status: ${i.status || 'Pendente'}`
             ).join('\n');
 
             const temp = document.createElement('textarea');
@@ -2357,14 +2240,21 @@ function doGet(e) {
         }
 
         function exportarCSVInscricoes() {
-            const lista = obterInscricoes();
+            const lista = listaInscricoesCache;
             if (!lista.length) {
                 mostrarAvisoEquipe('Nenhuma inscrição cadastrada para exportar.');
                 return;
             }
-            const cabecalho = ['Data/Hora', 'Nome Artístico', 'Categoria', 'Bairro/Cidade', 'WhatsApp', 'Instagram/Portfólio', 'Release/Mensagem', 'Status'];
+            const cabecalho = ['Data/Hora', 'Nome Artístico', 'Categoria', 'Bairro/Cidade', 'WhatsApp', 'Instagram/Portfólio', 'Mensagem/Release', 'Status'];
             const linhas = lista.map((i) => [
-                i.data, i.nome, i.categoria, i.bairro, i.whats, i.insta, i.bio || '', i.status
+                formatarDataHoraBR(i.created_at),
+                i.nome,
+                i.categoria,
+                i.bairro,
+                i.whatsapp || '',
+                i.instagram || '',
+                i.mensagem || '',
+                i.status || 'Pendente'
             ].map((campo) => `"${String(campo).replace(/"/g, '""')}"`).join(';'));
 
             const csv = '\uFEFF' + [cabecalho.join(';'), ...linhas].join('\n');
