@@ -1,212 +1,512 @@
-import React from 'react';
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth bg-[#0a0a0a]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Fundão - Cultura, Resistência e Comunidade</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Bebas Neue & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fundao-bege': '#F5F5DC',
+                        'fundao-roxo': '#8A2BE2',
+                        'fundao-laranja': '#FF8C00',
+                        'fundao-verde': '#32CD32',
+                        'fundao-azul': '#1E90FF',
+                        'fundao-vermelho': '#FF0000',
+                        'fundao-amarelo': '#FFD700',
+                    },
+                    fontFamily: {
+                        'bebas': ['"Bebas Neue"', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
-export default function InstitutoFundaoLanding() {
-  return (
-    <>
-      {/* Injeta o Tailwind diretamente no cabeçalho do documento (Funciona perfeitamente no Next.js 13+) */}
-      <head>
-        <script src="https://cdn.tailwindcss.com"></script>
-      </head>
-      
-      {/* Estilos essenciais que não existem no Tailwind (Textura, Fontes e Brutalismo) */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap');
-        
-        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
-        .font-inter { font-family: 'Inter', sans-serif; }
-        
-        /* Fundo principal bege / textura de papel lambe-lambe */
-        .bg-lambe {
-          background-color: #F5F5DC !important;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E") !important;
+    <style>
+        /* Reset and Full Screen Fixes */
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+            overflow-x: hidden;
         }
 
-        /* Efeitos Neo-Brutalismo / Street Art */
-        .brutal-border {
-          border: 4px solid #000;
-          box-shadow: 6px 6px 0px 0px #000;
-          transition: all 0.2s ease-in-out;
+        /* Marquee Animation (Smooth loop without causing horizontal scroll cuts) */
+        .marquee-container {
+            display: flex;
+            width: 200%;
+            animation: marquee 18s linear infinite;
         }
-        .brutal-border:hover {
-          transform: translate(-2px, -2px);
-          box-shadow: 10px 10px 0px 0px #000;
-        }
-        
-        .brutal-card {
-          border: 4px solid #000;
-          box-shadow: 8px 8px 0px 0px #000;
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         
-        .brutal-text-shadow {
-          text-shadow: 3px 3px 0px #000;
-        }
-      `}} />
-
-      <main className="min-h-screen bg-lambe text-black font-inter overflow-x-hidden selection:bg-purple-500 selection:text-white" style={{ minHeight: '100vh', width: '100%' }}>
+        /* Brutal shadows */
+        .shadow-brutal-roxo { box-shadow: 6px 6px 0px 0px #8A2BE2; }
+        .shadow-brutal-roxo:hover { box-shadow: 10px 10px 0px 0px #8A2BE2; transform: translate(-2px, -2px); }
         
-        {/* 1. HERO SECTION */}
-        <section className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto flex flex-col items-center text-center overflow-hidden">
-          {/* Elementos decorativos (Splashes) */}
-          <div className="absolute top-10 left-10 w-32 h-32 bg-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-40 z-0"></div>
-          <div className="absolute bottom-10 right-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 z-0"></div>
-          
-          <h1 className="font-bebas text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-wide text-black mb-6 uppercase z-10" style={{ lineHeight: '0.9' }}>
-            Não é só sobre existir.<br/>
-            <span className="text-red-600 brutal-text-shadow">É sobre transformar.</span>
-          </h1>
-          
-          <p className="max-w-3xl text-lg md:text-2xl font-semibold mb-10 leading-relaxed z-10 text-gray-900">
-            Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade em Itapevi. Conectando a força da juventude periférica com marcas que querem fazer história.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto z-10">
-            <button className="brutal-border bg-purple-600 text-white font-bebas text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider">
-              [ Conhecer a Potência ]
-            </button>
-            <button className="brutal-border bg-yellow-400 text-black font-bebas text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider">
-              [ Apoiar o Movimento ]
-            </button>
-          </div>
-        </section>
+        .shadow-brutal-laranja { box-shadow: 6px 6px 0px 0px #FF8C00; }
+        .shadow-brutal-vermelho { box-shadow: 6px 6px 0px 0px #FF0000; }
+        .shadow-brutal-vermelho:hover { box-shadow: 10px 10px 0px 0px #FF0000; transform: translate(-2px, -2px); }
+    </style>
+</head>
+<body class="font-inter text-gray-100 selection:bg-gray-700 selection:text-white overflow-x-hidden">
 
-        {/* 2. A NOSSA POTÊNCIA */}
-        <section className="px-6 py-20 bg-black text-white relative border-y-8 border-black">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="font-bebas text-5xl md:text-7xl mb-4 text-orange-500 uppercase">
-              A Voz que Movimenta a Cena Nacional
-            </h2>
-            <p className="text-lg md:text-xl font-inter mb-12 max-w-4xl text-gray-200">
-              O Instituto Fundão não atua sozinho. Nós respiramos a cultura local e caminhamos lado a lado com os maiores expoentes do Hip Hop e do Rap da nossa região. Para marcas e investidores, apoiar o Fundão é conectar seu nome diretamente a um público engajado, autêntico e gigantesco.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Card 1 */}
-              <div className="bg-lambe text-black brutal-card p-6 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-                <div className="bg-purple-600 text-white font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">RCP</div>
-                <p className="font-bold text-lg">O fenômeno do momento.</p>
-                <p className="mt-2 text-gray-800 font-medium">Quase 500 mil views no YouTube, 1 milhão no TikTok e mais de 600 mil no Instagram.</p>
-              </div>
-              
-              {/* Card 2 */}
-              <div className="bg-lambe text-black brutal-card p-6 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-                <div className="bg-red-600 text-white font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">sstsx</div>
-                <p className="font-bold text-lg">A força da mulher da quebrada.</p>
-                <p className="mt-2 text-gray-800 font-medium">Representatividade feminina na cena urbana com números expressivos nas plataformas.</p>
-              </div>
-
-              {/* Card 3 */}
-              <div className="bg-lambe text-black brutal-card p-6 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
-                <div className="bg-yellow-400 text-black font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">Vp7</div>
-                <p className="font-bold text-lg">A nova revelação do rap nacional.</p>
-                <p className="mt-2 text-gray-800 font-medium">Mestre lírico explodindo organicamente em múltiplos Reels.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. QUEM SOMOS */}
-        <section className="px-6 py-24 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <div className="md:w-1/2">
-            <h2 className="font-bebas text-6xl md:text-7xl mb-6 leading-none uppercase">
-              Muito Além do Assistencialismo.<br/>
-              <span className="bg-black text-white px-2 mt-2 inline-block">Somos Ação.</span>
-            </h2>
-          </div>
-          <div className="md:w-1/2">
-            <p className="text-xl md:text-2xl font-semibold border-l-8 border-purple-600 pl-6 py-2">
-              Esqueça a visão tradicional. O Instituto Fundão é uma potência de desenvolvimento humano e cultural. Nós acreditamos que a verdadeira transformação acontece quando unimos serviços de cuidado essencial com o protagonismo juvenil. Nosso papel é criar palcos, gerar oportunidades e devolver a autoestima para as famílias das regiões periféricas.
-            </p>
-          </div>
-        </section>
-
-        {/* 4. PROJETOS - NATAL NA QUEBRADA */}
-        <section className="px-6 py-20 bg-green-500 border-y-8 border-black text-black">
-          <div className="max-w-7xl mx-auto text-center">
-            <h2 className="font-bebas text-6xl md:text-8xl mb-12 uppercase drop-shadow-md">
-              <span className="text-black">Natal na </span>
-              <span className="text-orange-500" style={{ WebkitTextStroke: '2px black' }}>Quebrada</span>
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-purple-600 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+    <!-- ================= NAVBAR FIXA DE FÁCIL ACESSO ================= -->
+    <header class="sticky top-0 z-50 w-full bg-[#0a0a0a]/95 backdrop-blur-md border-b-4 border-fundao-roxo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-4">
+            <!-- Logo Avatar + Nome -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white bg-black flex items-center justify-center overflow-hidden shadow-[0px_0px_15px_rgba(138,43,226,0.7)] relative">
+                    <!-- Aro colorido fiel ao avatar oficial -->
+                    <div class="absolute inset-0 rounded-full border-4 border-transparent" style="background: conic-gradient(#FF8C00, #FF0000, #32CD32, #FFD700, #8A2BE2, #1E90FF, #FF8C00) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"></div>
+                    <svg viewBox="0 0 50 50" class="w-8 h-8 sm:w-9 sm:h-9 transform -rotate-6 relative z-10">
+                        <path d="M 12 21 L 18 9 L 25 17 L 32 9 L 38 21 L 32 25 L 18 25 Z" fill="#FFD700" />
+                        <path d="M 18 42 L 22 25 L 37 23 L 36 27 L 25 29 L 23 33 L 34 31 L 33 35 L 22 36 L 20 42 Z" fill="#F5F5DC" />
+                    </svg>
                 </div>
-                <h3 className="font-bebas text-3xl mb-2">Cultura em Foco</h3>
-                <p className="font-semibold">Apresentações de dança, música e poesia.</p>
-              </div>
+                <span class="font-bebas text-2xl sm:text-3xl tracking-wider text-white drop-shadow-[2px_2px_0px_#8A2BE2]">INSTITUTO FUNDÃO</span>
+            </a>
 
-              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-yellow-400 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                </div>
-                <h3 className="font-bebas text-3xl mb-2">Autoestima e Cuidado</h3>
-                <p className="font-semibold">Cortes de cabelo gratuitos.</p>
-              </div>
+            <!-- Links de Navegação Rápida -->
+            <nav class="flex flex-wrap items-center gap-3 sm:gap-6">
+                <a href="#sobre-nos" class="font-bebas text-xl sm:text-2xl tracking-wider text-gray-200 hover:text-fundao-azul transition-colors uppercase">
+                    Sobre Nós
+                </a>
+                <a href="#convite-evento" class="font-bebas text-xl sm:text-2xl tracking-wider text-gray-200 hover:text-fundao-verde transition-colors uppercase">
+                    Convite do Evento
+                </a>
+                <a href="#faca-parte" onclick="selectInterest('Quero me Voluntariar')" class="font-bebas text-xl sm:text-2xl tracking-wider text-gray-200 hover:text-fundao-laranja transition-colors uppercase">
+                    Entrar em Contato
+                </a>
+                <a href="#faca-parte" onclick="selectInterest('Quero Doar')" class="border-2 border-black bg-fundao-amarelo hover:bg-yellow-300 text-black font-bebas text-xl sm:text-2xl px-5 py-1.5 uppercase tracking-wider shadow-[4px_4px_0px_#8A2BE2] active:translate-y-0.5 transition-all">
+                    Doar
+                </a>
+            </nav>
+        </div>
+    </header>
 
-              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-orange-500 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <h3 className="font-bebas text-3xl mb-2">Lazer e Brincadeiras</h3>
-                <p className="font-semibold">Espaço recreativo e entrega de presentes.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+    <!-- ================= HERO (ROXO E PRETO) ================= -->
+    <section class="w-full bg-[#0a0a0a] pb-12 relative overflow-hidden">
 
-        {/* 5. FAÇA PARTE / CTA */}
-        <section className="px-6 py-24 max-w-5xl mx-auto text-center">
-          <h2 className="font-bebas text-6xl md:text-8xl mb-4 uppercase text-black">
-            Invista na Quebrada.
-          </h2>
-          <p className="font-bebas text-4xl md:text-5xl mb-12 text-gray-800 uppercase">
-            Faça o Movimento Acontecer.
-          </p>
-          
-          <div className="flex flex-col md:flex-row justify-center gap-6">
-            <button className="brutal-border bg-blue-600 text-white font-bebas text-3xl px-8 py-5 uppercase hover:bg-blue-700">
-              Quero Apadrinhar
-            </button>
-            <button className="brutal-border bg-red-600 text-white font-bebas text-3xl px-8 py-5 uppercase hover:bg-red-700">
-              Seja um Parceiro
-            </button>
-            <button className="brutal-border bg-green-500 text-black font-bebas text-3xl px-8 py-5 uppercase hover:bg-green-600 hover:text-white">
-              Quero ser Voluntário
-            </button>
-          </div>
-        </section>
+        <!-- HERO CONTENT -->
+        <div class="relative px-6 py-16 md:py-24 max-w-7xl mx-auto flex flex-col items-center text-center">
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fundao-roxo rounded-full mix-blend-screen blur-[120px] opacity-30 pointer-events-none"></div>
 
-        {/* 6. FOOTER */}
-        <footer className="bg-black text-white pt-16 pb-8 px-6 border-t-8 border-black">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
-            <div>
-              <h2 className="font-bebas text-5xl tracking-widest uppercase text-white mb-2">
-                Instituto Fundão
-              </h2>
-              <p className="font-bebas text-2xl text-purple-500 tracking-wider">Cultura • Resistência • Comunidade</p>
+            <!-- Avatar Central em Destaque -->
+            <div class="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-white bg-black flex items-center justify-center mb-8 relative shadow-[0px_0px_35px_rgba(138,43,226,0.75)] z-10">
+                <div class="absolute inset-0 rounded-full border-[6px] border-transparent" style="background: conic-gradient(#FF8C00, #FF0000, #32CD32, #FFD700, #8A2BE2, #1E90FF, #FF8C00) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;"></div>
+                <svg viewBox="0 0 50 50" class="w-16 h-16 md:w-20 md:h-20 transform -rotate-6">
+                    <path d="M 12 21 L 18 9 L 25 17 L 32 9 L 38 21 L 32 25 L 18 25 Z" fill="#FFD700" />
+                    <path d="M 18 42 L 22 25 L 37 23 L 36 27 L 25 29 L 23 33 L 34 31 L 33 35 L 22 36 L 20 42 Z" fill="#F5F5DC" />
+                    <path d="M 19 44 Q 28 41 37 42" stroke="#FF0000" stroke-width="2" fill="none" />
+                    <path d="M 21 46 Q 28 44 35 45" stroke="#1E90FF" stroke-width="2" fill="none" />
+                </svg>
             </div>
             
-            <div className="flex flex-col gap-3 font-semibold text-gray-300">
-              <a href="mailto:institutofundaooficial@gmail.com" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-                ✉ institutofundaooficial@gmail.com
-              </a>
-              <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-                ✆ WhatsApp Contato
-              </a>
-              <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-                @ Instagram Oficial
-              </a>
+            <h1 class="font-bebas text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-wide text-white mb-6 uppercase z-10 drop-shadow-[4px_4px_0px_#000]">
+                Não é só sobre existir.<br/>
+                <span class="text-fundao-roxo" style="text-shadow: 4px 4px 0px #000;">É sobre transformar.</span>
+            </h1>
+            
+            <p class="max-w-3xl text-lg md:text-2xl font-bold mb-10 leading-relaxed z-10 text-gray-300">
+                Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade em Itapevi. Conectando a força da juventude periférica com marcas que querem fazer história.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto z-10">
+                <a href="#potencia" class="border-4 border-fundao-roxo bg-[#111] text-white font-bebas text-3xl px-8 py-4 uppercase shadow-brutal-roxo transition-all text-center">
+                    [ Conhecer a Potência ]
+                </a>
+                <a href="#faca-parte" onclick="selectInterest('Quero Apadrinhar')" class="border-4 border-fundao-roxo bg-fundao-roxo text-white font-bebas text-3xl px-8 py-4 uppercase shadow-brutal-roxo transition-all text-center">
+                    [ Apoiar o Movimento ]
+                </a>
             </div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto border-t-2 border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-500 font-semibold">
-            <p>© {new Date().getFullYear()} Instituto Fundão. Todos os direitos reservados.</p>
-            <p>CNPJ: 00.000.000/0000-00</p>
-          </div>
+        </div>
+    </section>
+
+    <!-- ================= FITA DE PASSAGEM INCLINADA (AMARELO E PRETO) ================= -->
+    <div class="w-full overflow-x-clip py-8 -my-6 relative z-30 pointer-events-none select-none">
+        <div class="w-[108vw] -ml-[4vw] bg-fundao-amarelo border-y-4 border-black py-4 shadow-[0px_12px_25px_rgba(0,0,0,0.9)] transform -rotate-2">
+            <div class="marquee-container font-bebas text-3xl md:text-4xl text-black tracking-widest uppercase">
+                <!-- Block 1 -->
+                <div class="w-1/2 flex justify-around whitespace-nowrap">
+                    <span>HIP HOP</span><span>•</span><span>PROJETO SOCIAL</span><span>•</span><span>CULTURA</span><span>•</span><span>RESISTÊNCIA</span><span>•</span><span>ITAPEVI</span><span>•</span><span>COMUNIDADE</span><span>•</span><span>QUEBRADA</span><span>•</span>
+                </div>
+                <!-- Block 2 (Duplicate for smooth loop) -->
+                <div class="w-1/2 flex justify-around whitespace-nowrap">
+                    <span>HIP HOP</span><span>•</span><span>PROJETO SOCIAL</span><span>•</span><span>CULTURA</span><span>•</span><span>RESISTÊNCIA</span><span>•</span><span>ITAPEVI</span><span>•</span><span>COMUNIDADE</span><span>•</span><span>QUEBRADA</span><span>•</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= A NOSSA POTÊNCIA (LARANJA E PRETO) ================= -->
+    <section id="potencia" class="w-full px-6 pt-28 pb-24 bg-[#0a0a0a] text-white relative">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="font-bebas text-6xl md:text-7xl mb-4 text-fundao-laranja uppercase drop-shadow-[3px_3px_0px_#000]">
+                A Voz que Movimenta a Cena Nacional
+            </h2>
+            <p class="text-lg md:text-xl font-bold mb-16 max-w-4xl text-gray-300">
+                O Instituto Fundão não atua sozinho. Nós respiramos a cultura local e caminhamos lado a lado com os maiores expoentes do Hip Hop e do Rap da nossa região. Para marcas e investidores, apoiar o Fundão é conectar seu nome diretamente a um público engajado, autêntico e gigantesco.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Card 1: Espaço reservado para artista/parceiro -->
+                <div class="bg-[#111] text-white p-8 border-4 border-dashed border-fundao-laranja shadow-brutal-laranja flex flex-col justify-between">
+                    <div>
+                        <div class="bg-fundao-laranja text-black font-bebas text-3xl px-4 py-1.5 inline-block mb-6 border-2 border-black tracking-wider">
+                            [ EM BREVE • ATRAÇÃO #01 ]
+                        </div>
+                        <div class="h-8 w-3/4 bg-[#1c1c1c] border border-fundao-laranja/40 mb-4 flex items-center px-3">
+                            <span class="font-bebas text-lg tracking-widest text-fundao-laranja/70">NOME DO ARTISTA A DEFINIR</span>
+                        </div>
+                        <p class="text-gray-300 font-semibold leading-relaxed">
+                            Estamos fechando com os próximos parceiros e expoentes da cena urbana para fortalecer o palco do Instituto Fundão.
+                        </p>
+                    </div>
+                    <a href="#faca-parte" onclick="selectInterest('Quero Apadrinhar')" class="mt-6 inline-block font-bebas text-xl text-fundao-laranja hover:underline tracking-wider">
+                        Seja um parceiro deste palco →
+                    </a>
+                </div>
+                
+                <!-- Card 2: Espaço reservado para artista/parceiro -->
+                <div class="bg-[#111] text-white p-8 border-4 border-dashed border-fundao-laranja shadow-brutal-laranja flex flex-col justify-between">
+                    <div>
+                        <div class="bg-fundao-laranja text-black font-bebas text-3xl px-4 py-1.5 inline-block mb-6 border-2 border-black tracking-wider">
+                            [ EM BREVE • ATRAÇÃO #02 ]
+                        </div>
+                        <div class="h-8 w-3/4 bg-[#1c1c1c] border border-fundao-laranja/40 mb-4 flex items-center px-3">
+                            <span class="font-bebas text-lg tracking-widest text-fundao-laranja/70">NOME DO ARTISTA A DEFINIR</span>
+                        </div>
+                        <p class="text-gray-300 font-semibold leading-relaxed">
+                            Espaço aberto esperando os novos parceiros e vozes da quebrada que vão representar a cultura periférica com a gente.
+                        </p>
+                    </div>
+                    <a href="#faca-parte" onclick="selectInterest('Quero Apadrinhar')" class="mt-6 inline-block font-bebas text-xl text-fundao-laranja hover:underline tracking-wider">
+                        Conecte sua marca ao movimento →
+                    </a>
+                </div>
+
+                <!-- Card 3: Espaço reservado para artista/parceiro -->
+                <div class="bg-[#111] text-white p-8 border-4 border-dashed border-fundao-laranja shadow-brutal-laranja flex flex-col justify-between">
+                    <div>
+                        <div class="bg-fundao-laranja text-black font-bebas text-3xl px-4 py-1.5 inline-block mb-6 border-2 border-black tracking-wider">
+                            [ EM BREVE • ATRAÇÃO #03 ]
+                        </div>
+                        <div class="h-8 w-3/4 bg-[#1c1c1c] border border-fundao-laranja/40 mb-4 flex items-center px-3">
+                            <span class="font-bebas text-lg tracking-widest text-fundao-laranja/70">NOME DO ARTISTA A DEFINIR</span>
+                        </div>
+                        <p class="text-gray-300 font-semibold leading-relaxed">
+                            Line-up em construção! Estamos aguardando parceiros e artistas para revelar as atrações que vão movimentar Itapevi.
+                        </p>
+                    </div>
+                    <a href="#faca-parte" onclick="selectInterest('Quero Apadrinhar')" class="mt-6 inline-block font-bebas text-xl text-fundao-laranja hover:underline tracking-wider">
+                        Quero apoiar o line-up →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= QUEM SOMOS / SOBRE NÓS (AZUL E PRETO) ================= -->
+    <section id="sobre-nos" class="w-full px-6 py-24 bg-[#0d0d0d] border-y-2 border-[#222]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <h2 class="font-bebas text-6xl md:text-8xl mb-6 leading-none uppercase text-white">
+                    Muito Além do<br/>
+                    <span class="bg-fundao-azul text-black px-2 mt-2 inline-block">Assistencialismo.</span><br/>
+                    <span class="text-fundao-azul">Somos Ação.</span>
+                </h2>
+                <p class="text-xl md:text-2xl font-bold border-l-8 border-fundao-azul pl-6 py-2 text-gray-300">
+                    Esqueça a visão tradicional. O Instituto Fundão é uma potência de desenvolvimento humano e cultural. Nós acreditamos que a verdadeira transformação acontece quando unimos serviços de cuidado essencial com o protagonismo juvenil. Nosso papel é criar palcos, gerar oportunidades e devolver a autoestima para as famílias das regiões periféricas.
+                </p>
+            </div>
+            
+            <div class="md:w-1/2 flex justify-center items-center">
+                <!-- SVG Microfone Estilo Adesivo / Estêncil (Azul/Preto com borda bege) -->
+                <svg viewBox="0 0 160 200" class="w-64 md:w-80 h-auto filter drop-shadow-[10px_10px_0px_#000]">
+                    <!-- Borda de Adesivo Bege -->
+                    <g fill="#F5F5DC" stroke="#F5F5DC" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+                        <rect x="50" y="25" width="60" height="90" rx="30" />
+                        <path d="M 38 75 L 38 95 A 42 42 0 0 0 122 95 L 122 75" fill="none" />
+                        <path d="M 80 137 L 80 172" fill="none" />
+                        <path d="M 48 172 L 112 172" fill="none" />
+                    </g>
+                    <!-- Microfone Estêncil Preto e Azul -->
+                    <g fill="#0a0a0a" stroke="#0a0a0a" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+                        <rect x="50" y="25" width="60" height="90" rx="30" fill="#0a0a0a" />
+                        <!-- Grade do Microfone em Azul -->
+                        <path d="M 55 45 L 105 45" fill="none" stroke="#1E90FF" stroke-width="4" />
+                        <path d="M 52 60 L 108 60" fill="none" stroke="#1E90FF" stroke-width="4" />
+                        <path d="M 52 75 L 108 75" fill="none" stroke="#1E90FF" stroke-width="4" />
+                        <path d="M 55 90 L 105 90" fill="none" stroke="#1E90FF" stroke-width="4" />
+                        <path d="M 80 25 L 80 115" fill="none" stroke="#F5F5DC" stroke-width="4" />
+                        <!-- Suporte e Base -->
+                        <path d="M 38 75 L 38 95 A 42 42 0 0 0 122 95 L 122 75" fill="none" stroke="#1E90FF" stroke-width="7" />
+                        <path d="M 80 137 L 80 172" fill="none" stroke="#0a0a0a" stroke-width="9" />
+                        <path d="M 48 172 L 112 172" fill="none" stroke="#1E90FF" stroke-width="9" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ABA / SEÇÃO CONVITE DO EVENTO (VERDE, AMARELO E PRETO) ================= -->
+    <section id="convite-evento" class="w-full px-6 py-24 bg-[#0a0a0a]">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+            
+            <!-- Aba / Etiqueta Superior do Convite -->
+            <div class="flex items-center gap-3 mb-6">
+                <span class="font-bebas text-2xl tracking-widest text-black bg-fundao-verde px-5 py-1.5 border-2 border-black shadow-[4px_4px_0px_#FFD700] uppercase">
+                    ★ Convite Oficial • Banner do Evento
+                </span>
+            </div>
+
+            <!-- Cartaz Oficial Inspirado na Comunicação do Evento -->
+            <div class="w-full bg-[#080808] border-4 border-fundao-verde p-6 sm:p-10 md:p-14 relative overflow-hidden shadow-[12px_12px_0px_#32CD32]">
+                
+                <!-- Splashes decorativos nas bordas (Verde e Amarelo) -->
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-fundao-verde rounded-full blur-3xl opacity-25 pointer-events-none"></div>
+                <div class="absolute -bottom-12 -right-12 w-56 h-56 bg-fundao-amarelo rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    
+                    <!-- Título Principal com Gorro de Natal SVG -->
+                    <div class="relative inline-block mb-2">
+                        <!-- Gorro de Natal no canto superior direito -->
+                        <svg viewBox="0 0 80 60" class="w-16 h-12 sm:w-20 sm:h-16 absolute -top-8 -right-8 sm:-top-10 sm:-right-10 transform rotate-12 drop-shadow-[3px_3px_0px_#000]">
+                            <path d="M 15 42 C 20 15, 50 10, 68 35 L 48 45 Z" fill="#FF0000" stroke="#000" stroke-width="3" />
+                            <rect x="10" y="38" width="44" height="12" rx="6" fill="#F5F5DC" stroke="#000" stroke-width="3" transform="rotate(-10 32 44)" />
+                            <circle cx="70" cy="36" r="7" fill="#F5F5DC" stroke="#000" stroke-width="3" />
+                        </svg>
+
+                        <h2 class="font-bebas text-7xl sm:text-8xl md:text-[8.5rem] text-fundao-vermelho leading-[0.85] tracking-wider drop-shadow-[4px_4px_0px_#000]" style="-webkit-text-stroke: 1px #000;">
+                            NATAL
+                        </h2>
+                    </div>
+                    
+                    <h3 class="font-bebas text-5xl sm:text-6xl md:text-7xl text-fundao-bege leading-[0.9] tracking-wide mb-4 drop-shadow-[3px_3px_0px_#000]">
+                        NA QUEBRADA<br/><span class="text-fundao-amarelo">FUNDÃO</span>
+                    </h3>
+
+                    <p class="font-bebas text-2xl sm:text-3xl tracking-[0.18em] text-fundao-verde mb-8 uppercase">
+                        Diversão • Cultura • Comunidade
+                    </p>
+
+                    <!-- Pilares do Evento (4 itens do banner oficial) -->
+                    <div class="w-full max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 text-left mb-10">
+                        <div class="bg-[#121212] border-2 border-fundao-verde p-4 flex items-center gap-4 shadow-[4px_4px_0px_#32CD32]">
+                            <div class="w-10 h-10 rounded-full bg-fundao-amarelo text-black flex items-center justify-center font-bebas text-2xl shrink-0 border-2 border-black">
+                                ♫
+                            </div>
+                            <div>
+                                <p class="font-bebas text-2xl text-white tracking-wide leading-none">Apresentações Culturais</p>
+                                <p class="text-xs text-gray-400 font-semibold mt-1">Dança, música e poesia da quebrada</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#121212] border-2 border-fundao-verde p-4 flex items-center gap-4 shadow-[4px_4px_0px_#32CD32]">
+                            <div class="w-10 h-10 rounded-full bg-fundao-amarelo text-black flex items-center justify-center font-bebas text-2xl shrink-0 border-2 border-black">
+                                ✂
+                            </div>
+                            <div>
+                                <p class="font-bebas text-2xl text-white tracking-wide leading-none">Corte de Cabelo</p>
+                                <p class="text-xs text-gray-400 font-semibold mt-1">Autoestima e cuidado gratuito</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#121212] border-2 border-fundao-verde p-4 flex items-center gap-4 shadow-[4px_4px_0px_#32CD32]">
+                            <div class="w-10 h-10 rounded-full bg-fundao-amarelo text-black flex items-center justify-center font-bebas text-2xl shrink-0 border-2 border-black">
+                                ★
+                            </div>
+                            <div>
+                                <p class="font-bebas text-2xl text-white tracking-wide leading-none">Brinquedos e Brincadeiras</p>
+                                <p class="text-xs text-gray-400 font-semibold mt-1">Espaço recreativo para a criançada</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#121212] border-2 border-fundao-verde p-4 flex items-center gap-4 shadow-[4px_4px_0px_#32CD32]">
+                            <div class="w-10 h-10 rounded-full bg-fundao-amarelo text-black flex items-center justify-center font-bebas text-2xl shrink-0 border-2 border-black">
+                                🎁
+                            </div>
+                            <div>
+                                <p class="font-bebas text-2xl text-white tracking-wide leading-none">Entrega de Presentes</p>
+                                <p class="text-xs text-gray-400 font-semibold mt-1">Alegria garantida para as famílias</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data, Horário e Local -->
+                    <div class="mb-8">
+                        <p class="font-bebas text-4xl sm:text-5xl text-white tracking-wider">
+                            DIA 21/12 • ÀS 14H
+                        </p>
+                        <p class="font-bebas text-2xl sm:text-3xl text-fundao-amarelo tracking-widest uppercase">
+                            Comunidade de Itapevi
+                        </p>
+                    </div>
+
+                    <!-- Faixa Assinatura Instituto Fundão (igual ao rodapé do banner) -->
+                    <div class="bg-fundao-amarelo border-4 border-black px-8 py-2 mb-8 transform -rotate-1 shadow-[6px_6px_0px_#000]">
+                        <span class="font-bebas text-3xl sm:text-4xl text-black tracking-wider uppercase">
+                            Instituto Fundão
+                        </span>
+                    </div>
+
+                    <!-- Botões de Ação do Convite -->
+                    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                        <a href="#faca-parte" onclick="selectInterest('Quero Doar')" class="border-4 border-black bg-fundao-verde hover:bg-green-500 text-black font-bebas text-2xl sm:text-3xl px-8 py-3 uppercase tracking-wider shadow-[6px_6px_0px_#000] transition-all">
+                            Doar Brinquedos / Apoiar Evento
+                        </a>
+                        <a href="https://wa.me/5511976575094?text=Salve%20Instituto%20Fund%C3%A3o!%20Quero%20confirmar%20presen%C3%A7a%20e%20saber%20mais%20sobre%20o%20Natal%20na%20Quebrada%20(21%2F12%20%C3%A0s%2014h)!" target="_blank" class="border-4 border-fundao-amarelo bg-[#111] hover:bg-fundao-amarelo hover:text-black text-fundao-amarelo font-bebas text-2xl sm:text-3xl px-8 py-3 uppercase tracking-wider shadow-[6px_6px_0px_#000] transition-all">
+                            Confirmar Presença no WhatsApp
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FAÇA PARTE / FORMULÁRIO WHATSAPP & FOOTER (VERMELHO E PRETO) ================= -->
+    <section id="faca-parte" class="w-full bg-[#0a0a0a] border-t-4 border-fundao-vermelho">
+        
+        <!-- CTA & FORMULÁRIO DE INTERESSE -->
+        <div class="px-6 py-24 max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-bebas text-6xl md:text-8xl mb-4 uppercase text-white">
+                    <span class="text-fundao-vermelho">Luta e</span> Mobilização
+                </h2>
+                <p class="font-bebas text-3xl md:text-5xl text-gray-400 uppercase">
+                    Invista na Quebrada. Faça o Movimento Acontecer.
+                </p>
+            </div>
+            
+            <!-- Abas de Seleção de Interesse -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 relative z-20" id="interest-tabs">
+                <button type="button" onclick="selectInterest('Quero Apadrinhar')" id="tab-apadrinhar" class="interest-tab border-4 border-fundao-vermelho bg-fundao-vermelho text-white font-bebas text-2xl md:text-3xl py-4 px-4 uppercase shadow-brutal-vermelho transition-all cursor-pointer">
+                    Quero Apadrinhar
+                </button>
+                <button type="button" onclick="selectInterest('Quero Doar')" id="tab-doar" class="interest-tab border-4 border-fundao-vermelho bg-[#111] text-white font-bebas text-2xl md:text-3xl py-4 px-4 uppercase shadow-brutal-vermelho transition-all cursor-pointer">
+                    Quero Doar
+                </button>
+                <button type="button" onclick="selectInterest('Quero me Voluntariar')" id="tab-voluntariar" class="interest-tab border-4 border-fundao-vermelho bg-[#111] text-white font-bebas text-2xl md:text-3xl py-4 px-4 uppercase shadow-brutal-vermelho transition-all cursor-pointer">
+                    Quero me Voluntariar
+                </button>
+            </div>
+
+            <!-- Formulário Direto para WhatsApp -->
+            <form onsubmit="sendToWhatsApp(event)" class="bg-[#111] border-4 border-fundao-vermelho p-6 md:p-10 shadow-[8px_8px_0px_#FF0000] relative z-20">
+                <input type="hidden" id="selected-interest" value="Quero Apadrinhar">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="nome" class="block font-bebas text-2xl text-white tracking-wider mb-2">Seu Nome ou Empresa *</label>
+                        <input type="text" id="nome" required placeholder="Ex: João Silva / Marca X" class="w-full bg-[#0a0a0a] border-2 border-fundao-vermelho text-white p-4 font-inter focus:outline-none focus:ring-2 focus:ring-fundao-vermelho">
+                    </div>
+                    <div>
+                        <label for="contato" class="block font-bebas text-2xl text-white tracking-wider mb-2">Seu WhatsApp / Telefone *</label>
+                        <input type="tel" id="contato" required placeholder="(11) 99999-9999" class="w-full bg-[#0a0a0a] border-2 border-fundao-vermelho text-white p-4 font-inter focus:outline-none focus:ring-2 focus:ring-fundao-vermelho">
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label for="mensagem" class="block font-bebas text-2xl text-white tracking-wider mb-2">Como deseja fortalecer o Instituto Fundão?</label>
+                    <textarea id="mensagem" rows="3" placeholder="Conte um pouco sobre como quer apoiar, doar ou participar das ações..." class="w-full bg-[#0a0a0a] border-2 border-fundao-vermelho text-white p-4 font-inter focus:outline-none focus:ring-2 focus:ring-fundao-vermelho"></textarea>
+                </div>
+
+                <button type="submit" class="w-full border-4 border-black bg-fundao-vermelho hover:bg-red-700 text-white font-bebas text-3xl md:text-4xl py-5 uppercase tracking-wider shadow-[6px_6px_0px_#000] active:translate-y-1 transition-all cursor-pointer flex items-center justify-center gap-3">
+                    <span>Enviar Interesse no WhatsApp</span>
+                    <span>→</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- FOOTER (com Favela em Vermelho/Preto) -->
+        <footer class="w-full pt-16 pb-8 px-6 relative overflow-hidden">
+            
+            <!-- Silhueta Favela Simples (Vermelho escuro) -->
+            <div class="absolute bottom-0 left-0 w-full h-32 opacity-20 pointer-events-none">
+                <svg viewBox="0 0 1000 100" preserveAspectRatio="none" class="w-full h-full fill-fundao-vermelho">
+                    <path d="M 0 100 L 0 60 L 50 60 L 50 40 L 100 40 L 100 70 L 150 70 L 150 30 L 220 30 L 220 50 L 300 50 L 300 20 L 380 20 L 380 60 L 450 60 L 450 40 L 550 40 L 550 70 L 650 70 L 650 30 L 750 30 L 750 50 L 850 50 L 850 20 L 950 20 L 950 60 L 1000 60 L 1000 100 Z" />
+                </svg>
+            </div>
+
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12 relative z-10">
+                <div>
+                    <h2 class="font-bebas text-5xl tracking-widest uppercase text-white mb-2">
+                        Instituto Fundão
+                    </h2>
+                    <p class="font-bebas text-2xl text-fundao-vermelho tracking-wider">Cultura • Resistência • Comunidade</p>
+                </div>
+                
+                <div class="flex flex-col gap-3 font-bold text-gray-400">
+                    <a href="https://wa.me/5511976575094" target="_blank" class="hover:text-fundao-vermelho transition-colors flex items-center gap-2">
+                        ✆ +55 11 97657-5094
+                    </a>
+                    <a href="mailto:institutofundaooficial@gmail.com" class="hover:text-fundao-vermelho transition-colors flex items-center gap-2">
+                        ✉ institutofundaooficial@gmail.com
+                    </a>
+                </div>
+            </div>
+            
+            <div class="max-w-7xl mx-auto border-t-2 border-[#333] pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-500 font-bold relative z-10">
+                <p>© 2026 Instituto Fundão. Todos os direitos reservados.</p>
+                <p>CNPJ: 00.000.000/0000-00</p>
+            </div>
         </footer>
+    </section>
 
-      </main>
-    </>
-  );
-}
+    <script>
+        function selectInterest(interest) {
+            document.getElementById('selected-interest').value = interest;
+            
+            const tabs = {
+                'Quero Apadrinhar': document.getElementById('tab-apadrinhar'),
+                'Quero Doar': document.getElementById('tab-doar'),
+                'Quero me Voluntariar': document.getElementById('tab-voluntariar')
+            };
+
+            Object.entries(tabs).forEach(([key, el]) => {
+                if (key === interest) {
+                    el.classList.remove('bg-[#111]');
+                    el.classList.add('bg-fundao-vermelho');
+                } else {
+                    el.classList.remove('bg-fundao-vermelho');
+                    el.classList.add('bg-[#111]');
+                }
+            });
+        }
+
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            const interest = document.getElementById('selected-interest').value;
+            const nome = document.getElementById('nome').value.trim();
+            const contato = document.getElementById('contato').value.trim();
+            const mensagem = document.getElementById('mensagem').value.trim();
+
+            const texto = `Salve, Instituto Fundão! 👑✊\n\n*Interesse:* ${interest}\n*Nome/Empresa:* ${nome}\n*Contato:* ${contato}${mensagem ? `\n*Mensagem:* ${mensagem}` : ''}`;
+            const url = `https://wa.me/5511976575094?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>
