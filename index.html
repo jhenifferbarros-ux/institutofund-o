@@ -1584,6 +1584,9 @@
                         <button type="button" id="btn-atualizar-nuvem" onclick="carregarInscricoesNuvem()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
                             <span>🔄 Atualizar Lista</span>
                         </button>
+                        <button type="button" onclick="limparCacheLocal()" class="px-3.5 py-1.5 rounded-full bg-[#a63a3a] hover:bg-[#8d3030] text-xs font-extrabold text-[#f4f1ea] transition-colors cursor-pointer">
+                            🗑️ Limpar Cache
+                        </button>
                         <button type="button" onclick="copiarResumoInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#131313] hover:bg-[#242424] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] cursor-pointer">
                             📋 Copiar Lista
                         </button>
@@ -1817,7 +1820,7 @@
         const SUPABASE_URL = 'https://iocamaeufehjqzfrqbcg.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvY2FtYWV1ZmVoanF6ZnJxYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwMzU1MjEsImV4cCI6MjExMDYxMTUyMX0.HmwiCZ1gMQ2LC9mxl_L5M-8IDibDxSrvF06qKNN9WTs';
         const SUPABASE_ENDPOINT = `${SUPABASE_URL}/rest/v1/inscricoes_artistas`;
-        const STORAGE_KEY_FALLBACK = 'instituto_fundao_artistas_cache_v2';
+        const STORAGE_KEY_FALLBACK = 'inscricoes_artistas_fundao';
         const EQUIPE_CODIGO_ACESSO = 'fundão@nc8!';
 
         let listaInscricoesCache = [];
@@ -1848,6 +1851,17 @@
                 return salvo ? JSON.parse(salvo) : [];
             } catch (err) {
                 return [];
+            }
+        }
+
+        function limparCacheLocal() {
+            try {
+                localStorage.removeItem(STORAGE_KEY_FALLBACK);
+                listaInscricoesCache = [];
+                mostrarAvisoEquipe('🗑️ Cache local apagado. Buscando dados da nuvem...');
+                carregarInscricoesNuvem();
+            } catch (err) {
+                console.error('Erro ao limpar cache local:', err);
             }
         }
 
@@ -1915,9 +1929,14 @@
             let salvoNaNuvem = false;
 
             try {
-                const resposta = await fetch(SUPABASE_ENDPOINT, {
+                const resposta = await fetch("https://iocamaeufehjqzfrqbcg.supabase.co/rest/v1/inscricoes_artistas", {
                     method: 'POST',
-                    headers: getSupabaseHeaders('return=representation'),
+                    headers: {
+                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvY2FtYWV1ZmVoanF6ZnJxYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwMzU1MjEsImV4cCI6MjExMDYxMTUyMX0.HmwiCZ1gMQ2LC9mxl_L5M-8IDibDxSrvF06qKNN9WTs',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvY2FtYWV1ZmVoanF6ZnJxYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwMzU1MjEsImV4cCI6MjExMDYxMTUyMX0.HmwiCZ1gMQ2LC9mxl_L5M-8IDibDxSrvF06qKNN9WTs',
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
                     body: JSON.stringify(payloadBanco)
                 });
 
@@ -2039,7 +2058,13 @@
             } catch (erro) {
                 console.error('Erro ao buscar inscrições no Supabase:', erro);
                 listaInscricoesCache = lerCacheLocal();
-                atualizarIndicadorNuvem(false, 'Falha na conexão • Exibindo Cache Local');
+                
+                if (erro.message.includes('42501') || erro.message.includes('permission denied')) {
+                    atualizarIndicadorNuvem(false, '⚠️ Sem permissão no Banco (Execute o GRANT)');
+                    mostrarAvisoEquipe('O Supabase bloqueou o acesso. Execute o comando GRANT no SQL Editor.');
+                } else {
+                    atualizarIndicadorNuvem(false, 'Falha na conexão • Exibindo Cache Local');
+                }
             } finally {
                 if (btnAtualizar) {
                     btnAtualizar.disabled = false;
