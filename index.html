@@ -1,183 +1,213 @@
-import React from 'react';
-import { Bebas_Neue, Inter } from 'next/font/google';
+"use client";
 
-// Importando as fontes nativamente pelo Next.js
-const bebas = Bebas_Neue({ weight: '400', subsets: ['latin'] });
-const inter = Inter({ subsets: ['latin'] });
+import React from 'react';
+import Script from 'next/script';
 
 export default function InstitutoFundaoLanding() {
-  // Textura Lambe-Lambe embutida
-  const bgLambe = {
-    backgroundColor: '#F5F5DC',
-    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E")`,
-  };
-
-  // Estilos reutilizáveis do Neo-Brutalismo feitos apenas com Tailwind
-  const brutalBorder = "border-4 border-black shadow-[6px_6px_0px_#000] transition-all duration-200 ease-in-out hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[10px_10px_0px_#000]";
-  const brutalCard = "border-4 border-black shadow-[8px_8px_0px_#000]";
-  const brutalTextShadow = { textShadow: '2px 2px 0px #000' };
-
   return (
-    <main style={bgLambe} className={`min-h-screen text-black overflow-x-hidden selection:bg-purple-500 selection:text-white ${inter.className}`}>
+    <>
+      {/* Força o carregamento do Tailwind CSS independentemente da sua configuração local */}
+      <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
       
-      {/* 1. HERO SECTION */}
-      <section className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto flex flex-col items-center text-center overflow-hidden">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40"></div>
+      {/* Injeção das fontes e estilos personalizados que não existem no Tailwind padrão */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap');
         
-        <h1 className={`${bebas.className} text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-wide text-black mb-6 uppercase drop-shadow-md z-10`}>
-          Não é só sobre existir.<br/>
-          <span className="text-red-600" style={brutalTextShadow}>É sobre transformar.</span>
-        </h1>
+        .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
         
-        <p className="max-w-3xl text-lg md:text-2xl font-semibold mb-10 leading-relaxed z-10">
-          Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade em Itapevi. Conectando a força da juventude periférica com marcas que querem fazer história.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto z-10">
-          <button className={`${brutalBorder} bg-purple-600 text-white ${bebas.className} text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider`}>
-            [ Conhecer a Potência ]
-          </button>
-          <button className={`${brutalBorder} bg-yellow-400 text-black ${bebas.className} text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider`}>
-            [ Apoiar o Movimento ]
-          </button>
-        </div>
-      </section>
+        /* Textura Lambe-Lambe */
+        .bg-lambe {
+          background-color: #F5F5DC;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+        }
 
-      {/* 2. A NOSSA POTÊNCIA */}
-      <section className="px-6 py-20 bg-black text-white relative border-y-8 border-black">
-        <div className="max-w-7xl mx-auto">
-          <h2 className={`${bebas.className} text-5xl md:text-7xl mb-4 text-orange-500 uppercase`}>
-            A Voz que Movimenta a Cena Nacional
-          </h2>
-          <p className="text-lg md:text-xl mb-12 max-w-4xl text-gray-200">
-            O Instituto Fundão não atua sozinho. Nós respiramos a cultura local e caminhamos lado a lado com os maiores expoentes do Hip Hop e do Rap da nossa região. Para marcas e investidores, apoiar o Fundão é conectar seu nome diretamente a um público engajado, autêntico e gigantesco.
+        /* Efeitos Neo-Brutalismo / Street Art */
+        .brutal-border {
+          border: 4px solid #000;
+          box-shadow: 6px 6px 0px 0px #000;
+          transition: all 0.2s ease-in-out;
+        }
+        .brutal-border:hover {
+          transform: translate(-2px, -2px);
+          box-shadow: 10px 10px 0px 0px #000;
+        }
+        
+        .brutal-card {
+          border: 4px solid #000;
+          box-shadow: 8px 8px 0px 0px #000;
+        }
+        
+        .brutal-text-shadow {
+          text-shadow: 3px 3px 0px #000;
+        }
+      `}} />
+
+      <main className="min-h-screen bg-lambe text-black font-inter overflow-x-hidden selection:bg-purple-500 selection:text-white">
+        
+        {/* 1. HERO SECTION */}
+        <section className="relative px-6 py-24 md:py-32 max-w-7xl mx-auto flex flex-col items-center text-center overflow-hidden">
+          {/* Elementos decorativos de tinta */}
+          <div className="absolute top-10 left-10 w-32 h-32 bg-purple-600 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse z-0"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-orange-500 rounded-full mix-blend-multiply filter blur-2xl opacity-40 z-0"></div>
+          
+          <h1 className="font-bebas text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-wide text-black mb-6 uppercase z-10">
+            Não é só sobre existir.<br/>
+            <span className="text-red-600 brutal-text-shadow">É sobre transformar.</span>
+          </h1>
+          
+          <p className="max-w-3xl text-lg md:text-2xl font-semibold mb-10 leading-relaxed z-10">
+            Mais que um projeto social, somos o epicentro da cultura, resistência e comunidade em Itapevi. Conectando a força da juventude periférica com marcas que querem fazer história.
           </p>
+          
+          <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto z-10">
+            <button className="brutal-border bg-purple-600 text-white font-bebas text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider">
+              [ Conhecer a Potência ]
+            </button>
+            <button className="brutal-border bg-yellow-400 text-black font-bebas text-2xl md:text-3xl px-8 py-4 uppercase tracking-wider">
+              [ Apoiar o Movimento ]
+            </button>
+          </div>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className={`${brutalCard} bg-[#F5F5DC] text-black p-6 transform -rotate-1 hover:rotate-0 transition-transform duration-300`} style={bgLambe}>
-              <div className={`bg-purple-600 text-white ${bebas.className} text-4xl p-2 inline-block border-2 border-black mb-4`}>RCP</div>
-              <p className="font-bold text-lg">O fenômeno do momento.</p>
-              <p className="mt-2 text-gray-800 font-medium">Quase 500 mil views no YouTube, 1 milhão no TikTok e mais de 600 mil no Instagram.</p>
+        {/* 2. A NOSSA POTÊNCIA */}
+        <section className="px-6 py-20 bg-black text-white relative border-y-8 border-black">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="font-bebas text-5xl md:text-7xl mb-4 text-orange-500 uppercase">
+              A Voz que Movimenta a Cena Nacional
+            </h2>
+            <p className="text-lg md:text-xl font-inter mb-12 max-w-4xl text-gray-200">
+              O Instituto Fundão não atua sozinho. Nós respiramos a cultura local e caminhamos lado a lado com os maiores expoentes do Hip Hop e do Rap da nossa região. Para marcas e investidores, apoiar o Fundão é conectar seu nome diretamente a um público engajado, autêntico e gigantesco.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Card 1 */}
+              <div className="bg-lambe text-black brutal-card p-6 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-purple-600 text-white font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">RCP</div>
+                <p className="font-bold text-lg">O fenômeno do momento.</p>
+                <p className="mt-2 text-gray-800 font-medium">Quase 500 mil views no YouTube, 1 milhão no TikTok e mais de 600 mil no Instagram.</p>
+              </div>
+              
+              {/* Card 2 */}
+              <div className="bg-lambe text-black brutal-card p-6 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-red-600 text-white font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">sstsx</div>
+                <p className="font-bold text-lg">A força da mulher da quebrada.</p>
+                <p className="mt-2 text-gray-800 font-medium">Representatividade feminina na cena urbana com números expressivos nas plataformas.</p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-lambe text-black brutal-card p-6 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div className="bg-yellow-400 text-black font-bebas text-4xl p-2 inline-block border-2 border-black mb-4">Vp7</div>
+                <p className="font-bold text-lg">A nova revelação do rap nacional.</p>
+                <p className="mt-2 text-gray-800 font-medium">Mestre lírico explodindo organicamente em múltiplos Reels.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. QUEM SOMOS */}
+        <section className="px-6 py-24 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-1/2">
+            <h2 className="font-bebas text-6xl md:text-7xl mb-6 leading-none uppercase">
+              Muito Além do Assistencialismo.<br/>
+              <span className="bg-black text-white px-2 mt-2 inline-block">Somos Ação.</span>
+            </h2>
+          </div>
+          <div className="md:w-1/2">
+            <p className="text-xl md:text-2xl font-semibold border-l-8 border-purple-600 pl-6 py-2">
+              Esqueça a visão tradicional. O Instituto Fundão é uma potência de desenvolvimento humano e cultural. Nós acreditamos que a verdadeira transformação acontece quando unimos serviços de cuidado essencial com o protagonismo juvenil. Nosso papel é criar palcos, gerar oportunidades e devolver a autoestima para as famílias das regiões periféricas.
+            </p>
+          </div>
+        </section>
+
+        {/* 4. PROJETOS - NATAL NA QUEBRADA */}
+        <section className="px-6 py-20 bg-green-500 border-y-8 border-black text-black">
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="font-bebas text-6xl md:text-8xl mb-12 uppercase drop-shadow-md">
+              <span className="text-black">Natal na </span>
+              <span className="text-orange-500" style={{ WebkitTextStroke: '2px black' }}>Quebrada</span>
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-purple-600 border-4 border-black rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                </div>
+                <h3 className="font-bebas text-3xl mb-2">Cultura em Foco</h3>
+                <p className="font-semibold">Apresentações de dança, música e poesia.</p>
+              </div>
+
+              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-yellow-400 border-4 border-black rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                </div>
+                <h3 className="font-bebas text-3xl mb-2">Autoestima e Cuidado</h3>
+                <p className="font-semibold">Cortes de cabelo gratuitos.</p>
+              </div>
+
+              <div className="bg-white brutal-card p-8 flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-orange-500 border-4 border-black rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 className="font-bebas text-3xl mb-2">Lazer e Brincadeiras</h3>
+                <p className="font-semibold">Espaço recreativo e entrega de presentes.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. FAÇA PARTE / CTA */}
+        <section className="px-6 py-24 max-w-5xl mx-auto text-center">
+          <h2 className="font-bebas text-6xl md:text-8xl mb-4 uppercase text-black">
+            Invista na Quebrada.
+          </h2>
+          <p className="font-bebas text-4xl md:text-5xl mb-12 text-gray-800 uppercase">
+            Faça o Movimento Acontecer.
+          </p>
+          
+          <div className="flex flex-col md:flex-row justify-center gap-6">
+            <button className="brutal-border bg-blue-600 text-white font-bebas text-3xl px-8 py-5 uppercase hover:bg-blue-700">
+              Quero Apadrinhar
+            </button>
+            <button className="brutal-border bg-red-600 text-white font-bebas text-3xl px-8 py-5 uppercase hover:bg-red-700">
+              Seja um Parceiro
+            </button>
+            <button className="brutal-border bg-green-500 text-black font-bebas text-3xl px-8 py-5 uppercase hover:bg-green-600 hover:text-white">
+              Quero ser Voluntário
+            </button>
+          </div>
+        </section>
+
+        {/* 6. FOOTER */}
+        <footer className="bg-black text-white pt-16 pb-8 px-6 border-t-8 border-black">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
+            <div>
+              <h2 className="font-bebas text-5xl tracking-widest uppercase text-white mb-2">
+                Instituto Fundão
+              </h2>
+              <p className="font-bebas text-2xl text-purple-500 tracking-wider">Cultura • Resistência • Comunidade</p>
             </div>
             
-            <div className={`${brutalCard} bg-[#F5F5DC] text-black p-6 transform rotate-2 hover:rotate-0 transition-transform duration-300`} style={bgLambe}>
-              <div className={`bg-red-600 text-white ${bebas.className} text-4xl p-2 inline-block border-2 border-black mb-4`}>sstsx</div>
-              <p className="font-bold text-lg">A força da mulher da quebrada.</p>
-              <p className="mt-2 text-gray-800 font-medium">Representatividade feminina na cena urbana com números expressivos nas plataformas.</p>
+            <div className="flex flex-col gap-3 font-semibold text-gray-300">
+              <a href="mailto:institutofundaooficial@gmail.com" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
+                ✉ institutofundaooficial@gmail.com
+              </a>
+              <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
+                ✆ WhatsApp Contato
+              </a>
+              <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
+                @ Instagram Oficial
+              </a>
             </div>
-
-            <div className={`${brutalCard} bg-[#F5F5DC] text-black p-6 transform -rotate-2 hover:rotate-0 transition-transform duration-300`} style={bgLambe}>
-              <div className={`bg-yellow-400 text-black ${bebas.className} text-4xl p-2 inline-block border-2 border-black mb-4`}>Vp7</div>
-              <p className="font-bold text-lg">A nova revelação do rap nacional.</p>
-              <p className="mt-2 text-gray-800 font-medium">Mestre lírico explodindo organicamente em múltiplos Reels.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. QUEM SOMOS */}
-      <section className="px-6 py-24 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-        <div className="md:w-1/2">
-          <h2 className={`${bebas.className} text-6xl md:text-7xl mb-6 leading-none uppercase`}>
-            Muito Além do Assistencialismo.<br/>
-            <span className="bg-black text-white px-2 mt-2 inline-block">Somos Ação.</span>
-          </h2>
-        </div>
-        <div className="md:w-1/2">
-          <p className="text-xl md:text-2xl font-semibold border-l-8 border-purple-600 pl-6 py-2">
-            Esqueça a visão tradicional. O Instituto Fundão é uma potência de desenvolvimento humano e cultural. Nós acreditamos que a verdadeira transformação acontece quando unimos serviços de cuidado essencial com o protagonismo juvenil. Nosso papel é criar palcos, gerar oportunidades e devolver a autoestima para as famílias das regiões periféricas.
-          </p>
-        </div>
-      </section>
-
-      {/* 4. PROJETOS - NATAL NA QUEBRADA */}
-      <section className="px-6 py-20 bg-green-500 border-y-8 border-black text-black">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className={`${bebas.className} text-6xl md:text-8xl mb-12 uppercase drop-shadow-[4px_4px_0px_#fff]`}>
-            <span className="text-black">Natal na </span>
-            <span className="text-orange-500" style={{ WebkitTextStroke: '2px black' }}>Quebrada</span>
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className={`bg-white ${brutalCard} p-8 flex flex-col items-center text-center`}>
-              <div className="w-16 h-16 bg-purple-600 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-              </div>
-              <h3 className={`${bebas.className} text-3xl mb-2`}>Cultura em Foco</h3>
-              <p className="font-semibold">Apresentações de dança, música e poesia.</p>
-            </div>
-
-            <div className={`bg-white ${brutalCard} p-8 flex flex-col items-center text-center`}>
-              <div className="w-16 h-16 bg-yellow-400 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-              </div>
-              <h3 className={`${bebas.className} text-3xl mb-2`}>Autoestima e Cuidado</h3>
-              <p className="font-semibold">Cortes de cabelo gratuitos.</p>
-            </div>
-
-            <div className={`bg-white ${brutalCard} p-8 flex flex-col items-center text-center`}>
-              <div className="w-16 h-16 bg-orange-500 border-4 border-black rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              </div>
-              <h3 className={`${bebas.className} text-3xl mb-2`}>Lazer e Brincadeiras</h3>
-              <p className="font-semibold">Espaço recreativo e entrega de presentes.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. FAÇA PARTE / CTA */}
-      <section className="px-6 py-24 max-w-5xl mx-auto text-center">
-        <h2 className={`${bebas.className} text-6xl md:text-8xl mb-4 uppercase text-black`}>
-          Invista na Quebrada.
-        </h2>
-        <p className={`${bebas.className} text-4xl md:text-5xl mb-12 text-gray-800 uppercase`}>
-          Faça o Movimento Acontecer.
-        </p>
-        
-        <div className="flex flex-col md:flex-row justify-center gap-6">
-          <button className={`${brutalBorder} bg-blue-600 text-white ${bebas.className} text-3xl px-8 py-5 uppercase`}>
-            Quero Apadrinhar
-          </button>
-          <button className={`${brutalBorder} bg-red-600 text-white ${bebas.className} text-3xl px-8 py-5 uppercase`}>
-            Seja um Parceiro
-          </button>
-          <button className={`${brutalBorder} bg-green-500 text-black ${bebas.className} text-3xl px-8 py-5 uppercase`}>
-            Quero ser Voluntário
-          </button>
-        </div>
-      </section>
-
-      {/* 6. FOOTER */}
-      <footer className="bg-black text-white pt-16 pb-8 px-6 border-t-8 border-black">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
-          <div>
-            <h2 className={`${bebas.className} text-5xl tracking-widest uppercase text-white mb-2`}>
-              Instituto Fundão
-            </h2>
-            <p className={`${bebas.className} text-2xl text-purple-500 tracking-wider`}>Cultura • Resistência • Comunidade</p>
           </div>
           
-          <div className="flex flex-col gap-3 font-semibold text-gray-300">
-            <a href="mailto:institutofundaooficial@gmail.com" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-              ✉ institutofundaooficial@gmail.com
-            </a>
-            <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-              ✆ WhatsApp Contato
-            </a>
-            <a href="#" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
-              @ Instagram Oficial
-            </a>
+          <div className="max-w-7xl mx-auto border-t-2 border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-500 font-semibold">
+            <p>© {new Date().getFullYear()} Instituto Fundão. Todos os direitos reservados.</p>
+            <p>CNPJ: 00.000.000/0000-00</p>
           </div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto border-t-2 border-gray-800 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-500 font-semibold">
-          <p>© {new Date().getFullYear()} Instituto Fundão. Todos os direitos reservados.</p>
-          <p>CNPJ: 00.000.000/0000-00</p>
-        </div>
-      </footer>
+        </footer>
 
-    </main>
+      </main>
+    </>
   );
 }
