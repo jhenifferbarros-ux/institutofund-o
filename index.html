@@ -194,6 +194,22 @@
                 transform: translate3d(-50%, 0, 0);
             }
         }
+
+        /* Animação suave para troca de cartinhas no baralho empilhado */
+        @keyframes cardFlipIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cartinha-ativa-anim {
+            animation: cardFlipIn 0.28s ease-out;
+        }
     </style>
 </head>
 <body class="font-grotesk urban-grain text-[#f4f1ea] antialiased selection:bg-[#d4a13b] selection:text-[#0b0b0b]">
@@ -396,6 +412,10 @@
                         </p>
 
                         <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                            <a href="#natal-fundao" class="inline-flex items-center gap-2 px-6 sm:px-7 py-3.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] border border-[#6cb37b]/50 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-colors">
+                                <span>🎄 Adotar uma Cartinha</span>
+                                <span>↓</span>
+                            </a>
                             <a href="#contato" onclick="ativarAba('doar')" class="inline-flex items-center gap-2 px-6 sm:px-7 py-3.5 rounded-full bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-colors">
                                 <span>Apoiar o Movimento</span>
                                 <span>→</span>
@@ -504,6 +524,108 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             3.5. DESTAQUE DE CARA NO TOPO: NATAL NA QUEBRADA FUNDÃO • CARTINHAS
+        ====================================================================== -->
+        <section id="natal-fundao" class="w-full pt-2 pb-10 sm:pb-14 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+            <div class="max-w-6xl mx-auto">
+                <div id="mural-cartinhas" class="rounded-2xl bg-[#131313] border border-[#d4a13b]/30 p-5 sm:p-8">
+
+                    <!-- Cabeçalho Compacto + Termômetro na Mesma Faixa -->
+                    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 pb-6 border-b border-[#f4f1ea]/12">
+                        <div>
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3c6e47]/30 border border-[#3c6e47] text-[#6cb37b] text-[11px] font-extrabold uppercase tracking-widest mb-2.5">
+                                <span>🎄 NATAL NA QUEBRADA FUNDÃO • CARTINHAS</span>
+                            </span>
+                            <h2 class="font-anton text-3xl sm:text-4xl lg:text-5xl text-[#f4f1ea] uppercase tracking-wide leading-none">
+                                ADOTE UMA <span class="font-marker text-[#d4a13b] grifo-ochre tracking-normal text-[0.86em]">CARTINHA</span>
+                            </h2>
+                            <p class="text-xs sm:text-sm text-[#b5b0a6] mt-2.5 max-w-xl leading-relaxed">
+                                Clique nas cartinhas ao lado, use as setas ou escolha direto pelo nome abaixo para ler o pedido e apadrinhar uma criança. <strong class="text-[#f4f1ea]">Não precisa ser o item mais caro:</strong> roupas, calçados, brinquedos e outros mimos também fazem a alegria deles!
+                            </p>
+                        </div>
+
+                        <!-- Termômetro de Natal -->
+                        <div class="w-full lg:w-72 p-3.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/12 shrink-0">
+                            <div class="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
+                                <span class="text-[#d4a13b]">Termômetro de Natal</span>
+                                <span id="termometro-texto" class="text-[#f4f1ea]">0 / 15 apadrinhadas</span>
+                            </div>
+                            <div class="w-full h-2.5 rounded-full bg-[#0b0b0b] border border-[#f4f1ea]/10 overflow-hidden">
+                                <div id="termometro-barra" class="h-full bg-gradient-to-r from-[#3c6e47] to-[#d4a13b] rounded-full transition-all duration-500" style="width: 4%;"></div>
+                            </div>
+                            <p id="termometro-sub" class="text-[11px] text-[#b5b0a6] mt-1.5">
+                                Faltam <strong class="text-[#f4f1ea]">15 crianças</strong> esperando um padrinho ou madrinha.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Barra de Filtros + Controles -->
+                    <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" id="filtro-cart-todas" onclick="definirFiltroCartinhas('todas')" class="px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
+                                Todas (15)
+                            </button>
+                            <button type="button" id="filtro-cart-disponiveis" onclick="definirFiltroCartinhas('disponiveis')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
+                                🟢 Disponíveis (15)
+                            </button>
+                            <button type="button" id="filtro-cart-apadrinhadas" onclick="definirFiltroCartinhas('apadrinhadas')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
+                                ⭐ Apadrinhadas (0)
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="navegarCartinha(-1)" aria-label="Cartinha anterior" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#d4a13b] text-[#f4f1ea] hover:text-[#0b0b0b] border border-[#f4f1ea]/18 text-xs font-extrabold uppercase tracking-wider transition-colors cursor-pointer">
+                                ← Anterior
+                            </button>
+                            <span id="deck-contador" class="text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider px-1.5">
+                                1 / 15
+                            </span>
+                            <button type="button" onclick="navegarCartinha(1)" aria-label="Próxima cartinha" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#d4a13b] text-[#f4f1ea] hover:text-[#0b0b0b] border border-[#f4f1ea]/18 text-xs font-extrabold uppercase tracking-wider transition-colors cursor-pointer">
+                                Próxima →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Palco Leque / Coverflow: 3 Cartinhas Visíveis (Anterior • Principal • Próxima) -->
+                    <div id="cartinha-deck-stage" class="mt-6 relative overflow-hidden py-3 select-none">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                            <!-- Prévia Visível da Cartinha Anterior (clicável) -->
+                            <div id="deck-card-prev" class="hidden md:block md:col-span-3 transition-all duration-300">
+                                <!-- Renderizada via JS -->
+                            </div>
+
+                            <!-- Cartinha Principal em Destaque (Formato Original Limpo) -->
+                            <div id="deck-card-ativa" class="md:col-span-6 relative z-20">
+                                <!-- Renderizada via JS -->
+                            </div>
+
+                            <!-- Prévia Visível da Próxima Cartinha (clicável) -->
+                            <div id="deck-card-next" class="hidden md:block md:col-span-3 transition-all duration-300">
+                                <!-- Renderizada via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Índice Visual Compacto: Todas as Cartinhas Visíveis para Escolha Direta -->
+                    <div class="mt-5 pt-4 border-t border-[#f4f1ea]/10">
+                        <div class="flex items-center justify-between gap-2 mb-2.5">
+                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6]">
+                                Escolha direto uma cartinha:
+                            </span>
+                            <span class="text-[10px] text-[#b5b0a6]/80">
+                                🟢 Disponível • ⭐ Apadrinhada
+                            </span>
+                        </div>
+                        <div id="deck-mini-cartinhas" class="flex flex-wrap gap-2">
+                            <!-- Mini-cartinhas clicáveis geradas via JS -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -928,7 +1050,7 @@
                     </h2>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-16 sm:mb-20">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     <!-- Mini-Calendário de Dezembro de 2026 (Apenas Dia 19 destacado) -->
                     <div class="lg:col-span-5 rounded-2xl bg-[#131313] border border-[#f4f1ea]/15 p-5 sm:p-6">
                         <div class="flex items-center justify-between border-b border-[#f4f1ea]/12 pb-3.5 mb-4">
@@ -1015,92 +1137,13 @@
                                     19/12/2026 às 14:00h • Itapevi - SP
                                 </p>
                                 <p class="text-xs sm:text-sm text-[#b5b0a6] font-medium leading-relaxed mb-4">
-                                    Batalha de rima, pocket shows com artistas locais, distribuição de brinquedos, cestas básicas e ação cultural aberta para toda a comunidade.
+                                    Batalha de rima, pocket shows com artistas locais, distribuição de brinquedos, cestas básicas e apadrinhamento das cartinhas das crianças.
                                 </p>
-                                <div class="flex flex-wrap items-center gap-4">
-                                    <a href="https://wa.me/5511914800323?text=Salve%2C%20Instituto%20Fund%C3%A3o!%20Quero%20apoiar%20ou%20participar%20do%20Natal%20na%20Quebrada%20Fund%C3%A3o%20(19%2F12%2F2026)." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-extrabold uppercase tracking-wider transition-colors">
-                                        <span>Apoiar / Participar no WhatsApp</span>
-                                        <span>↗</span>
-                                    </a>
-                                    <a href="#natal-fundao" class="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#f4f1ea] border-b-2 border-[#d4a13b] pb-0.5 hover:text-[#d4a13b] transition-colors">
-                                        <span>Ver detalhes</span>
-                                        <span>↓</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Banner Especial: Natal na Quebrada Fundão (Verde Musgo Fosco #3c6e47 + Ocre #d4a13b) -->
-                <div id="natal-fundao" class="organic-blob-1 overflow-hidden border border-[#f4f1ea]/18 bg-gradient-to-br from-[#172c1c] via-[#27482f] to-[#3c6e47] p-6 sm:p-10 lg:p-12 text-[#f4f1ea]">
-                    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-xs font-extrabold uppercase tracking-widest">
-                            CONVITE OFICIAL • 19 DE DEZEMBRO DE 2026
-                        </span>
-                        <span class="font-marker text-sm sm:text-base text-[#d4a13b] tracking-wider uppercase">
-                            ENTRADA SOLIDÁRIA • ITAPEVI SP
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div class="lg:col-span-7">
-                            <h3 class="font-anton text-4xl sm:text-6xl lg:text-7xl text-[#f4f1ea] uppercase leading-[0.96] tracking-wide mb-4">
-                                NATAL NA <span class="text-[#d4a13b]">QUEBRADA</span> <span class="font-marker text-[#0b0b0b] bg-[#d4a13b] px-2.5 py-0.5 rounded-md inline-block -rotate-1 text-[0.72em] tracking-normal">FUNDÃO</span>
-                            </h3>
-                            <p class="text-sm sm:text-base lg:text-lg text-[#f4f1ea]/90 leading-relaxed mb-6">
-                                Uma grande celebração de cultura urbana, música e solidariedade para as crianças e famílias de Itapevi. Juntamos batalha de rima, pocket shows locais e entrega de brinquedos e cestas básicas.
-                            </p>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-7">
-                                <div class="p-3.5 rounded-xl bg-[#0b0b0b]/55 border border-[#f4f1ea]/18 flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-lg bg-[#d4a13b] text-[#0b0b0b] font-anton text-lg flex items-center justify-center shrink-0">01</span>
-                                    <span class="text-xs sm:text-sm font-bold text-[#f4f1ea]">Batalha de Rima & Pocket Shows</span>
-                                </div>
-                                <div class="p-3.5 rounded-xl bg-[#0b0b0b]/55 border border-[#f4f1ea]/18 flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-lg bg-[#f4f1ea] text-[#0b0b0b] font-anton text-lg flex items-center justify-center shrink-0">02</span>
-                                    <span class="text-xs sm:text-sm font-bold text-[#f4f1ea]">Distribuição de Brinquedos</span>
-                                </div>
-                                <div class="p-3.5 rounded-xl bg-[#0b0b0b]/55 border border-[#f4f1ea]/18 flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-lg bg-[#f4f1ea] text-[#0b0b0b] font-anton text-lg flex items-center justify-center shrink-0">03</span>
-                                    <span class="text-xs sm:text-sm font-bold text-[#f4f1ea]">Entrega de Cestas Básicas</span>
-                                </div>
-                                <div class="p-3.5 rounded-xl bg-[#0b0b0b]/55 border border-[#f4f1ea]/18 flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-lg bg-[#d4a13b] text-[#0b0b0b] font-anton text-lg flex items-center justify-center shrink-0">04</span>
-                                    <span class="text-xs sm:text-sm font-bold text-[#f4f1ea]">Recreação & Ação Comunitária</span>
-                                </div>
-                            </div>
-
-                            <a href="https://wa.me/5511914800323?text=Salve%2C%20Instituto%20Fund%C3%A3o!%20Quero%20apoiar%20o%20Natal%20na%20Quebrada%20Fund%C3%A3o." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-colors">
-                                <span>Apoiar / Doar pelo Canal Oficial</span>
-                                <span>↗</span>
-                            </a>
-                        </div>
-
-                        <div class="lg:col-span-5">
-                            <div class="rounded-2xl bg-[#131313] text-[#f4f1ea] border border-[#f4f1ea]/20 p-6">
-                                <div class="flex items-center justify-between border-b-2 border-dashed border-[#f4f1ea]/20 pb-4 mb-4">
-                                    <div>
-                                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#6cb37b]">PASSAPORTE SOLIDÁRIO</span>
-                                        <p class="font-anton text-2xl text-[#f4f1ea] tracking-wide mt-0.5">19/12/2026 • 14:00H</p>
-                                    </div>
-                                    <span class="px-3 py-1 rounded-lg bg-[#3c6e47] text-[#f4f1ea] font-anton text-lg tracking-wider">
-                                        GRATUITO
-                                    </span>
-                                </div>
-
-                                <ul class="space-y-3 text-xs sm:text-sm text-[#f4f1ea]/90 mb-5">
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-[#6cb37b] font-extrabold">✓</span>
-                                        <span><strong>Entrada Solidária:</strong> Leve 1kg de alimento não perecível ou 1 brinquedo novo/em bom estado (opcional).</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <span class="text-[#6cb37b] font-extrabold">✓</span>
-                                        <span><strong>Apadrinhamento:</strong> Marcas e apoiadores podem doar brinquedos e cestas pelo canal oficial do Instituto Fundão.</span>
-                                    </li>
-                                </ul>
-
-                                <a href="#contato" onclick="ativarAba('doar')" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#f4f1ea] hover:bg-[#d4a13b] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors">
+                                <a href="#natal-fundao" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors mb-2.5">
+                                    <span>🎁 Adotar uma Cartinha Agora</span>
+                                    <span>↑</span>
+                                </a>
+                                <a href="#contato" onclick="ativarAba('doar')" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#1a1a1a] hover:bg-[#242424] border border-[#f4f1ea]/18 text-[#f4f1ea] font-extrabold text-xs uppercase tracking-wider transition-colors">
                                     <span>Confirmar Apoio no Formulário</span>
                                     <span>↓</span>
                                 </a>
@@ -1571,66 +1614,213 @@
 
             <!-- Conteúdo Autenticado do Painel -->
             <div id="equipe-dashboard-box" class="hidden p-5 sm:p-6 space-y-5">
-                <!-- Barra Superior de Status do Banco na Nuvem (Supabase) -->
-                <div class="p-3.5 rounded-xl bg-[#1a1a1a] border border-[#3c6e47]/55 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex items-center gap-2.5">
-                        <span id="cloud-status-dot" class="w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0"></span>
-                        <span id="cloud-status-badge" class="text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
-                            Conectado ao Banco na Nuvem
-                        </span>
+                <!-- Abas da Área da Equipe -->
+                <div class="flex flex-wrap items-center gap-2 pb-3 border-b border-[#f4f1ea]/12">
+                    <button type="button" id="btn-aba-eq-artistas" onclick="alternarAbaEquipe('artistas')" class="px-4 py-2 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
+                        🎤 Inscrições de Artistas
+                    </button>
+                    <button type="button" id="btn-aba-eq-cartinhas" onclick="alternarAbaEquipe('cartinhas')" class="px-4 py-2 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
+                        🎁 Cartinhas de Natal
+                    </button>
+                </div>
+
+                <!-- ABA 1: INSCRIÇÕES DE ARTISTAS -->
+                <div id="equipe-aba-artistas" class="space-y-5">
+                    <!-- Barra Superior de Status do Banco na Nuvem (Supabase) -->
+                    <div class="p-3.5 rounded-xl bg-[#1a1a1a] border border-[#3c6e47]/55 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <span id="cloud-status-dot" class="w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0"></span>
+                            <span id="cloud-status-badge" class="text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
+                                Conectado ao Banco na Nuvem
+                            </span>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" id="btn-atualizar-nuvem" onclick="carregarInscricoesNuvem()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
+                                <span>🔄 Atualizar Lista</span>
+                            </button>
+                            <button type="button" onclick="limparCacheLocal()" class="px-3.5 py-1.5 rounded-full bg-[#a63a3a] hover:bg-[#8d3030] text-xs font-extrabold text-[#f4f1ea] transition-colors cursor-pointer">
+                                🗑️ Limpar Cache
+                            </button>
+                            <button type="button" onclick="copiarResumoInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#131313] hover:bg-[#242424] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] cursor-pointer">
+                                📋 Copiar Lista
+                            </button>
+                            <button type="button" onclick="exportarCSVInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-xs font-extrabold text-[#f4f1ea] cursor-pointer">
+                                ⬇ Exportar CSV
+                            </button>
+                            <button type="button" onclick="sairEquipe()" class="px-3.5 py-1.5 rounded-full bg-[#131313] border border-[#a63a3a]/60 text-xs font-bold text-[#df7575] cursor-pointer">
+                                Sair
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2">
-                        <button type="button" id="btn-atualizar-nuvem" onclick="carregarInscricoesNuvem()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold transition-colors cursor-pointer">
-                            <span>🔄 Atualizar Lista</span>
-                        </button>
-                        <button type="button" onclick="limparCacheLocal()" class="px-3.5 py-1.5 rounded-full bg-[#a63a3a] hover:bg-[#8d3030] text-xs font-extrabold text-[#f4f1ea] transition-colors cursor-pointer">
-                            🗑️ Limpar Cache
-                        </button>
-                        <button type="button" onclick="copiarResumoInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#131313] hover:bg-[#242424] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] cursor-pointer">
-                            📋 Copiar Lista
-                        </button>
-                        <button type="button" onclick="exportarCSVInscricoes()" class="px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-xs font-extrabold text-[#f4f1ea] cursor-pointer">
-                            ⬇ Exportar CSV
-                        </button>
-                        <button type="button" onclick="sairEquipe()" class="px-3.5 py-1.5 rounded-full bg-[#131313] border border-[#a63a3a]/60 text-xs font-bold text-[#df7575] cursor-pointer">
-                            Sair
-                        </button>
+                    <!-- Busca e Filtros -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span id="equipe-contador" class="px-3 py-1.5 rounded-full bg-[#644482] text-[#f4f1ea] text-xs font-extrabold uppercase">
+                                0 inscrições
+                            </span>
+                            <input type="search" id="equipe-busca-input" oninput="renderizarListaInscricoes()" placeholder="Buscar artista, bairro ou @insta..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select id="equipe-filtro-categoria" onchange="renderizarListaInscricoes()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
+                                <option value="TODOS">Todas as categorias</option>
+                                <option value="MC / Batalha de Rima">MC / Batalha de Rima</option>
+                                <option value="Cantor(a) / Rap / Trap">Cantor(a) / Rap / Trap</option>
+                                <option value="DJ / Beatmaker">DJ / Beatmaker</option>
+                                <option value="Dança / Breaking">Dança / Breaking</option>
+                                <option value="Poesia / Slam">Poesia / Slam</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                            <select id="equipe-filtro-status" onchange="renderizarListaInscricoes()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
+                                <option value="TODOS">Todos os status</option>
+                                <option value="Pendente">Pendente</option>
+                                <option value="Aprovado">Aprovado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="equipe-aviso-acao" class="hidden text-xs font-bold text-[#6cb37b] bg-[#3c6e47]/20 border border-[#3c6e47]/50 px-3.5 py-2 rounded-lg"></div>
+
+                    <div id="equipe-lista-container" class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+                        <!-- Renderizado dinamicamente via Supabase REST API -->
                     </div>
                 </div>
 
-                <!-- Busca e Filtros -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span id="equipe-contador" class="px-3 py-1.5 rounded-full bg-[#644482] text-[#f4f1ea] text-xs font-extrabold uppercase">
-                            0 inscrições
-                        </span>
-                        <input type="search" id="equipe-busca-input" oninput="renderizarListaInscricoes()" placeholder="Buscar artista, bairro ou @insta..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
+                <!-- ABA 2: CARTINHAS DE NATAL -->
+                <div id="equipe-aba-cartinhas" class="hidden space-y-5">
+                    <div class="p-3.5 rounded-xl bg-[#1a1a1a] border border-[#3c6e47]/55 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <span id="cartinhas-cloud-dot" class="w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0"></span>
+                            <span id="cartinhas-cloud-badge" class="text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
+                                Cartinhas Conectadas na Nuvem
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button type="button" onclick="carregarCartinhasNuvem(true)" class="px-3.5 py-1.5 rounded-full bg-[#325d88] hover:bg-[#274a6d] text-[#f4f1ea] text-xs font-extrabold cursor-pointer">
+                                🔄 Atualizar Cartinhas
+                            </button>
+                            <button type="button" onclick="exportarCSVCartinhas()" class="px-3.5 py-1.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-extrabold cursor-pointer">
+                                ⬇ Exportar CSV
+                            </button>
+                            <button type="button" onclick="sairEquipe()" class="px-3.5 py-1.5 rounded-full bg-[#131313] border border-[#a63a3a]/60 text-xs font-bold text-[#df7575] cursor-pointer">
+                                Sair
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-2">
-                        <select id="equipe-filtro-categoria" onchange="renderizarListaInscricoes()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
-                            <option value="TODOS">Todas as categorias</option>
-                            <option value="MC / Batalha de Rima">MC / Batalha de Rima</option>
-                            <option value="Cantor(a) / Rap / Trap">Cantor(a) / Rap / Trap</option>
-                            <option value="DJ / Beatmaker">DJ / Beatmaker</option>
-                            <option value="Dança / Breaking">Dança / Breaking</option>
-                            <option value="Poesia / Slam">Poesia / Slam</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                        <select id="equipe-filtro-status" onchange="renderizarListaInscricoes()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span id="equipe-cartinhas-contador" class="px-3 py-1.5 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-xs font-extrabold uppercase">
+                                0 / 15 apadrinhadas
+                            </span>
+                            <input type="search" id="equipe-cartinhas-busca" oninput="renderizarListaCartinhasEquipe()" placeholder="Buscar criança ou padrinho..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
+                        </div>
+                        <select id="equipe-cartinhas-filtro" onchange="renderizarListaCartinhasEquipe()" class="px-3 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea] outline-none">
                             <option value="TODOS">Todos os status</option>
-                            <option value="Pendente">Pendente</option>
-                            <option value="Aprovado">Aprovado</option>
+                            <option value="disponivel">Disponíveis</option>
+                            <option value="apadrinhada">Apadrinhadas</option>
+                            <option value="entregue">Presente Recebido</option>
                         </select>
                     </div>
+
+                    <div id="equipe-cartinhas-aviso" class="hidden text-xs font-bold text-[#6cb37b] bg-[#3c6e47]/20 border border-[#3c6e47]/50 px-3.5 py-2 rounded-lg"></div>
+
+                    <div id="equipe-cartinhas-lista" class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+                        <!-- Renderizado dinamicamente via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL DE APADRINHAMENTO DE CARTINHA (NATAL NA QUEBRADA FUNDÃO)
+    ====================================================================== -->
+    <div id="modal-apadrinhar" onclick="fecharModalApadrinhar()" class="fixed inset-0 z-[108] hidden bg-[#0b0b0b]/95 backdrop-blur-md p-3 sm:p-6 flex items-center justify-center overflow-y-auto">
+        <div class="max-w-xl w-full my-auto bg-[#131313] border border-[#d4a13b]/45 rounded-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-[#f4f1ea]/12 bg-[#1a1a1a]">
+                <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded bg-[#3c6e47] text-[#f4f1ea] text-[11px] font-extrabold uppercase tracking-wider">APADRINHAMENTO</span>
+                    <h3 id="modal-apadrinhar-titulo" class="font-anton text-xl sm:text-2xl text-[#f4f1ea] tracking-wide uppercase">
+                        Caleb • 9 anos
+                    </h3>
+                </div>
+                <button type="button" onclick="fecharModalApadrinhar()" class="px-3.5 py-1 rounded-full bg-[#a63a3a] hover:bg-[#8d3030] text-[#f4f1ea] text-xs font-bold uppercase tracking-wider cursor-pointer">
+                    Fechar ✕
+                </button>
+            </div>
+
+            <div class="p-5 sm:p-6">
+                <!-- Resumo da Cartinha Escolhida -->
+                <div class="p-4 rounded-xl bg-[#1a1a1a] border-l-4 border-l-[#d4a13b] border border-[#f4f1ea]/10 mb-5">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#d4a13b] block mb-1">Cartinha Escolhida</span>
+                    <p id="modal-apadrinhar-carta" class="text-xs sm:text-sm text-[#f4f1ea]/90 italic leading-relaxed"></p>
+                    <p id="modal-apadrinhar-tamanhos" class="text-[11px] font-bold text-[#6cb37b] mt-2 hidden"></p>
                 </div>
 
-                <div id="equipe-aviso-acao" class="hidden text-xs font-bold text-[#6cb37b] bg-[#3c6e47]/20 border border-[#3c6e47]/50 px-3.5 py-2 rounded-lg"></div>
-
-                <div id="equipe-lista-container" class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
-                    <!-- Renderizado dinamicamente via Supabase REST API -->
+                <!-- Tela de Sucesso -->
+                <div id="modal-apadrinhar-sucesso" class="hidden space-y-4">
+                    <div class="p-4 rounded-xl bg-[#3c6e47]/25 border border-[#3c6e47]">
+                        <p class="font-extrabold text-sm text-[#6cb37b] mb-1">🎉 Cartinha reservada com sucesso!</p>
+                        <p class="text-xs text-[#f4f1ea]/90 leading-relaxed">
+                            Obrigado por fortalecer o Natal da quebrada! Agora clique abaixo para enviar a confirmação no WhatsApp oficial do Instituto Fundão e combinar a entrega do presente:
+                        </p>
+                    </div>
+                    <a id="btn-wpp-apadrinhamento" href="#" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] font-extrabold text-xs uppercase tracking-wider transition-colors">
+                        <span>Confirmar no WhatsApp Oficial</span>
+                        <span>↗</span>
+                    </a>
+                    <button type="button" onclick="fecharModalApadrinhar()" class="w-full py-2.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] border border-[#f4f1ea]/15 text-xs font-bold text-[#b5b0a6] cursor-pointer">
+                        Voltar para o Site
+                    </button>
                 </div>
+
+                <!-- Formulário do Padrinho -->
+                <form id="form-apadrinhar" onsubmit="confirmarApadrinhamento(event)" class="space-y-4">
+                    <input type="hidden" id="input-cartinha-id">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="pad-nome" class="block text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6] mb-1">
+                                Seu Nome ou Empresa *
+                            </label>
+                            <input type="text" id="pad-nome" required placeholder="Ex: Carlos / Barbearia Central" class="input-underline">
+                        </div>
+                        <div>
+                            <label for="pad-whats" class="block text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6] mb-1">
+                                Seu WhatsApp *
+                            </label>
+                            <input type="text" id="pad-whats" required placeholder="(11) 99999-9999" class="input-underline">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="pad-presente" class="block text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6] mb-1">
+                            O que você pretende presentear? *
+                        </label>
+                        <input type="text" id="pad-presente" required placeholder="Ex: Roupa, calçado, brinquedo ou bola" class="input-underline">
+                    </div>
+
+                    <div>
+                        <label for="pad-entrega" class="block text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6] mb-1">
+                            Como prefere entregar o presente? *
+                        </label>
+                        <select id="pad-entrega" class="input-underline bg-[#131313] cursor-pointer">
+                            <option value="Entregar no ponto de coleta do Instituto">Entregar no ponto de coleta do Instituto</option>
+                            <option value="Combinar retirada com a equipe em Itapevi">Combinar retirada com a equipe em Itapevi</option>
+                            <option value="Levar no dia do evento (19/12)">Levar no dia do evento (19/12)</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <button type="submit" id="btn-confirmar-apadrinhar" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer">
+                            <span>🎁 Confirmar Apadrinhamento</span>
+                        </button>
+                        <span class="text-[11px] text-[#b5b0a6]">Canal oficial: +55 11 91480-0323</span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1803,6 +1993,7 @@
             const lightbox = document.getElementById('lightbox-modal');
             const modalArtista = document.getElementById('modal-artista');
             const modalEquipe = document.getElementById('modal-equipe');
+            const modalApadrinhar = document.getElementById('modal-apadrinhar');
 
             if (lightbox && !lightbox.classList.contains('hidden')) {
                 if (e.key === 'Escape') fecharLightbox();
@@ -1812,6 +2003,8 @@
                 if (e.key === 'Escape') fecharModalArtista();
             } else if (modalEquipe && !modalEquipe.classList.contains('hidden')) {
                 if (e.key === 'Escape') fecharPainelEquipe();
+            } else if (modalApadrinhar && !modalApadrinhar.classList.contains('hidden')) {
+                if (e.key === 'Escape') fecharModalApadrinhar();
             }
         });
 
@@ -1820,6 +2013,7 @@
         const SUPABASE_URL = 'https://iocamaeufehjqzfrqbcg.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvY2FtYWV1ZmVoanF6ZnJxYmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwMzU1MjEsImV4cCI6MjExMDYxMTUyMX0.HmwiCZ1gMQ2LC9mxl_L5M-8IDibDxSrvF06qKNN9WTs';
         const SUPABASE_ENDPOINT = `${SUPABASE_URL}/rest/v1/inscricoes_artistas`;
+        const SUPABASE_CARTINHAS_ENDPOINT = `${SUPABASE_URL}/rest/v1/cartinhas_natal`;
         const STORAGE_KEY_FALLBACK = 'inscricoes_artistas_fundao';
         const EQUIPE_CODIGO_ACESSO = 'fundão@nc8!';
 
@@ -2087,6 +2281,7 @@
                 if (loginBox) loginBox.classList.add('hidden');
                 if (dashBox) dashBox.classList.remove('hidden');
                 carregarInscricoesNuvem();
+                carregarCartinhasNuvem();
             } else {
                 if (loginBox) loginBox.classList.remove('hidden');
                 if (dashBox) dashBox.classList.add('hidden');
@@ -2118,8 +2313,29 @@
                 document.getElementById('equipe-login-box').classList.add('hidden');
                 document.getElementById('equipe-dashboard-box').classList.remove('hidden');
                 carregarInscricoesNuvem();
+                carregarCartinhasNuvem();
             } else if (erroPin) {
                 erroPin.classList.remove('hidden');
+            }
+        }
+
+        function alternarAbaEquipe(aba) {
+            const abaArt = document.getElementById('equipe-aba-artistas');
+            const abaCart = document.getElementById('equipe-aba-cartinhas');
+            const btnArt = document.getElementById('btn-aba-eq-artistas');
+            const btnCart = document.getElementById('btn-aba-eq-cartinhas');
+
+            if (aba === 'cartinhas') {
+                if (abaArt) abaArt.classList.add('hidden');
+                if (abaCart) abaCart.classList.remove('hidden');
+                if (btnArt) btnArt.className = 'px-4 py-2 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
+                if (btnCart) btnCart.className = 'px-4 py-2 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
+                renderizarListaCartinhasEquipe();
+            } else {
+                if (abaCart) abaCart.classList.add('hidden');
+                if (abaArt) abaArt.classList.remove('hidden');
+                if (btnCart) btnCart.className = 'px-4 py-2 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
+                if (btnArt) btnArt.className = 'px-4 py-2 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
             }
         }
 
@@ -2406,9 +2622,659 @@
             window.open(url, '_blank', 'noopener,noreferrer');
         }
 
+        /* 6. Baralho Empilhado de Cartinhas (Natal na Quebrada Fundão) */
+        const cartinhasNatal = [
+            {
+                id: 1,
+                numero: '01',
+                nome: 'Caleb',
+                idade: '9 anos',
+                carta: '"Oi papai Noel, eu sou o Caleb, tenho 9 anos e queria ganhar uma chuteira porque é o meu sonho ter uma chuteira, porque eu gosto muito de futebol e queria ganhar para poder jogar bastante"',
+                tags: ['⚽ Chuteira', '👕 Roupas', '👟 Tênis / Sapato', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 2,
+                numero: '02',
+                nome: 'Emilly',
+                idade: '12 anos',
+                carta: '"Querido papai Noel, eu gosto muito de bisicleta, e queria ter uma igual meus amigos, porque quase todos tem, mas eu também gosto de boneca e maquiagem e também vou gostar muito de ganhar"',
+                tags: ['🚲 Bicicleta', '🎀 Boneca', '💄 Maquiagem', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 3,
+                numero: '03',
+                nome: 'Heitor',
+                idade: '3 anos',
+                carta: '"Eu quero uma motinha ou uma fantasia do homem aranha pra mim brincar"',
+                tags: ['🏍️ Motinha', '🕷️ Fantasia Homem-Aranha', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 4,
+                numero: '04',
+                nome: 'Pietro',
+                idade: '14 anos',
+                carta: '"Eu queria muito ganhar um celular porque eu nunca tive, mas se for muito caro eu também gosto de bola"',
+                tags: ['📱 Celular', '⚽ Bola', '👕 Roupas', '👟 Tênis / Sapato', '🧸 Jogos / Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 5,
+                numero: '05',
+                nome: 'Lucas Henrique',
+                idade: '9 anos',
+                carta: '"Papai Noel eu queria ganhar muito uma biclicleta porque eu gosto muito, ou uma bola que também gosto bastante"',
+                tags: ['🚲 Bicicleta', '⚽ Bola', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 6,
+                numero: '06',
+                nome: 'Jean Robert',
+                idade: '11 anos',
+                carta: '"Oi papai noel, tudo bem? Meu nome é Jean e o que eu quero é uma bicicleta porque vou andar de bicicleta com os meus amigos, ou um carrinho de controle remoto"',
+                tags: ['🚲 Bicicleta', '🏎️ Carrinho controle remoto', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 7,
+                numero: '07',
+                nome: 'Pablo Gabriel',
+                idade: '10 anos',
+                carta: '"Oi, sou o Pablo i queria uma bicicleta ou uma bola"',
+                tags: ['🚲 Bicicleta', '⚽ Bola', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 8,
+                numero: '08',
+                nome: 'Matheus',
+                idade: '10 anos',
+                carta: '"Oi papai Noel eu quero uma piçiqleta para anda cou os meos amigo. Ou uma bola da pellalty"',
+                tags: ['🚲 Bicicleta', '⚽ Bola Penalty', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 9,
+                numero: '09',
+                nome: 'Pedro Henrique',
+                idade: '9 anos',
+                carta: '"Oi, eu sou o Pedro queria uma bibliciqueta ou uma arma de brincar. Eu queria esses pra andar na rua com os meus amigos"',
+                tags: ['🚲 Bicicleta', '🧸 Brinquedos', '👕 Roupas', '👟 Calçado'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 10,
+                numero: '10',
+                nome: 'João Victor',
+                idade: '10 anos',
+                carta: '"Oi eu sou o joão e gueria uma biciclera ou uma arsovate de brinquedo ou um isgueite"',
+                tags: ['🚲 Bicicleta', '🛹 Skate', '🧸 Brinquedos', '👕 Roupas', '👟 Calçado'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 11,
+                numero: '11',
+                nome: 'Samuel',
+                idade: '10 anos',
+                carta: '"Oi eu sou o Samuel e eu queria uma bicicleta para andar com meus amigos, ou um carrinho de controle remoto"',
+                tags: ['🚲 Bicicleta', '🏎️ Carrinho controle remoto', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 12,
+                numero: '12',
+                nome: 'Kelvin',
+                idade: '12 anos',
+                carta: '"Eu quero uma bike ou uma mototizada porque eu gosto bastante e roubaram a minha bike, mas também gosto bastante de bola de futebol"',
+                tags: ['🚲 Bike', '⚽ Bola de futebol', '👕 Roupas', '👟 Tênis / Sapato', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 13,
+                numero: '13',
+                nome: 'Ryan Valentin',
+                idade: '3 anos',
+                carta: '"Eu gosto de brinacar, e ai eu queria um robô de brinquedo ou um carinho de controle remoto porque eu gosto de robô"',
+                tags: ['🤖 Robô', '🏎️ Carrinho controle remoto', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 14,
+                numero: '14',
+                nome: 'Theo José',
+                idade: '6 anos',
+                carta: '"Oi papai Noel eu sou o Theo e meu sonho é ter uma bicicleta pa anda com meu irmão Jean, ou um carrinho de controle remoto"',
+                tags: ['🚲 Bicicleta', '🏎️ Carrinho controle remoto', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 15,
+                numero: '15',
+                nome: 'Ana Maria',
+                idade: '8 anos',
+                carta: '"Querido papai noel, me chamo Ana Maria tenho 8 anos e me comportei muito bem esse ano, Nesse Natal, eu queria muito pedir uma bicicleta pra brincar, e passear com os meus amigos, ou um tablet para estudar e aprender coisas novas."',
+                tags: ['🚲 Bicicleta', '📚 Tablet', '👕 Roupas (Tam. 8)', '👟 Tênis (31)', '🧸 Brinquedos'],
+                tamanhos: 'Camisa 8 • Calça 8 • Blusa 8 • Tênis 31',
+                status: 'disponivel'
+            }
+        ];
+
+        let filtroCartinhasAtual = 'todas';
+        let indiceCartinhaAtual = 0;
+        let toqueInicioX = 0;
+
+        function obterCartinhasFiltradas() {
+            return cartinhasNatal.filter((c) => {
+                if (filtroCartinhasAtual === 'disponiveis') return c.status === 'disponivel';
+                if (filtroCartinhasAtual === 'apadrinhadas') return c.status === 'apadrinhada' || c.status === 'entregue';
+                return true;
+            });
+        }
+
+        function definirFiltroCartinhas(novoFiltro) {
+            filtroCartinhasAtual = novoFiltro;
+            indiceCartinhaAtual = 0;
+            renderizarDeckCartinhas();
+        }
+
+        function navegarCartinha(direcao) {
+            const lista = obterCartinhasFiltradas();
+            if (lista.length <= 1) return;
+            indiceCartinhaAtual = (indiceCartinhaAtual + direcao + lista.length) % lista.length;
+            renderizarDeckCartinhas();
+        }
+
+        function selecionarCartinhaPorIndice(novoIndice) {
+            const lista = obterCartinhasFiltradas();
+            if (novoIndice < 0 || novoIndice >= lista.length) return;
+            indiceCartinhaAtual = novoIndice;
+            renderizarDeckCartinhas();
+        }
+
+        function atualizarContadoresCartinhas() {
+            const total = cartinhasNatal.length;
+            const apadrinhadas = cartinhasNatal.filter((c) => c.status === 'apadrinhada' || c.status === 'entregue').length;
+            const disponiveis = total - apadrinhadas;
+
+            const mapa = {
+                todas: { el: document.getElementById('filtro-cart-todas'), label: `Todas (${total})` },
+                disponiveis: { el: document.getElementById('filtro-cart-disponiveis'), label: `🟢 Disponíveis (${disponiveis})` },
+                apadrinhadas: { el: document.getElementById('filtro-cart-apadrinhadas'), label: `⭐ Apadrinhadas (${apadrinhadas})` }
+            };
+
+            Object.keys(mapa).forEach((chave) => {
+                const { el, label } = mapa[chave];
+                if (!el) return;
+                el.textContent = label;
+                if (chave === filtroCartinhasAtual) {
+                    el.className = 'px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
+                } else {
+                    el.className = 'px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
+                }
+            });
+
+            const pct = Math.round((apadrinhadas / total) * 100);
+            const textoEl = document.getElementById('termometro-texto');
+            const barraEl = document.getElementById('termometro-barra');
+            const subEl = document.getElementById('termometro-sub');
+
+            if (textoEl) textoEl.textContent = `${apadrinhadas} / ${total} apadrinhadas`;
+            if (barraEl) barraEl.style.width = `${Math.max(pct, 4)}%`;
+            if (subEl) {
+                subEl.innerHTML = disponiveis > 0
+                    ? `Faltam <strong class="text-[#f4f1ea]">${disponiveis} criança${disponiveis > 1 ? 's' : ''}</strong> esperando um padrinho ou madrinha.`
+                    : `🎉 <strong class="text-[#6cb37b]">Todas as cartinhas foram apadrinhadas!</strong>`;
+            }
+        }
+
+        function gerarHtmlCartinhaLateral(c, direcao, rotacaoClasse) {
+            const isApadrinhada = c.status === 'apadrinhada' || c.status === 'entregue';
+            return `
+                <button type="button" onclick="navegarCartinha(${direcao})" class="w-full text-left rounded-2xl p-4 bg-[#161616] hover:bg-[#1d1d1d] border ${isApadrinhada ? 'border-[#3c6e47]/45' : 'border-[#f4f1ea]/14 hover:border-[#d4a13b]/55'} opacity-75 hover:opacity-100 transform ${rotacaoClasse} scale-95 transition-all duration-300 cursor-pointer">
+                    <div class="flex items-center justify-between gap-2 mb-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider ${isApadrinhada ? 'text-[#6cb37b]' : 'text-[#d4a13b]'}">
+                            ${isApadrinhada ? '⭐ Apadrinhada' : '● Disponível'}
+                        </span>
+                        <span class="font-marker text-[10px] text-[#b5b0a6]">#${c.numero}</span>
+                    </div>
+                    <h4 class="font-anton text-xl uppercase text-[#f4f1ea] truncate">${escaparHtml(c.nome)}</h4>
+                    <span class="text-[10px] font-bold text-[#d4a13b] uppercase block mb-2">${escaparHtml(c.idade)}</span>
+                    <p class="text-[11px] text-[#b5b0a6] italic line-clamp-3 leading-relaxed mb-3">
+                        ${escaparHtml(c.carta)}
+                    </p>
+                    <div class="flex flex-wrap gap-1">
+                        ${c.tags.slice(0, 2).map((tag) => `
+                            <span class="px-2 py-0.5 rounded bg-[#0b0b0b] border border-[#f4f1ea]/10 text-[10px] font-bold text-[#f4f1ea]/85">
+                                ${escaparHtml(tag)}
+                            </span>
+                        `).join('')}
+                    </div>
+                </button>
+            `;
+        }
+
+        function renderizarDeckCartinhas() {
+            atualizarContadoresCartinhas();
+
+            const lista = obterCartinhasFiltradas();
+            const cardEl = document.getElementById('deck-card-ativa');
+            const prevEl = document.getElementById('deck-card-prev');
+            const nextEl = document.getElementById('deck-card-next');
+            const miniEl = document.getElementById('deck-mini-cartinhas');
+            const contadorEl = document.getElementById('deck-contador');
+
+            if (!cardEl) return;
+
+            if (lista.length === 0) {
+                if (prevEl) prevEl.innerHTML = '';
+                if (nextEl) nextEl.innerHTML = '';
+                if (miniEl) miniEl.innerHTML = '';
+                if (contadorEl) contadorEl.textContent = '0 / 0';
+                cardEl.innerHTML = `
+                    <div class="rounded-2xl p-8 bg-[#1a1a1a] border border-[#f4f1ea]/15 text-center min-h-[260px] flex flex-col items-center justify-center">
+                        <p class="font-anton text-2xl uppercase text-[#f4f1ea]">Nenhuma cartinha neste filtro</p>
+                        <p class="text-xs text-[#b5b0a6] mt-1.5">Troque o filtro acima para ver as outras cartinhas.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (indiceCartinhaAtual >= lista.length) indiceCartinhaAtual = 0;
+
+            if (contadorEl) contadorEl.textContent = `${indiceCartinhaAtual + 1} / ${lista.length}`;
+
+            const c = lista[indiceCartinhaAtual];
+            const isApadrinhada = c.status === 'apadrinhada' || c.status === 'entregue';
+
+            // Cartinha principal (centro)
+            cardEl.innerHTML = `
+                <article class="cartinha-ativa-anim lambe-tape rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-h-[305px] border shadow-2xl ${isApadrinhada ? 'bg-[#101010] border-[#3c6e47]/65' : 'bg-[#1a1a1a] border-[#d4a13b]/55'}">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3 pt-1">
+                            ${isApadrinhada
+                                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-[10px] font-extrabold uppercase tracking-wider">⭐ Apadrinhada</span>`
+                                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3c6e47]/25 border border-[#3c6e47] text-[#6cb37b] text-[10px] font-extrabold uppercase tracking-wider">● Disponível</span>`
+                            }
+                            <span class="font-marker text-xs text-[#d4a13b] tracking-wider">#CARTINHA ${c.numero}</span>
+                        </div>
+
+                        <div class="flex items-baseline gap-2 mb-3">
+                            <h4 class="font-anton text-3xl sm:text-4xl tracking-wide uppercase text-[#f4f1ea]">${escaparHtml(c.nome)}</h4>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-[#d4a13b]">• ${escaparHtml(c.idade)}</span>
+                        </div>
+
+                        <div class="p-3.5 sm:p-4 rounded-xl bg-[#0b0b0b]/75 border border-[#f4f1ea]/10 mb-4">
+                            <p class="text-xs sm:text-sm text-[#f4f1ea]/92 leading-relaxed italic">
+                                ${escaparHtml(c.carta)}
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            ${c.tags.map((tag) => `
+                                <span class="px-2.5 py-1 rounded-lg bg-[#131313] border border-[#f4f1ea]/15 text-[11px] font-bold text-[#f4f1ea]">
+                                    ${escaparHtml(tag)}
+                                </span>
+                            `).join('')}
+                        </div>
+
+                        ${c.tamanhos
+                            ? `<p class="text-[11px] font-bold text-[#6cb37b] mb-4">👕 ${escaparHtml(c.tamanhos)}</p>`
+                            : `<p class="text-[11px] text-[#b5b0a6]/75 mb-4">👕 Tamanhos de roupa/calçado: confirmar com a equipe</p>`
+                        }
+                    </div>
+
+                    <div class="pt-3.5 border-t border-[#f4f1ea]/12">
+                        ${isApadrinhada
+                            ? `<div class="w-full py-3 px-4 rounded-xl bg-[#3c6e47]/25 border border-[#3c6e47] text-center text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
+                                 ✓ Criança já apadrinhada
+                               </div>`
+                            : `<button type="button" onclick="abrirModalApadrinhar(${c.id})" class="w-full py-3.5 px-4 rounded-xl bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2">
+                                 <span>🎁 Apadrinhar esta cartinha</span>
+                               </button>`
+                        }
+                    </div>
+                </article>
+            `;
+
+            // Cartinhas vizinhas visíveis (Anterior e Próxima)
+            if (prevEl && nextEl) {
+                if (lista.length > 1) {
+                    const prevIndex = (indiceCartinhaAtual - 1 + lista.length) % lista.length;
+                    const nextIndex = (indiceCartinhaAtual + 1) % lista.length;
+                    prevEl.innerHTML = gerarHtmlCartinhaLateral(lista[prevIndex], -1, '-rotate-2');
+                    nextEl.innerHTML = gerarHtmlCartinhaLateral(lista[nextIndex], 1, 'rotate-2');
+                } else {
+                    prevEl.innerHTML = '';
+                    nextEl.innerHTML = '';
+                }
+            }
+
+            // Índice visual de todas as cartinhas clicáveis
+            if (miniEl) {
+                miniEl.innerHTML = lista.map((item, idx) => {
+                    const ativa = idx === indiceCartinhaAtual;
+                    const apad = item.status === 'apadrinhada' || item.status === 'entregue';
+                    const classeBase = ativa
+                        ? 'bg-[#d4a13b] text-[#0b0b0b] border-[#f4f1ea]'
+                        : apad
+                            ? 'bg-[#101010] text-[#6cb37b] border-[#3c6e47]/50 hover:border-[#3c6e47]'
+                            : 'bg-[#1a1a1a] text-[#f4f1ea] border-[#f4f1ea]/15 hover:border-[#d4a13b]/70';
+                    return `
+                        <button type="button" onclick="selecionarCartinhaPorIndice(${idx})" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer ${classeBase}">
+                            ${apad ? '⭐' : '🟢'} #${item.numero} ${escaparHtml(item.nome)}
+                        </button>
+                    `;
+                }).join('');
+            }
+        }
+
+        async function carregarCartinhasNuvem(mostrarFeedback) {
+            const dot = document.getElementById('cartinhas-cloud-dot');
+            const badge = document.getElementById('cartinhas-cloud-badge');
+
+            try {
+                const resposta = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?select=*&order=id.asc`, {
+                    method: 'GET',
+                    headers: getSupabaseHeaders()
+                });
+
+                if (!resposta.ok) {
+                    throw new Error(`HTTP ${resposta.status}`);
+                }
+
+                const dados = await resposta.json();
+                if (Array.isArray(dados) && dados.length > 0) {
+                    dados.forEach((row) => {
+                        const local = cartinhasNatal.find((c) => c.id === Number(row.id));
+                        if (local) {
+                            local.status = row.status || 'disponivel';
+                            local.padrinho_nome = row.padrinho_nome || '';
+                            local.padrinho_whats = row.padrinho_whats || '';
+                            local.presente_escolhido = row.presente_escolhido || '';
+                            local.forma_entrega = row.forma_entrega || '';
+                            if (row.tamanhos) local.tamanhos = row.tamanhos;
+                        }
+                    });
+                }
+
+                if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0';
+                if (badge) {
+                    badge.className = 'text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider';
+                    badge.textContent = 'Cartinhas Conectadas na Nuvem';
+                }
+                if (mostrarFeedback) mostrarAvisoCartinhasEquipe('✓ Lista de cartinhas atualizada direto da nuvem!');
+            } catch (erro) {
+                console.warn('Tabela cartinhas_natal ainda não configurada ou sem conexão:', erro);
+                if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-[#d4a13b] shrink-0';
+                if (badge) {
+                    badge.className = 'text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider';
+                    badge.textContent = 'Aguardando tabela cartinhas_natal no Supabase';
+                }
+            } finally {
+                renderizarDeckCartinhas();
+                renderizarListaCartinhasEquipe();
+            }
+        }
+
+        async function confirmarApadrinhamento(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btn-confirmar-apadrinhar');
+            const id = Number(document.getElementById('input-cartinha-id').value);
+            const nomePad = document.getElementById('pad-nome').value.trim();
+            const whatsPad = document.getElementById('pad-whats').value.trim();
+            const presente = document.getElementById('pad-presente').value.trim();
+            const entrega = document.getElementById('pad-entrega').value;
+
+            const c = cartinhasNatal.find((item) => item.id === id);
+            if (!c) return;
+
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳ Reservando na nuvem...</span>';
+            }
+
+            c.status = 'apadrinhada';
+            c.padrinho_nome = nomePad;
+            c.padrinho_whats = whatsPad;
+            c.presente_escolhido = presente;
+            c.forma_entrega = entrega;
+
+            try {
+                await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
+                    method: 'PATCH',
+                    headers: getSupabaseHeaders('return=representation'),
+                    body: JSON.stringify({
+                        status: 'apadrinhada',
+                        padrinho_nome: nomePad,
+                        padrinho_whats: whatsPad,
+                        presente_escolhido: presente,
+                        forma_entrega: entrega,
+                        updated_at: new Date().toISOString()
+                    })
+                });
+            } catch (erro) {
+                console.error('Erro ao salvar apadrinhamento no Supabase:', erro);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>🎁 Confirmar Apadrinhamento</span>';
+                }
+            }
+
+            const msg = [
+                'Salve, Instituto Fundão! 🎄👑',
+                `Acabei de apadrinhar a *Cartinha #${c.numero} (${c.nome}, ${c.idade})* no site do Natal na Quebrada Fundão!`,
+                '',
+                `*Padrinho/Madrinha:* ${nomePad}`,
+                `*WhatsApp:* ${whatsPad}`,
+                `*Presente:* ${presente}`,
+                `*Entrega:* ${entrega}`
+            ].join('\n');
+
+            document.getElementById('btn-wpp-apadrinhamento').href = `https://wa.me/${WHATSAPP_OFICIAL_NUM}?text=${encodeURIComponent(msg)}`;
+            document.getElementById('form-apadrinhar').classList.add('hidden');
+            document.getElementById('modal-apadrinhar-sucesso').classList.remove('hidden');
+
+            renderizarDeckCartinhas();
+            renderizarListaCartinhasEquipe();
+        }
+
+        function mostrarAvisoCartinhasEquipe(msg) {
+            const box = document.getElementById('equipe-cartinhas-aviso');
+            if (!box) return;
+            box.textContent = msg;
+            box.classList.remove('hidden');
+            setTimeout(() => box.classList.add('hidden'), 4500);
+        }
+
+        async function alterarStatusCartinhaEquipe(id, novoStatus) {
+            const c = cartinhasNatal.find((item) => item.id === Number(id));
+            if (!c) return;
+
+            const payload = {
+                status: novoStatus,
+                updated_at: new Date().toISOString()
+            };
+
+            c.status = novoStatus;
+            if (novoStatus === 'disponivel') {
+                c.padrinho_nome = '';
+                c.padrinho_whats = '';
+                c.presente_escolhido = '';
+                c.forma_entrega = '';
+                payload.padrinho_nome = '';
+                payload.padrinho_whats = '';
+                payload.presente_escolhido = '';
+                payload.forma_entrega = '';
+            }
+
+            renderizarDeckCartinhas();
+            renderizarListaCartinhasEquipe();
+
+            try {
+                const resp = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
+                    method: 'PATCH',
+                    headers: getSupabaseHeaders('return=representation'),
+                    body: JSON.stringify(payload)
+                });
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                mostrarAvisoCartinhasEquipe(`✓ Cartinha #${c.numero} (${c.nome}) atualizada na nuvem!`);
+            } catch (erro) {
+                console.error('Erro ao atualizar cartinha:', erro);
+                mostrarAvisoCartinhasEquipe('⚠️ Erro ao salvar no Supabase. Verifique se a tabela cartinhas_natal foi criada.');
+            }
+        }
+
+        function renderizarListaCartinhasEquipe() {
+            const container = document.getElementById('equipe-cartinhas-lista');
+            const contador = document.getElementById('equipe-cartinhas-contador');
+            const filtro = document.getElementById('equipe-cartinhas-filtro')?.value || 'TODOS';
+            const busca = (document.getElementById('equipe-cartinhas-busca')?.value || '').trim().toLowerCase();
+
+            const totalApad = cartinhasNatal.filter((c) => c.status === 'apadrinhada' || c.status === 'entregue').length;
+            if (contador) contador.textContent = `${totalApad} / ${cartinhasNatal.length} apadrinhadas`;
+            if (!container) return;
+
+            const filtradas = cartinhasNatal.filter((c) => {
+                const okFiltro = filtro === 'TODOS' || c.status === filtro;
+                const okBusca = !busca || [c.nome, c.numero, c.padrinho_nome, c.presente_escolhido].some((v) => String(v || '').toLowerCase().includes(busca));
+                return okFiltro && okBusca;
+            });
+
+            container.innerHTML = filtradas.map((c) => {
+                const badgeClass = c.status === 'entregue'
+                    ? 'bg-[#3c6e47] text-[#f4f1ea]'
+                    : c.status === 'apadrinhada'
+                        ? 'bg-[#d4a13b] text-[#0b0b0b]'
+                        : 'bg-[#131313] border border-[#f4f1ea]/25 text-[#b5b0a6]';
+                const badgeLabel = c.status === 'entregue' ? 'Presente Recebido ✓' : c.status === 'apadrinhada' ? 'Apadrinhada' : 'Disponível';
+
+                const whatsLimpo = String(c.padrinho_whats || '').replace(/\D/g, '');
+                const wppLink = whatsLimpo
+                    ? `https://wa.me/${whatsLimpo.startsWith('55') ? whatsLimpo : '55' + whatsLimpo}?text=${encodeURIComponent(`Salve, ${c.padrinho_nome}! Aqui é da equipe do Instituto Fundão sobre o apadrinhamento da Cartinha #${c.numero} (${c.nome}). 🎄`)}`
+                    : '';
+
+                return `
+                    <div class="p-4 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase ${badgeClass}">${badgeLabel}</span>
+                                <span class="font-marker text-xs text-[#d4a13b]">#${c.numero}</span>
+                                <span class="text-xs font-bold text-[#b5b0a6]">${escaparHtml(c.idade)}</span>
+                            </div>
+                            <h4 class="font-anton text-xl text-[#f4f1ea] uppercase">${escaparHtml(c.nome)}</h4>
+                            ${c.padrinho_nome
+                                ? `<p class="text-xs text-[#f4f1ea]/90"><strong>Padrinho:</strong> ${escaparHtml(c.padrinho_nome)} • <strong>Whats:</strong> ${escaparHtml(c.padrinho_whats || '-')}</p>
+                                   <p class="text-xs text-[#6cb37b]"><strong>Presente:</strong> ${escaparHtml(c.presente_escolhido || '-')} • <strong>Entrega:</strong> ${escaparHtml(c.forma_entrega || '-')}</p>`
+                                : `<p class="text-xs text-[#b5b0a6] italic">Aguardando padrinho ou madrinha</p>`
+                            }
+                        </div>
+
+                        <div class="flex flex-wrap sm:flex-col items-stretch sm:items-end gap-2 shrink-0">
+                            <select onchange="alterarStatusCartinhaEquipe(${c.id}, this.value)" class="px-3 py-1.5 rounded-lg bg-[#131313] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea]">
+                                <option value="disponivel" ${c.status === 'disponivel' ? 'selected' : ''}>Disponível (Liberar)</option>
+                                <option value="apadrinhada" ${c.status === 'apadrinhada' ? 'selected' : ''}>Apadrinhada</option>
+                                <option value="entregue" ${c.status === 'entregue' ? 'selected' : ''}>Presente Recebido</option>
+                            </select>
+                            ${wppLink ? `<a href="${wppLink}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-bold text-center">Falar c/ Padrinho ↗</a>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function exportarCSVCartinhas() {
+            const cabecalho = ['Numero', 'Crianca', 'Idade', 'Status', 'Padrinho', 'WhatsApp Padrinho', 'Presente', 'Forma de Entrega'];
+            const linhas = cartinhasNatal.map((c) => [
+                c.numero, c.nome, c.idade, c.status,
+                c.padrinho_nome || '', c.padrinho_whats || '',
+                c.presente_escolhido || '', c.forma_entrega || ''
+            ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(';'));
+
+            const csv = '\uFEFF' + [cabecalho.join(';'), ...linhas].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cartinhas-natal-instituto-fundao.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            mostrarAvisoCartinhasEquipe('✓ Planilha CSV das cartinhas exportada!');
+        }
+
+        function abrirModalApadrinhar(id) {
+            const c = cartinhasNatal.find((item) => item.id === id);
+            if (!c) return;
+
+            document.getElementById('input-cartinha-id').value = c.id;
+            document.getElementById('modal-apadrinhar-titulo').textContent = `${c.nome} • ${c.idade}`;
+            document.getElementById('modal-apadrinhar-carta').textContent = c.carta;
+
+            const tamEl = document.getElementById('modal-apadrinhar-tamanhos');
+            if (c.tamanhos) {
+                tamEl.textContent = `👕 ${c.tamanhos}`;
+                tamEl.classList.remove('hidden');
+            } else {
+                tamEl.classList.add('hidden');
+            }
+
+            document.getElementById('form-apadrinhar').reset();
+            document.getElementById('form-apadrinhar').classList.remove('hidden');
+            document.getElementById('modal-apadrinhar-sucesso').classList.add('hidden');
+
+            document.getElementById('modal-apadrinhar').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalApadrinhar() {
+            const modal = document.getElementById('modal-apadrinhar');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function iniciarSwipeCartinhas() {
+            const stage = document.getElementById('cartinha-deck-stage');
+            if (!stage) return;
+
+            stage.addEventListener('touchstart', (e) => {
+                toqueInicioX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            stage.addEventListener('touchend', (e) => {
+                const deltaX = e.changedTouches[0].screenX - toqueInicioX;
+                if (Math.abs(deltaX) > 45) {
+                    navegarCartinha(deltaX < 0 ? 1 : -1);
+                }
+            }, { passive: true });
+        }
+
         /* Inicialização ao carregar o DOM */
         window.addEventListener('DOMContentLoaded', () => {
             reiniciarTimerHero();
+            renderizarDeckCartinhas();
+            iniciarSwipeCartinhas();
+            carregarCartinhasNuvem();
         });
     </script>
 </body>
