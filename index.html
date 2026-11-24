@@ -553,13 +553,13 @@
                         <div class="w-full lg:w-72 p-3.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/12 shrink-0">
                             <div class="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
                                 <span class="text-[#d4a13b]">Termômetro de Natal</span>
-                                <span id="termometro-texto" class="text-[#f4f1ea]">0 / 15 apadrinhadas</span>
+                                <span id="termometro-texto" class="text-[#f4f1ea]">0 / 18 apadrinhadas</span>
                             </div>
                             <div class="w-full h-2.5 rounded-full bg-[#0b0b0b] border border-[#f4f1ea]/10 overflow-hidden">
                                 <div id="termometro-barra" class="h-full bg-gradient-to-r from-[#3c6e47] to-[#d4a13b] rounded-full transition-all duration-500" style="width: 4%;"></div>
                             </div>
                             <p id="termometro-sub" class="text-[11px] text-[#b5b0a6] mt-1.5">
-                                Faltam <strong class="text-[#f4f1ea]">15 crianças</strong> esperando um padrinho ou madrinha.
+                                Faltam <strong class="text-[#f4f1ea]">18 crianças</strong> esperando um padrinho ou madrinha.
                             </p>
                         </div>
                     </div>
@@ -568,10 +568,10 @@
                     <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
                         <div class="flex flex-wrap items-center gap-2">
                             <button type="button" id="filtro-cart-todas" onclick="definirFiltroCartinhas('todas')" class="px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
-                                Todas (15)
+                                Todas (18)
                             </button>
                             <button type="button" id="filtro-cart-disponiveis" onclick="definirFiltroCartinhas('disponiveis')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
-                                🟢 Disponíveis (15)
+                                🟢 Disponíveis (18)
                             </button>
                             <button type="button" id="filtro-cart-apadrinhadas" onclick="definirFiltroCartinhas('apadrinhadas')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
                                 ⭐ Apadrinhadas (0)
@@ -583,7 +583,7 @@
                                 ← Anterior
                             </button>
                             <span id="deck-contador" class="text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider px-1.5">
-                                1 / 15
+                                1 / 18
                             </span>
                             <button type="button" onclick="navegarCartinha(1)" aria-label="Próxima cartinha" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#d4a13b] text-[#f4f1ea] hover:text-[#0b0b0b] border border-[#f4f1ea]/18 text-xs font-extrabold uppercase tracking-wider transition-colors cursor-pointer">
                                 Próxima →
@@ -616,7 +616,7 @@
                                     🟢 Disponíveis para Apadrinhar
                                 </span>
                                 <span id="qtd-mini-disponiveis" class="px-2 py-0.5 rounded-full bg-[#3c6e47]/30 text-[#6cb37b] text-[10px] font-extrabold">
-                                    15
+                                    18
                                 </span>
                             </div>
                             <div id="lista-mini-disponiveis" class="flex flex-wrap gap-1.5">
@@ -1727,7 +1727,7 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
                         <div class="flex flex-wrap items-center gap-2">
                             <span id="equipe-cartinhas-contador" class="px-3 py-1.5 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-xs font-extrabold uppercase">
-                                0 / 15 apadrinhadas
+                                0 / 18 apadrinhadas
                             </span>
                             <input type="search" id="equipe-cartinhas-busca" oninput="renderizarListaCartinhasEquipe()" placeholder="Buscar criança ou padrinho..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
                         </div>
@@ -2788,6 +2788,36 @@
                 carta: '"Querido papai noel, me chamo Ana Maria tenho 8 anos e me comportei muito bem esse ano, Nesse Natal, eu queria muito pedir uma bicicleta pra brincar, e passear com os meus amigos, ou um tablet para estudar e aprender coisas novas."',
                 tags: ['🚲 Bicicleta', '📚 Tablet', '👕 Roupas (Tam. 8)', '👟 Tênis (31)', '🧸 Brinquedos'],
                 tamanhos: 'Camisa 8 • Calça 8 • Blusa 8 • Tênis 31',
+                status: 'disponivel'
+            },
+            {
+                id: 16,
+                numero: '16',
+                nome: 'Yuri',
+                idade: '9 anos',
+                carta: '"Querido papai Noel eu quero de presente um: 1 - um carinho de controle remoto; 2 - é uma bicleta eletrica. Beijos Yuri"',
+                tags: ['🏎️ Carrinho controle remoto', '🚲 Bicicleta elétrica', '👟 Calçado (37/38)', '👕 Roupas', '🧸 Brinquedos'],
+                tamanhos: 'Calçado 37/38',
+                status: 'disponivel'
+            },
+            {
+                id: 17,
+                numero: '17',
+                nome: 'Davi Guilherme',
+                idade: '7 anos',
+                carta: '"Oi papai Noel meu nome é Davi Guilherme e eu queria ganhar um robo de brinquedo que vira carrinho (vermelho e azul)"',
+                tags: ['🤖 Robô que vira carrinho (vermelho e azul)', '👕 Roupas', '👟 Calçado', '🧸 Brinquedos'],
+                tamanhos: '',
+                status: 'disponivel'
+            },
+            {
+                id: 18,
+                numero: '18',
+                nome: 'Deryck',
+                idade: '12 anos',
+                carta: '"Opção 1: Conjunto preto da Gaviões • Opção 2: Celular. Eu espero que o senhor consiga me dá ☆"',
+                tags: ['🖤 Conjunto preto da Gaviões', '📱 Celular', '👕 Camisa (16)', '👟 Tênis (40)', '⚽ Bola / Acessórios'],
+                tamanhos: 'Camisa 16 • Tênis 40',
                 status: 'disponivel'
             }
         ];
