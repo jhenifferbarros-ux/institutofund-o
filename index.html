@@ -593,36 +593,50 @@
 
                     <!-- Palco Leque / Coverflow: 3 Cartinhas Visíveis (Anterior • Principal • Próxima) -->
                     <div id="cartinha-deck-stage" class="mt-6 relative overflow-hidden py-3 select-none">
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                            <!-- Prévia Visível da Cartinha Anterior (clicável) -->
-                            <div id="deck-card-prev" class="hidden md:block md:col-span-3 transition-all duration-300">
-                                <!-- Renderizada via JS -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                            <!-- Prévia Cartinha Anterior (Desktop) -->
+                            <div id="deck-card-prev" class="hidden lg:block lg:col-span-3"></div>
+
+                            <!-- Cartinha Principal em Destaque -->
+                            <div id="deck-card-ativa" class="lg:col-span-6 relative z-20">
+                                <!-- Gerado via JS -->
                             </div>
 
-                            <!-- Cartinha Principal em Destaque (Formato Original Limpo) -->
-                            <div id="deck-card-ativa" class="md:col-span-6 relative z-20">
-                                <!-- Renderizada via JS -->
-                            </div>
-
-                            <!-- Prévia Visível da Próxima Cartinha (clicável) -->
-                            <div id="deck-card-next" class="hidden md:block md:col-span-3 transition-all duration-300">
-                                <!-- Renderizada via JS -->
-                            </div>
+                            <!-- Prévia Próxima Cartinha (Desktop) -->
+                            <div id="deck-card-next" class="hidden lg:block lg:col-span-3"></div>
                         </div>
                     </div>
 
-                    <!-- Índice Visual Compacto: Todas as Cartinhas Visíveis para Escolha Direta -->
-                    <div class="mt-5 pt-4 border-t border-[#f4f1ea]/10">
-                        <div class="flex items-center justify-between gap-2 mb-2.5">
-                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6]">
-                                Escolha direto uma cartinha:
-                            </span>
-                            <span class="text-[10px] text-[#b5b0a6]/80">
-                                🟢 Disponível • ⭐ Apadrinhada
-                            </span>
+                    <!-- Índice Visual Compacto: Disponíveis x Indisponíveis -->
+                    <div class="mt-5 pt-4 border-t border-[#f4f1ea]/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Lista de Crianças Disponíveis -->
+                        <div class="p-3.5 rounded-xl bg-[#0b0b0b]/60 border border-[#3c6e47]/40">
+                            <div class="flex items-center justify-between gap-2 mb-2.5">
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#6cb37b]">
+                                    🟢 Disponíveis para Apadrinhar
+                                </span>
+                                <span id="qtd-mini-disponiveis" class="px-2 py-0.5 rounded-full bg-[#3c6e47]/30 text-[#6cb37b] text-[10px] font-extrabold">
+                                    15
+                                </span>
+                            </div>
+                            <div id="lista-mini-disponiveis" class="flex flex-wrap gap-1.5">
+                                <!-- Gerado via JS -->
+                            </div>
                         </div>
-                        <div id="deck-mini-cartinhas" class="flex flex-wrap gap-2">
-                            <!-- Mini-cartinhas clicáveis geradas via JS -->
+
+                        <!-- Lista de Crianças Já Apadrinhadas (Indisponíveis) -->
+                        <div class="p-3.5 rounded-xl bg-[#0b0b0b]/60 border border-[#f4f1ea]/12">
+                            <div class="flex items-center justify-between gap-2 mb-2.5">
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#b5b0a6]">
+                                    🔒 Já Apadrinhadas (Indisponíveis)
+                                </span>
+                                <span id="qtd-mini-indisponiveis" class="px-2 py-0.5 rounded-full bg-[#1a1a1a] text-[#d4a13b] text-[10px] font-extrabold">
+                                    0
+                                </span>
+                            </div>
+                            <div id="lista-mini-indisponiveis" class="flex flex-wrap gap-1.5">
+                                <!-- Gerado via JS -->
+                            </div>
                         </div>
                     </div>
 
@@ -1767,6 +1781,7 @@
                         <p class="text-xs text-[#f4f1ea]/90 leading-relaxed">
                             Obrigado por fortalecer o Natal da quebrada! Agora clique abaixo para enviar a confirmação no WhatsApp oficial do Instituto Fundão e combinar a entrega do presente:
                         </p>
+                        <p id="apadrinhar-cloud-msg" class="text-[11px] font-bold text-[#d4a13b] mt-2"></p>
                     </div>
                     <a id="btn-wpp-apadrinhamento" href="#" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] font-extrabold text-xs uppercase tracking-wider transition-colors">
                         <span>Confirmar no WhatsApp Oficial</span>
@@ -2015,6 +2030,7 @@
         const SUPABASE_ENDPOINT = `${SUPABASE_URL}/rest/v1/inscricoes_artistas`;
         const SUPABASE_CARTINHAS_ENDPOINT = `${SUPABASE_URL}/rest/v1/cartinhas_natal`;
         const STORAGE_KEY_FALLBACK = 'inscricoes_artistas_fundao';
+        const STORAGE_KEY_CARTINHAS = 'cartinhas_natal_fundao';
         const EQUIPE_CODIGO_ACESSO = 'fundão@nc8!';
 
         let listaInscricoesCache = [];
@@ -2780,6 +2796,45 @@
         let indiceCartinhaAtual = 0;
         let toqueInicioX = 0;
 
+        function salvarCartinhasLocal() {
+            try {
+                const resumo = cartinhasNatal.map((c) => ({
+                    id: c.id,
+                    status: c.status,
+                    padrinho_nome: c.padrinho_nome || '',
+                    padrinho_whats: c.padrinho_whats || '',
+                    presente_escolhido: c.presente_escolhido || '',
+                    forma_entrega: c.forma_entrega || '',
+                    tamanhos: c.tamanhos || ''
+                }));
+                localStorage.setItem(STORAGE_KEY_CARTINHAS, JSON.stringify(resumo));
+            } catch (err) {
+                console.error('Erro ao salvar cartinhas no cache local:', err);
+            }
+        }
+
+        function carregarCartinhasLocal() {
+            try {
+                const salvo = localStorage.getItem(STORAGE_KEY_CARTINHAS);
+                if (!salvo) return;
+                const lista = JSON.parse(salvo);
+                if (!Array.isArray(lista)) return;
+                lista.forEach((row) => {
+                    const local = cartinhasNatal.find((c) => c.id === Number(row.id));
+                    if (local) {
+                        local.status = row.status || 'disponivel';
+                        local.padrinho_nome = row.padrinho_nome || '';
+                        local.padrinho_whats = row.padrinho_whats || '';
+                        local.presente_escolhido = row.presente_escolhido || '';
+                        local.forma_entrega = row.forma_entrega || '';
+                        if (row.tamanhos) local.tamanhos = row.tamanhos;
+                    }
+                });
+            } catch (err) {
+                console.error('Erro ao carregar cartinhas do cache local:', err);
+            }
+        }
+
         function obterCartinhasFiltradas() {
             return cartinhasNatal.filter((c) => {
                 if (filtroCartinhasAtual === 'disponiveis') return c.status === 'disponivel';
@@ -2801,11 +2856,18 @@
             renderizarDeckCartinhas();
         }
 
-        function selecionarCartinhaPorIndice(novoIndice) {
-            const lista = obterCartinhasFiltradas();
-            if (novoIndice < 0 || novoIndice >= lista.length) return;
-            indiceCartinhaAtual = novoIndice;
-            renderizarDeckCartinhas();
+        function selecionarCartinhaPorId(id) {
+            let lista = obterCartinhasFiltradas();
+            let idx = lista.findIndex((item) => item.id === Number(id));
+            if (idx === -1) {
+                filtroCartinhasAtual = 'todas';
+                lista = obterCartinhasFiltradas();
+                idx = lista.findIndex((item) => item.id === Number(id));
+            }
+            if (idx >= 0) {
+                indiceCartinhaAtual = idx;
+                renderizarDeckCartinhas();
+            }
         }
 
         function atualizarContadoresCartinhas() {
@@ -2819,18 +2881,18 @@
                 apadrinhadas: { el: document.getElementById('filtro-cart-apadrinhadas'), label: `⭐ Apadrinhadas (${apadrinhadas})` }
             };
 
-            Object.keys(mapa).forEach((chave) => {
-                const { el, label } = mapa[chave];
+            Object.keys(mapa).forEach((key) => {
+                const { el, label } = mapa[key];
                 if (!el) return;
                 el.textContent = label;
-                if (chave === filtroCartinhasAtual) {
+                if (key === filtroCartinhasAtual) {
                     el.className = 'px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
                 } else {
                     el.className = 'px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors';
                 }
             });
 
-            const pct = Math.round((apadrinhadas / total) * 100);
+            const pct = total > 0 ? Math.round((apadrinhadas / total) * 100) : 0;
             const textoEl = document.getElementById('termometro-texto');
             const barraEl = document.getElementById('termometro-barra');
             const subEl = document.getElementById('termometro-sub');
@@ -2847,10 +2909,10 @@
         function gerarHtmlCartinhaLateral(c, direcao, rotacaoClasse) {
             const isApadrinhada = c.status === 'apadrinhada' || c.status === 'entregue';
             return `
-                <button type="button" onclick="navegarCartinha(${direcao})" class="w-full text-left rounded-2xl p-4 bg-[#161616] hover:bg-[#1d1d1d] border ${isApadrinhada ? 'border-[#3c6e47]/45' : 'border-[#f4f1ea]/14 hover:border-[#d4a13b]/55'} opacity-75 hover:opacity-100 transform ${rotacaoClasse} scale-95 transition-all duration-300 cursor-pointer">
+                <button type="button" onclick="navegarCartinha(${direcao})" class="w-full text-left rounded-2xl p-4 bg-[#161616] hover:bg-[#1d1d1d] border ${isApadrinhada ? 'border-[#3c6e47]/45 opacity-60' : 'border-[#f4f1ea]/14 hover:border-[#d4a13b]/55 opacity-80'} hover:opacity-100 transform ${rotacaoClasse} scale-95 transition-all duration-300 cursor-pointer">
                     <div class="flex items-center justify-between gap-2 mb-2">
                         <span class="text-[10px] font-extrabold uppercase tracking-wider ${isApadrinhada ? 'text-[#6cb37b]' : 'text-[#d4a13b]'}">
-                            ${isApadrinhada ? '⭐ Apadrinhada' : '● Disponível'}
+                            ${isApadrinhada ? '🔒 Indisponível' : '● Disponível'}
                         </span>
                         <span class="font-marker text-[10px] text-[#b5b0a6]">#${c.numero}</span>
                     </div>
@@ -2870,6 +2932,55 @@
             `;
         }
 
+        function renderizarListasStatusCartinhas(idAtivo) {
+            const dispEl = document.getElementById('lista-mini-disponiveis');
+            const indispEl = document.getElementById('lista-mini-indisponiveis');
+            const qtdDispEl = document.getElementById('qtd-mini-disponiveis');
+            const qtdIndispEl = document.getElementById('qtd-mini-indisponiveis');
+
+            const disponiveis = cartinhasNatal.filter((c) => c.status === 'disponivel');
+            const indisponiveis = cartinhasNatal.filter((c) => c.status === 'apadrinhada' || c.status === 'entregue');
+
+            if (qtdDispEl) qtdDispEl.textContent = disponiveis.length;
+            if (qtdIndispEl) qtdIndispEl.textContent = indisponiveis.length;
+
+            if (dispEl) {
+                if (disponiveis.length === 0) {
+                    dispEl.innerHTML = `<span class="text-[11px] text-[#6cb37b] font-bold">🎉 Todas as crianças já foram apadrinhadas!</span>`;
+                } else {
+                    dispEl.innerHTML = disponiveis.map((item) => {
+                        const ativa = item.id === idAtivo;
+                        const cls = ativa
+                            ? 'bg-[#d4a13b] text-[#0b0b0b] border-[#f4f1ea]'
+                            : 'bg-[#1a1a1a] text-[#f4f1ea] border-[#3c6e47]/50 hover:border-[#d4a13b]';
+                        return `
+                            <button type="button" onclick="selecionarCartinhaPorId(${item.id})" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer ${cls}">
+                                🟢 #${item.numero} ${escaparHtml(item.nome)}
+                            </button>
+                        `;
+                    }).join('');
+                }
+            }
+
+            if (indispEl) {
+                if (indisponiveis.length === 0) {
+                    indispEl.innerHTML = `<span class="text-[11px] text-[#b5b0a6]/75 italic">Nenhuma cartinha apadrinhada ainda. Seja o primeiro!</span>`;
+                } else {
+                    indispEl.innerHTML = indisponiveis.map((item) => {
+                        const ativa = item.id === idAtivo;
+                        const cls = ativa
+                            ? 'bg-[#3c6e47] text-[#f4f1ea] border-[#f4f1ea]'
+                            : 'bg-[#141414] text-[#6cb37b] border-[#3c6e47]/45 hover:border-[#6cb37b] opacity-85';
+                        return `
+                            <button type="button" onclick="selecionarCartinhaPorId(${item.id})" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer ${cls}">
+                                🔒 #${item.numero} ${escaparHtml(item.nome)}
+                            </button>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
         function renderizarDeckCartinhas() {
             atualizarContadoresCartinhas();
 
@@ -2877,7 +2988,6 @@
             const cardEl = document.getElementById('deck-card-ativa');
             const prevEl = document.getElementById('deck-card-prev');
             const nextEl = document.getElementById('deck-card-next');
-            const miniEl = document.getElementById('deck-mini-cartinhas');
             const contadorEl = document.getElementById('deck-contador');
 
             if (!cardEl) return;
@@ -2885,14 +2995,14 @@
             if (lista.length === 0) {
                 if (prevEl) prevEl.innerHTML = '';
                 if (nextEl) nextEl.innerHTML = '';
-                if (miniEl) miniEl.innerHTML = '';
                 if (contadorEl) contadorEl.textContent = '0 / 0';
                 cardEl.innerHTML = `
                     <div class="rounded-2xl p-8 bg-[#1a1a1a] border border-[#f4f1ea]/15 text-center min-h-[260px] flex flex-col items-center justify-center">
                         <p class="font-anton text-2xl uppercase text-[#f4f1ea]">Nenhuma cartinha neste filtro</p>
-                        <p class="text-xs text-[#b5b0a6] mt-1.5">Troque o filtro acima para ver as outras cartinhas.</p>
+                        <p class="text-xs text-[#b5b0a6] mt-1.5">Troque o filtro acima ou clique em uma criança abaixo.</p>
                     </div>
                 `;
+                renderizarListasStatusCartinhas(null);
                 return;
             }
 
@@ -2909,7 +3019,7 @@
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3 pt-1">
                             ${isApadrinhada
-                                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-[10px] font-extrabold uppercase tracking-wider">⭐ Apadrinhada</span>`
+                                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-[10px] font-extrabold uppercase tracking-wider">🔒 Indisponível • Apadrinhada</span>`
                                 : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#3c6e47]/25 border border-[#3c6e47] text-[#6cb37b] text-[10px] font-extrabold uppercase tracking-wider">● Disponível</span>`
                             }
                             <span class="font-marker text-xs text-[#d4a13b] tracking-wider">#CARTINHA ${c.numero}</span>
@@ -2943,7 +3053,7 @@
                     <div class="pt-3.5 border-t border-[#f4f1ea]/12">
                         ${isApadrinhada
                             ? `<div class="w-full py-3 px-4 rounded-xl bg-[#3c6e47]/25 border border-[#3c6e47] text-center text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider">
-                                 ✓ Criança já apadrinhada
+                                 🔒 Criança já apadrinhada (Indisponível)
                                </div>`
                             : `<button type="button" onclick="abrirModalApadrinhar(${c.id})" class="w-full py-3.5 px-4 rounded-xl bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2">
                                  <span>🎁 Apadrinhar esta cartinha</span>
@@ -2966,23 +3076,8 @@
                 }
             }
 
-            // Índice visual de todas as cartinhas clicáveis
-            if (miniEl) {
-                miniEl.innerHTML = lista.map((item, idx) => {
-                    const ativa = idx === indiceCartinhaAtual;
-                    const apad = item.status === 'apadrinhada' || item.status === 'entregue';
-                    const classeBase = ativa
-                        ? 'bg-[#d4a13b] text-[#0b0b0b] border-[#f4f1ea]'
-                        : apad
-                            ? 'bg-[#101010] text-[#6cb37b] border-[#3c6e47]/50 hover:border-[#3c6e47]'
-                            : 'bg-[#1a1a1a] text-[#f4f1ea] border-[#f4f1ea]/15 hover:border-[#d4a13b]/70';
-                    return `
-                        <button type="button" onclick="selecionarCartinhaPorIndice(${idx})" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-bold transition-colors cursor-pointer ${classeBase}">
-                            ${apad ? '⭐' : '🟢'} #${item.numero} ${escaparHtml(item.nome)}
-                        </button>
-                    `;
-                }).join('');
-            }
+            // Atualiza as duas listas separadas: Disponíveis x Indisponíveis
+            renderizarListasStatusCartinhas(c.id);
         }
 
         async function carregarCartinhasNuvem(mostrarFeedback) {
@@ -3012,6 +3107,7 @@
                             if (row.tamanhos) local.tamanhos = row.tamanhos;
                         }
                     });
+                    salvarCartinhasLocal();
                 }
 
                 if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-[#6cb37b] shrink-0';
@@ -3036,6 +3132,7 @@
         async function confirmarApadrinhamento(event) {
             event.preventDefault();
             const btn = document.getElementById('btn-confirmar-apadrinhar');
+            const cloudMsg = document.getElementById('apadrinhar-cloud-msg');
             const id = Number(document.getElementById('input-cartinha-id').value);
             const nomePad = document.getElementById('pad-nome').value.trim();
             const whatsPad = document.getElementById('pad-whats').value.trim();
@@ -3047,7 +3144,7 @@
 
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<span>⏳ Reservando na nuvem...</span>';
+                btn.innerHTML = '<span>⏳ Salvando apadrinhamento...</span>';
             }
 
             c.status = 'apadrinhada';
@@ -3055,20 +3152,50 @@
             c.padrinho_whats = whatsPad;
             c.presente_escolhido = presente;
             c.forma_entrega = entrega;
+            salvarCartinhasLocal();
+
+            let salvoNuvem = false;
+            const payloadUpdate = {
+                status: 'apadrinhada',
+                padrinho_nome: nomePad,
+                padrinho_whats: whatsPad,
+                presente_escolhido: presente,
+                forma_entrega: entrega,
+                updated_at: new Date().toISOString()
+            };
 
             try {
-                await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
+                const resp = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
                     method: 'PATCH',
                     headers: getSupabaseHeaders('return=representation'),
-                    body: JSON.stringify({
-                        status: 'apadrinhada',
-                        padrinho_nome: nomePad,
-                        padrinho_whats: whatsPad,
-                        presente_escolhido: presente,
-                        forma_entrega: entrega,
-                        updated_at: new Date().toISOString()
-                    })
+                    body: JSON.stringify(payloadUpdate)
                 });
+
+                if (resp.ok) {
+                    const retorno = await resp.json();
+                    if (Array.isArray(retorno) && retorno.length > 0) {
+                        salvoNuvem = true;
+                    }
+                }
+
+                // Se a linha ainda não existia na tabela, tenta upsert via POST
+                if (!salvoNuvem) {
+                    const respUpsert = await fetch(SUPABASE_CARTINHAS_ENDPOINT, {
+                        method: 'POST',
+                        headers: getSupabaseHeaders('resolution=merge-duplicates,return=representation'),
+                        body: JSON.stringify({
+                            id: c.id,
+                            numero: c.numero,
+                            nome: c.nome,
+                            idade: c.idade,
+                            tamanhos: c.tamanhos || '',
+                            ...payloadUpdate
+                        })
+                    });
+                    if (respUpsert.ok) {
+                        salvoNuvem = true;
+                    }
+                }
             } catch (erro) {
                 console.error('Erro ao salvar apadrinhamento no Supabase:', erro);
             } finally {
@@ -3076,6 +3203,12 @@
                     btn.disabled = false;
                     btn.innerHTML = '<span>🎁 Confirmar Apadrinhamento</span>';
                 }
+            }
+
+            if (cloudMsg) {
+                cloudMsg.textContent = salvoNuvem
+                    ? '✓ Reserva salva na nuvem! Esta cartinha já aparece como indisponível para todos os aparelhos.'
+                    : '⚠️ Reserva salva neste aparelho. Para sincronizar entre todos os celulares, confira se a tabela cartinhas_natal foi criada no Supabase.';
             }
 
             const msg = [
@@ -3125,6 +3258,7 @@
                 payload.forma_entrega = '';
             }
 
+            salvarCartinhasLocal();
             renderizarDeckCartinhas();
             renderizarListaCartinhasEquipe();
 
@@ -3272,6 +3406,7 @@
         /* Inicialização ao carregar o DOM */
         window.addEventListener('DOMContentLoaded', () => {
             reiniciarTimerHero();
+            carregarCartinhasLocal();
             renderizarDeckCartinhas();
             iniciarSwipeCartinhas();
             carregarCartinhasNuvem();
