@@ -3087,11 +3087,13 @@
             try {
                 const resposta = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?select=*&order=id.asc`, {
                     method: 'GET',
+                    cache: 'no-store',
                     headers: getSupabaseHeaders()
                 });
 
                 if (!resposta.ok) {
-                    throw new Error(`HTTP ${resposta.status}`);
+                    const erroTxt = await resposta.text();
+                    throw new Error(`HTTP ${resposta.status}: ${erroTxt}`);
                 }
 
                 const dados = await resposta.json();
@@ -3115,13 +3117,22 @@
                     badge.className = 'text-xs font-extrabold text-[#6cb37b] uppercase tracking-wider';
                     badge.textContent = 'Cartinhas Conectadas na Nuvem';
                 }
-                if (mostrarFeedback) mostrarAvisoCartinhasEquipe('✓ Lista de cartinhas atualizada direto da nuvem!');
+
+                if (mostrarFeedback) {
+                    mostrarAvisoCartinhasEquipe('✓ Lista de cartinhas sincronizada com a nuvem!');
+                }
             } catch (erro) {
-                console.warn('Tabela cartinhas_natal ainda não configurada ou sem conexão:', erro);
+                console.error('Erro ao carregar cartinhas do Supabase:', erro);
+                carregarCartinhasLocal();
+
                 if (dot) dot.className = 'w-2.5 h-2.5 rounded-full bg-[#d4a13b] shrink-0';
                 if (badge) {
                     badge.className = 'text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider';
-                    badge.textContent = 'Aguardando tabela cartinhas_natal no Supabase';
+                    badge.textContent = 'Modo Offline • Cache Local';
+                }
+
+                if (mostrarFeedback) {
+                    mostrarAvisoCartinhasEquipe(`⚠️ Falha ao sincronizar com a nuvem (${erro.message}).`);
                 }
             } finally {
                 renderizarDeckCartinhas();
@@ -3129,22 +3140,66 @@
             }
         }
 
+        function abrirModalApadrinhar(id) {
+            const c = cartinhasNatal.find((item) => item.id === Number(id));
+            if (!c) return;
+
+            const inputId = document.getElementById('input-cartinha-id');
+            const tituloEl = document.getElementById('modal-apadrinhar-titulo');
+            const cartaEl = document.getElementById('modal-apadrinhar-carta');
+            const tamEl = document.getElementById('modal-apadrinhar-tamanhos');
+            const formEl = document.getElementById('form-apadrinhar');
+            const sucessoEl = document.getElementById('modal-apadrinhar-sucesso');
+            const modalEl = document.getElementById('modal-apadrinhar');
+
+            if (inputId) inputId.value = c.id;
+            if (tituloEl) tituloEl.textContent = `${c.nome} • ${c.idade}`;
+            if (cartaEl) cartaEl.textContent = c.carta;
+
+            if (tamEl) {
+                if (c.tamanhos) {
+                    tamEl.textContent = `👕 ${c.tamanhos}`;
+                    tamEl.classList.remove('hidden');
+                } else {
+                    tamEl.classList.add('hidden');
+                }
+            }
+
+            if (formEl) {
+                formEl.reset();
+                formEl.classList.remove('hidden');
+            }
+            if (sucessoEl) sucessoEl.classList.add('hidden');
+            if (modalEl) {
+                modalEl.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function fecharModalApadrinhar() {
+            const modalEl = document.getElementById('modal-apadrinhar');
+            if (modalEl) {
+                modalEl.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
         async function confirmarApadrinhamento(event) {
             event.preventDefault();
-            const btn = document.getElementById('btn-confirmar-apadrinhar');
-            const cloudMsg = document.getElementById('apadrinhar-cloud-msg');
+
             const id = Number(document.getElementById('input-cartinha-id').value);
             const nomePad = document.getElementById('pad-nome').value.trim();
             const whatsPad = document.getElementById('pad-whats').value.trim();
             const presente = document.getElementById('pad-presente').value.trim();
             const entrega = document.getElementById('pad-entrega').value;
+            const btnConfirmar = document.getElementById('btn-confirmar-apadrinhar');
 
             const c = cartinhasNatal.find((item) => item.id === id);
             if (!c) return;
 
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<span>⏳ Salvando apadrinhamento...</span>';
+            if (btnConfirmar) {
+                btnConfirmar.disabled = true;
+                btnConfirmar.innerHTML = '<span>⏳ Salvando na nuvem...</span>';
             }
 
             c.status = 'apadrinhada';
@@ -3154,8 +3209,7 @@
             c.forma_entrega = entrega;
             salvarCartinhasLocal();
 
-            let salvoNuvem = false;
-            const payloadUpdate = {
+            const payloadAtualizacao = {
                 status: 'apadrinhada',
                 padrinho_nome: nomePad,
                 padrinho_whats: whatsPad,
@@ -3164,22 +3218,25 @@
                 updated_at: new Date().toISOString()
             };
 
+            let salvoNuvem = false;
+            let detalheErro = '';
+
             try {
-                const resp = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
+                const respPatch = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${encodeURIComponent(id)}`, {
                     method: 'PATCH',
                     headers: getSupabaseHeaders('return=representation'),
-                    body: JSON.stringify(payloadUpdate)
+                    body: JSON.stringify(payloadAtualizacao)
                 });
 
-                if (resp.ok) {
-                    const retorno = await resp.json();
-                    if (Array.isArray(retorno) && retorno.length > 0) {
-                        salvoNuvem = true;
-                    }
+                if (!respPatch.ok) {
+                    const txt = await respPatch.text();
+                    throw new Error(`PATCH HTTP ${respPatch.status}: ${txt}`);
                 }
 
-                // Se a linha ainda não existia na tabela, tenta upsert via POST
-                if (!salvoNuvem) {
+                const linhasAtualizadas = await respPatch.json();
+                if (Array.isArray(linhasAtualizadas) && linhasAtualizadas.length > 0) {
+                    salvoNuvem = true;
+                } else {
                     const respUpsert = await fetch(SUPABASE_CARTINHAS_ENDPOINT, {
                         method: 'POST',
                         headers: getSupabaseHeaders('resolution=merge-duplicates,return=representation'),
@@ -3189,29 +3246,33 @@
                             nome: c.nome,
                             idade: c.idade,
                             tamanhos: c.tamanhos || '',
-                            ...payloadUpdate
+                            ...payloadAtualizacao
                         })
                     });
-                    if (respUpsert.ok) {
-                        salvoNuvem = true;
+
+                    if (!respUpsert.ok) {
+                        const txtUp = await respUpsert.text();
+                        throw new Error(`POST HTTP ${respUpsert.status}: ${txtUp}`);
                     }
+                    salvoNuvem = true;
                 }
             } catch (erro) {
                 console.error('Erro ao salvar apadrinhamento no Supabase:', erro);
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '<span>🎁 Confirmar Apadrinhamento</span>';
+                detalheErro = erro.message || 'Erro de conexão';
+            }
+
+            const cloudMsg = document.getElementById('apadrinhar-cloud-msg');
+            if (cloudMsg) {
+                if (salvoNuvem) {
+                    cloudMsg.className = 'text-[11px] font-bold text-[#6cb37b] mt-2';
+                    cloudMsg.textContent = '✓ Reserva salva na nuvem! Já está visível para todos os acessos.';
+                } else {
+                    cloudMsg.className = 'text-[11px] font-bold text-[#d4a13b] mt-2';
+                    cloudMsg.textContent = `⚠️ Salvo apenas neste aparelho (nuvem indisponível: ${detalheErro}). Confirme no WhatsApp oficial abaixo.`;
                 }
             }
 
-            if (cloudMsg) {
-                cloudMsg.textContent = salvoNuvem
-                    ? '✓ Reserva salva na nuvem! Esta cartinha já aparece como indisponível para todos os aparelhos.'
-                    : '⚠️ Reserva salva neste aparelho. Para sincronizar entre todos os celulares, confira se a tabela cartinhas_natal foi criada no Supabase.';
-            }
-
-            const msg = [
+            const msgWpp = [
                 'Salve, Instituto Fundão! 🎄👑',
                 `Acabei de apadrinhar a *Cartinha #${c.numero} (${c.nome}, ${c.idade})* no site do Natal na Quebrada Fundão!`,
                 '',
@@ -3221,12 +3282,27 @@
                 `*Entrega:* ${entrega}`
             ].join('\n');
 
-            document.getElementById('btn-wpp-apadrinhamento').href = `https://wa.me/${WHATSAPP_OFICIAL_NUM}?text=${encodeURIComponent(msg)}`;
-            document.getElementById('form-apadrinhar').classList.add('hidden');
-            document.getElementById('modal-apadrinhar-sucesso').classList.remove('hidden');
+            const btnWpp = document.getElementById('btn-wpp-apadrinhamento');
+            if (btnWpp) {
+                btnWpp.href = `https://wa.me/${WHATSAPP_OFICIAL_NUM}?text=${encodeURIComponent(msgWpp)}`;
+            }
+
+            const formEl = document.getElementById('form-apadrinhar');
+            const sucessoEl = document.getElementById('modal-apadrinhar-sucesso');
+            if (formEl) formEl.classList.add('hidden');
+            if (sucessoEl) sucessoEl.classList.remove('hidden');
+
+            if (btnConfirmar) {
+                btnConfirmar.disabled = false;
+                btnConfirmar.innerHTML = '<span>🎁 Confirmar Apadrinhamento</span>';
+            }
 
             renderizarDeckCartinhas();
             renderizarListaCartinhasEquipe();
+
+            if (salvoNuvem) {
+                carregarCartinhasNuvem(false);
+            }
         }
 
         function mostrarAvisoCartinhasEquipe(msg) {
@@ -3237,14 +3313,9 @@
             setTimeout(() => box.classList.add('hidden'), 4500);
         }
 
-        async function alterarStatusCartinhaEquipe(id, novoStatus) {
+        async function alterarStatusCartinha(id, novoStatus) {
             const c = cartinhasNatal.find((item) => item.id === Number(id));
             if (!c) return;
-
-            const payload = {
-                status: novoStatus,
-                updated_at: new Date().toISOString()
-            };
 
             c.status = novoStatus;
             if (novoStatus === 'disponivel') {
@@ -3252,82 +3323,134 @@
                 c.padrinho_whats = '';
                 c.presente_escolhido = '';
                 c.forma_entrega = '';
-                payload.padrinho_nome = '';
-                payload.padrinho_whats = '';
-                payload.presente_escolhido = '';
-                payload.forma_entrega = '';
             }
-
             salvarCartinhasLocal();
             renderizarDeckCartinhas();
             renderizarListaCartinhasEquipe();
 
+            const payload = novoStatus === 'disponivel'
+                ? {
+                    status: 'disponivel',
+                    padrinho_nome: '',
+                    padrinho_whats: '',
+                    presente_escolhido: '',
+                    forma_entrega: '',
+                    updated_at: new Date().toISOString()
+                }
+                : {
+                    status: novoStatus,
+                    updated_at: new Date().toISOString()
+                };
+
             try {
-                const resp = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${c.id}`, {
+                const resposta = await fetch(`${SUPABASE_CARTINHAS_ENDPOINT}?id=eq.${encodeURIComponent(id)}`, {
                     method: 'PATCH',
                     headers: getSupabaseHeaders('return=representation'),
                     body: JSON.stringify(payload)
                 });
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-                mostrarAvisoCartinhasEquipe(`✓ Cartinha #${c.numero} (${c.nome}) atualizada na nuvem!`);
+
+                if (!resposta.ok) {
+                    throw new Error(`HTTP ${resposta.status}`);
+                }
+
+                const labelStatus = novoStatus === 'disponivel'
+                    ? 'Disponível'
+                    : novoStatus === 'entregue'
+                        ? 'Presente Recebido'
+                        : 'Apadrinhada';
+                mostrarAvisoCartinhasEquipe(`✓ Cartinha #${c.numero} (${c.nome}) atualizada para "${labelStatus}" na nuvem.`);
             } catch (erro) {
-                console.error('Erro ao atualizar cartinha:', erro);
-                mostrarAvisoCartinhasEquipe('⚠️ Erro ao salvar no Supabase. Verifique se a tabela cartinhas_natal foi criada.');
+                console.error('Erro ao atualizar cartinha no Supabase:', erro);
+                mostrarAvisoCartinhasEquipe('⚠️ Status atualizado localmente, mas houve falha ao sincronizar na nuvem.');
             }
         }
 
         function renderizarListaCartinhasEquipe() {
             const container = document.getElementById('equipe-cartinhas-lista');
             const contador = document.getElementById('equipe-cartinhas-contador');
-            const filtro = document.getElementById('equipe-cartinhas-filtro')?.value || 'TODOS';
-            const busca = (document.getElementById('equipe-cartinhas-busca')?.value || '').trim().toLowerCase();
+            const filtroStatus = document.getElementById('equipe-cartinhas-filtro')?.value || 'TODOS';
+            const termo = (document.getElementById('equipe-cartinhas-busca')?.value || '').trim().toLowerCase();
 
-            const totalApad = cartinhasNatal.filter((c) => c.status === 'apadrinhada' || c.status === 'entregue').length;
-            if (contador) contador.textContent = `${totalApad} / ${cartinhasNatal.length} apadrinhadas`;
+            const apadrinhadasTotal = cartinhasNatal.filter((c) => c.status === 'apadrinhada' || c.status === 'entregue').length;
+            if (contador) {
+                contador.textContent = `${apadrinhadasTotal} / ${cartinhasNatal.length} apadrinhadas`;
+            }
+
             if (!container) return;
 
             const filtradas = cartinhasNatal.filter((c) => {
-                const okFiltro = filtro === 'TODOS' || c.status === filtro;
-                const okBusca = !busca || [c.nome, c.numero, c.padrinho_nome, c.presente_escolhido].some((v) => String(v || '').toLowerCase().includes(busca));
-                return okFiltro && okBusca;
+                const okSt = filtroStatus === 'TODOS' || c.status === filtroStatus;
+                const okBusca = !termo || [
+                    c.numero,
+                    c.nome,
+                    c.padrinho_nome,
+                    c.padrinho_whats,
+                    c.presente_escolhido
+                ].some((campo) => String(campo || '').toLowerCase().includes(termo));
+                return okSt && okBusca;
             });
 
+            if (filtradas.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 rounded-2xl bg-[#1a1a1a] border border-[#f4f1ea]/12 text-center">
+                        <p class="font-anton text-xl text-[#f4f1ea] uppercase mb-1">Nenhuma cartinha encontrada</p>
+                        <p class="text-xs text-[#b5b0a6]">Ajuste a busca ou o filtro de status acima.</p>
+                    </div>
+                `;
+                return;
+            }
+
             container.innerHTML = filtradas.map((c) => {
-                const badgeClass = c.status === 'entregue'
-                    ? 'bg-[#3c6e47] text-[#f4f1ea]'
-                    : c.status === 'apadrinhada'
-                        ? 'bg-[#d4a13b] text-[#0b0b0b]'
-                        : 'bg-[#131313] border border-[#f4f1ea]/25 text-[#b5b0a6]';
-                const badgeLabel = c.status === 'entregue' ? 'Presente Recebido ✓' : c.status === 'apadrinhada' ? 'Apadrinhada' : 'Disponível';
+                const st = c.status || 'disponivel';
+                const badgeCls = st === 'entregue'
+                    ? 'bg-[#325d88] text-[#f4f1ea]'
+                    : st === 'apadrinhada'
+                        ? 'bg-[#3c6e47] text-[#f4f1ea]'
+                        : 'bg-[#d4a13b] text-[#0b0b0b]';
+
+                const badgeTexto = st === 'entregue'
+                    ? 'Presente Recebido'
+                    : st === 'apadrinhada'
+                        ? 'Apadrinhada'
+                        : 'Disponível';
 
                 const whatsLimpo = String(c.padrinho_whats || '').replace(/\D/g, '');
-                const wppLink = whatsLimpo
-                    ? `https://wa.me/${whatsLimpo.startsWith('55') ? whatsLimpo : '55' + whatsLimpo}?text=${encodeURIComponent(`Salve, ${c.padrinho_nome}! Aqui é da equipe do Instituto Fundão sobre o apadrinhamento da Cartinha #${c.numero} (${c.nome}). 🎄`)}`
+                const wppPadUrl = whatsLimpo
+                    ? `https://wa.me/${whatsLimpo.startsWith('55') ? whatsLimpo : '55' + whatsLimpo}?text=${encodeURIComponent(`Salve, ${c.padrinho_nome || 'padrinho/madrinha'}! Aqui é da equipe do Instituto Fundão sobre a Cartinha #${c.numero} (${c.nome}).`)}`
                     : '';
 
                 return `
                     <div class="p-4 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="space-y-1 min-w-0">
                             <div class="flex flex-wrap items-center gap-2">
-                                <span class="px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase ${badgeClass}">${badgeLabel}</span>
-                                <span class="font-marker text-xs text-[#d4a13b]">#${c.numero}</span>
-                                <span class="text-xs font-bold text-[#b5b0a6]">${escaparHtml(c.idade)}</span>
+                                <span class="px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase ${badgeCls}">${badgeTexto}</span>
+                                <span class="font-marker text-xs text-[#d4a13b]">#${escaparHtml(c.numero)}</span>
+                                <span class="text-[11px] text-[#b5b0a6]">${escaparHtml(c.idade)}</span>
                             </div>
-                            <h4 class="font-anton text-xl text-[#f4f1ea] uppercase">${escaparHtml(c.nome)}</h4>
+                            <h4 class="font-anton text-xl text-[#f4f1ea] tracking-wide uppercase">${escaparHtml(c.nome)}</h4>
                             ${c.padrinho_nome
-                                ? `<p class="text-xs text-[#f4f1ea]/90"><strong>Padrinho:</strong> ${escaparHtml(c.padrinho_nome)} • <strong>Whats:</strong> ${escaparHtml(c.padrinho_whats || '-')}</p>
-                                   <p class="text-xs text-[#6cb37b]"><strong>Presente:</strong> ${escaparHtml(c.presente_escolhido || '-')} • <strong>Entrega:</strong> ${escaparHtml(c.forma_entrega || '-')}</p>`
-                                : `<p class="text-xs text-[#b5b0a6] italic">Aguardando padrinho ou madrinha</p>`
+                                ? `<p class="text-xs text-[#f4f1ea]/90">
+                                     <strong>Padrinho/Madrinha:</strong> ${escaparHtml(c.padrinho_nome)} ${c.padrinho_whats ? `• <strong>WhatsApp:</strong> ${escaparHtml(c.padrinho_whats)}` : ''}
+                                   </p>
+                                   <p class="text-xs text-[#b5b0a6]">
+                                     <strong>Presente:</strong> ${escaparHtml(c.presente_escolhido || '-')} • <strong>Entrega:</strong> ${escaparHtml(c.forma_entrega || '-')}
+                                   </p>`
+                                : `<p class="text-xs text-[#b5b0a6] italic">Aguardando padrinho ou madrinha.</p>`
                             }
                         </div>
 
                         <div class="flex flex-wrap sm:flex-col items-stretch sm:items-end gap-2 shrink-0">
-                            <select onchange="alterarStatusCartinhaEquipe(${c.id}, this.value)" class="px-3 py-1.5 rounded-lg bg-[#131313] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea]">
-                                <option value="disponivel" ${c.status === 'disponivel' ? 'selected' : ''}>Disponível (Liberar)</option>
-                                <option value="apadrinhada" ${c.status === 'apadrinhada' ? 'selected' : ''}>Apadrinhada</option>
-                                <option value="entregue" ${c.status === 'entregue' ? 'selected' : ''}>Presente Recebido</option>
+                            <select onchange="alterarStatusCartinha(${c.id}, this.value)" aria-label="Alterar status da cartinha" class="px-3 py-1.5 rounded-lg bg-[#131313] border border-[#f4f1ea]/20 text-xs font-bold text-[#f4f1ea]">
+                                <option value="disponivel" ${st === 'disponivel' ? 'selected' : ''}>Disponível (Liberar)</option>
+                                <option value="apadrinhada" ${st === 'apadrinhada' ? 'selected' : ''}>Apadrinhada</option>
+                                <option value="entregue" ${st === 'entregue' ? 'selected' : ''}>Presente Recebido ✓</option>
                             </select>
-                            ${wppLink ? `<a href="${wppLink}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-bold text-center">Falar c/ Padrinho ↗</a>` : ''}
+                            ${wppPadUrl
+                                ? `<a href="${wppPadUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-[#3c6e47] hover:bg-[#2f5838] text-[#f4f1ea] text-xs font-bold text-center">
+                                     WhatsApp Padrinho ↗
+                                   </a>`
+                                : ''
+                            }
                         </div>
                     </div>
                 `;
@@ -3335,12 +3458,18 @@
         }
 
         function exportarCSVCartinhas() {
-            const cabecalho = ['Numero', 'Crianca', 'Idade', 'Status', 'Padrinho', 'WhatsApp Padrinho', 'Presente', 'Forma de Entrega'];
+            const cabecalho = ['Numero', 'Crianca', 'Idade', 'Status', 'Padrinho/Madrinha', 'WhatsApp', 'Presente', 'Forma de Entrega', 'Tamanhos'];
             const linhas = cartinhasNatal.map((c) => [
-                c.numero, c.nome, c.idade, c.status,
-                c.padrinho_nome || '', c.padrinho_whats || '',
-                c.presente_escolhido || '', c.forma_entrega || ''
-            ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(';'));
+                c.numero,
+                c.nome,
+                c.idade,
+                c.status,
+                c.padrinho_nome || '',
+                c.padrinho_whats || '',
+                c.presente_escolhido || '',
+                c.forma_entrega || '',
+                c.tamanhos || ''
+            ].map((campo) => `"${String(campo).replace(/"/g, '""')}"`).join(';'));
 
             const csv = '\uFEFF' + [cabecalho.join(';'), ...linhas].join('\n');
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -3352,55 +3481,7 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            mostrarAvisoCartinhasEquipe('✓ Planilha CSV das cartinhas exportada!');
-        }
-
-        function abrirModalApadrinhar(id) {
-            const c = cartinhasNatal.find((item) => item.id === id);
-            if (!c) return;
-
-            document.getElementById('input-cartinha-id').value = c.id;
-            document.getElementById('modal-apadrinhar-titulo').textContent = `${c.nome} • ${c.idade}`;
-            document.getElementById('modal-apadrinhar-carta').textContent = c.carta;
-
-            const tamEl = document.getElementById('modal-apadrinhar-tamanhos');
-            if (c.tamanhos) {
-                tamEl.textContent = `👕 ${c.tamanhos}`;
-                tamEl.classList.remove('hidden');
-            } else {
-                tamEl.classList.add('hidden');
-            }
-
-            document.getElementById('form-apadrinhar').reset();
-            document.getElementById('form-apadrinhar').classList.remove('hidden');
-            document.getElementById('modal-apadrinhar-sucesso').classList.add('hidden');
-
-            document.getElementById('modal-apadrinhar').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function fecharModalApadrinhar() {
-            const modal = document.getElementById('modal-apadrinhar');
-            if (modal) {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function iniciarSwipeCartinhas() {
-            const stage = document.getElementById('cartinha-deck-stage');
-            if (!stage) return;
-
-            stage.addEventListener('touchstart', (e) => {
-                toqueInicioX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            stage.addEventListener('touchend', (e) => {
-                const deltaX = e.changedTouches[0].screenX - toqueInicioX;
-                if (Math.abs(deltaX) > 45) {
-                    navegarCartinha(deltaX < 0 ? 1 : -1);
-                }
-            }, { passive: true });
+            mostrarAvisoCartinhasEquipe('✓ CSV das cartinhas exportado com sucesso!');
         }
 
         /* Inicialização ao carregar o DOM */
@@ -3408,8 +3489,27 @@
             reiniciarTimerHero();
             carregarCartinhasLocal();
             renderizarDeckCartinhas();
-            iniciarSwipeCartinhas();
-            carregarCartinhasNuvem();
+            carregarCartinhasNuvem(false);
+
+            // Sincronização periódica para refletir apadrinhamentos de outros visitantes
+            setInterval(() => {
+                carregarCartinhasNuvem(false);
+            }, 30000);
+
+            // Suporte a gesto de deslizar (swipe) nas cartinhas no celular
+            const stage = document.getElementById('cartinha-deck-stage');
+            if (stage) {
+                stage.addEventListener('touchstart', (e) => {
+                    toqueInicioX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                stage.addEventListener('touchend', (e) => {
+                    const diffX = e.changedTouches[0].screenX - toqueInicioX;
+                    if (Math.abs(diffX) > 45) {
+                        navegarCartinha(diffX < 0 ? 1 : -1);
+                    }
+                }, { passive: true });
+            }
         });
     </script>
 </body>
