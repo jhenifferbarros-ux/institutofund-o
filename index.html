@@ -553,13 +553,13 @@
                         <div class="w-full lg:w-72 p-3.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/12 shrink-0">
                             <div class="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
                                 <span class="text-[#d4a13b]">Termômetro de Natal</span>
-                                <span id="termometro-texto" class="text-[#f4f1ea]">0 / 18 apadrinhadas</span>
+                                <span id="termometro-texto" class="text-[#f4f1ea]">0 / 21 apadrinhadas</span>
                             </div>
                             <div class="w-full h-2.5 rounded-full bg-[#0b0b0b] border border-[#f4f1ea]/10 overflow-hidden">
                                 <div id="termometro-barra" class="h-full bg-gradient-to-r from-[#3c6e47] to-[#d4a13b] rounded-full transition-all duration-500" style="width: 4%;"></div>
                             </div>
                             <p id="termometro-sub" class="text-[11px] text-[#b5b0a6] mt-1.5">
-                                Faltam <strong class="text-[#f4f1ea]">18 crianças</strong> esperando um padrinho ou madrinha.
+                                Faltam <strong class="text-[#f4f1ea]">21 crianças</strong> esperando um padrinho ou madrinha.
                             </p>
                         </div>
                     </div>
@@ -568,10 +568,10 @@
                     <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
                         <div class="flex flex-wrap items-center gap-2">
                             <button type="button" id="filtro-cart-todas" onclick="definirFiltroCartinhas('todas')" class="px-3.5 py-1.5 rounded-full bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
-                                Todas (18)
+                                Todas (21)
                             </button>
                             <button type="button" id="filtro-cart-disponiveis" onclick="definirFiltroCartinhas('disponiveis')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
-                                🟢 Disponíveis (18)
+                                🟢 Disponíveis (21)
                             </button>
                             <button type="button" id="filtro-cart-apadrinhadas" onclick="definirFiltroCartinhas('apadrinhadas')" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#242424] text-[#f4f1ea] border border-[#f4f1ea]/15 text-[11px] font-extrabold uppercase tracking-wider cursor-pointer transition-colors">
                                 ⭐ Apadrinhadas (0)
@@ -583,7 +583,7 @@
                                 ← Anterior
                             </button>
                             <span id="deck-contador" class="text-xs font-extrabold text-[#d4a13b] uppercase tracking-wider px-1.5">
-                                1 / 18
+                                1 / 21
                             </span>
                             <button type="button" onclick="navegarCartinha(1)" aria-label="Próxima cartinha" class="px-3.5 py-1.5 rounded-full bg-[#1a1a1a] hover:bg-[#d4a13b] text-[#f4f1ea] hover:text-[#0b0b0b] border border-[#f4f1ea]/18 text-xs font-extrabold uppercase tracking-wider transition-colors cursor-pointer">
                                 Próxima →
@@ -616,7 +616,7 @@
                                     🟢 Disponíveis para Apadrinhar
                                 </span>
                                 <span id="qtd-mini-disponiveis" class="px-2 py-0.5 rounded-full bg-[#3c6e47]/30 text-[#6cb37b] text-[10px] font-extrabold">
-                                    18
+                                    21
                                 </span>
                             </div>
                             <div id="lista-mini-disponiveis" class="flex flex-wrap gap-1.5">
@@ -640,211 +640,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-
-        <!-- =====================================================================
-             4. FAIXA DIAGONAL INCLINADA 'CULTURA • CIDADANIA • DIGNIDADE • ITAPEVI • SP'
-        ====================================================================== -->
-        <div class="w-full overflow-hidden py-4 relative z-20 select-none pointer-events-none">
-            <div class="w-[114%] -ml-[7%] -rotate-1 bg-[#d4a13b] text-[#0b0b0b] py-2.5 sm:py-3 border-y-2 border-[#0b0b0b]">
-                <div class="marquee-track font-anton text-xl sm:text-3xl tracking-widest uppercase">
-                    <div class="flex items-center shrink-0">
-                        <span class="mx-3 sm:mx-5">CULTURA • CIDADANIA • DIGNIDADE • ITAPEVI • SP ★</span>
-                        <span class="mx-3 sm:mx-5">DIREITO NA COMUNIDADE • INSTITUTO FUNDÃO ★</span>
-                        <span class="mx-3 sm:mx-5">CULTURA • CIDADANIA • DIGNIDADE • ITAPEVI • SP ★</span>
-                    </div>
-                    <div class="flex items-center shrink-0" aria-hidden="true">
-                        <span class="mx-3 sm:mx-5">CULTURA • CIDADANIA • DIGNIDADE • ITAPEVI • SP ★</span>
-                        <span class="mx-3 sm:mx-5">DIREITO NA COMUNIDADE • INSTITUTO FUNDÃO ★</span>
-                        <span class="mx-3 sm:mx-5">CULTURA • CIDADANIA • DIGNIDADE • ITAPEVI • SP ★</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- =====================================================================
-             5. SEÇÃO 'O começo / Sobre o FUNDÃO' (FASE 01 + FASE 02 + 3 CARDS ESCALONADOS)
-                + 6. SEÇÃO 'Registros Reais • Último Evento & Direito na Comunidade (10 fotos)'
-        ====================================================================== -->
-        <section id="sobre-fundao" class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#f4f1ea]/10">
-            <div class="max-w-6xl mx-auto">
-                <!-- Cabeçalho Editorial Dividido -->
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center pb-10 sm:pb-12 border-b border-[#f4f1ea]/12">
-                    <div class="md:col-span-5">
-                        <div class="inline-flex items-center gap-2.5 mb-2">
-                            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#b5b0a6]">O começo</span>
-                            <span class="w-6 h-6 rounded-md bg-[#c25934] text-[#f4f1ea] inline-flex items-center justify-center">
-                                <svg viewBox="0 0 64 48" class="w-4 h-3" fill="none">
-                                    <path d="M6 38L11 13L24 25L32 8L40 25L53 13L58 38H6Z" fill="#d4a13b"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <h2 class="section-heading font-anton text-[#f4f1ea] tracking-wide uppercase">
-                            Sobre o <span class="font-marker text-[#c25934] grifo-terra tracking-normal">FUNDÃO</span>
-                        </h2>
-                    </div>
-
-                    <div class="hidden md:flex md:col-span-1 justify-center">
-                        <div class="w-px h-20 bg-[#f4f1ea]/15"></div>
-                    </div>
-
-                    <div class="md:col-span-6">
-                        <p class="text-sm sm:text-base lg:text-lg text-[#f4f1ea]/90 font-medium leading-relaxed">
-                            O <strong class="text-[#c25934] font-extrabold">Instituto Fundão</strong> nasceu da força real da quebrada em <strong class="grifo-ochre font-extrabold text-[#f4f1ea]">Itapevi</strong>, evoluindo da <strong class="text-[#6897c7]">Fase 01 (Direito na Comunidade)</strong> para a <strong class="text-[#d4a13b]">Fase 02</strong> como um movimento cultural, social e de cidadania ainda mais forte.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 3 Cards Escalonados (+500 Pessoas Impactadas, 2 FASES De Evolução Social, 100% Gratuito & Comunitário) -->
-                <div class="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-end">
-                    <div class="bg-[#131313] border border-[#f4f1ea]/12 rounded-2xl p-6 sm:p-8 min-h-[205px] md:min-h-[245px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-                        <span class="font-marker text-4xl sm:text-5xl lg:text-6xl text-[#c25934] tracking-wider mb-3">
-                            +500
-                        </span>
-                        <p class="text-xs sm:text-sm font-extrabold text-[#f4f1ea] max-w-[210px]">
-                            Pessoas Impactadas
-                        </p>
-                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#c25934]"></div>
-                    </div>
-
-                    <div class="bg-[#131313] border border-[#f4f1ea]/12 rounded-2xl p-6 sm:p-8 min-h-[190px] md:min-h-[215px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-                        <span class="font-marker text-3xl sm:text-4xl lg:text-5xl text-[#d4a13b] tracking-wider mb-3">
-                            2 FASES
-                        </span>
-                        <p class="text-xs sm:text-sm font-extrabold text-[#f4f1ea] max-w-[230px]">
-                            De Evolução Social
-                        </p>
-                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#d4a13b]"></div>
-                    </div>
-
-                    <div class="bg-[#131313] border border-[#f4f1ea]/12 rounded-2xl p-6 sm:p-8 min-h-[220px] md:min-h-[275px] flex flex-col items-center justify-center text-center relative overflow-hidden">
-                        <span class="font-marker text-4xl sm:text-5xl lg:text-6xl text-[#6cb37b] tracking-wider mb-3">
-                            100%
-                        </span>
-                        <p class="text-xs sm:text-sm font-extrabold text-[#f4f1ea] max-w-[220px]">
-                            Gratuito & Comunitário
-                        </p>
-                        <div class="absolute bottom-0 inset-x-0 h-1.5 bg-[#3c6e47]"></div>
-                    </div>
-                </div>
-
-                <!-- FASE 01 (Direito na Comunidade) & FASE 02 (Instituto Fundão) -->
-                <div id="direito-comunidade" class="mt-16 sm:mt-20 pt-14 border-t border-[#f4f1ea]/12">
-                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-9">
-                        <div>
-                            <span class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-[#6897c7] mb-2">
-                                <svg viewBox="0 0 64 48" class="w-4 h-3.5" fill="none">
-                                    <path d="M6 38L11 13L24 25L32 8L40 25L53 13L58 38H6Z" fill="#d4a13b"/>
-                                </svg>
-                                ASSESSORIA JURÍDICA PÚBLICA ITINERANTE
-                            </span>
-                            <h3 class="section-heading font-anton text-[#f4f1ea] tracking-wide uppercase">
-                                Direito na Comunidade — <span class="font-marker text-[#6897c7] grifo-slate tracking-normal">FASE 01</span>
-                            </h3>
-                        </div>
-                        <span class="text-xs font-bold text-[#f4f1ea] border-b-2 border-[#325d88] pb-1 self-start md:self-auto">
-                            Parceria Oficial: Escritório Paiva Advogados
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-14">
-                        <div class="lg:col-span-7 border-l-4 border-[#325d88] pl-4 sm:pl-6">
-                            <p class="text-base sm:text-lg text-[#f4f1ea]/90 leading-relaxed mb-5">
-                                Nossa primeira etapa levou orientação jurídica gratuita <strong class="grifo-ochre text-[#f4f1ea]">quinzenalmente aos sábados</strong> para as famílias de Itapevi em parceria com o <strong class="text-[#6897c7]">Escritório Paiva Advogados</strong>, orientando sobre benefícios sociais e previdenciários junto a rodas de juventude, cultura e educação cidadã.
-                            </p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#325d88]/70 text-xs font-bold text-[#f4f1ea]">Salário Maternidade</span>
-                                <span class="px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#325d88]/70 text-xs font-bold text-[#f4f1ea]">Bolsa Família</span>
-                                <span class="px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#325d88]/70 text-xs font-bold text-[#f4f1ea]">BPC / LOAS</span>
-                                <span class="px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#325d88]/70 text-xs font-bold text-[#f4f1ea]">Auxílio Acidente</span>
-                                <span class="px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#325d88]/70 text-xs font-bold text-[#f4f1ea]">Auxílio Doença</span>
-                            </div>
-                        </div>
-
-                        <div class="lg:col-span-5 lg:mt-2 p-6 organic-blob-2 bg-[#131313] border border-[#c25934]/55">
-                            <span class="inline-block px-3 py-1 rounded-full bg-[#c25934] text-[11px] font-extrabold uppercase tracking-widest text-[#f4f1ea] mb-3">
-                                EVOLUÇÃO • FASE 02
-                            </span>
-                            <h4 class="font-anton text-2xl sm:text-3xl text-[#f4f1ea] tracking-wide leading-tight mb-2 uppercase">
-                                O INSTITUTO FUNDÃO É A SEGUNDA ETAPA — <span class="text-[#d4a13b]">AINDA MAIS FORTE</span>
-                            </h4>
-                            <p class="text-xs sm:text-sm text-[#b5b0a6] font-medium leading-relaxed">
-                                Consolidamos a base do Direito na Comunidade em um movimento cultural, social e de cidadania ainda mais forte, unindo batalhas de rima, hip-hop, formação juvenil e assistência direta em toda Itapevi.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- =================================================================
-                         MOSAICO ASSIMÉTRICO: 'Registros Reais • Último Evento & Direito na Comunidade (10 fotos)'
-                         Fotos 03 e 04 com altura ampliada (lg:h-[245px]) + enquadramento object-cover object-top object-[center_8%]
-                    ================================================================== -->
-                    <div id="registros-reais">
-                        <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
-                            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#f4f1ea]">
-                                Registros Reais • Último Evento & Direito na Comunidade (10 fotos)
-                            </span>
-                            <span class="text-xs font-bold text-[#d4a13b]">Clique ou toque para ampliar</span>
-                        </div>
-
-                        <!-- Bloco Superior Assimétrico -->
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-                            <!-- Coluna Esquerda: Foto 01 (Destaque Grande) -->
-                            <div class="lg:col-span-6 flex flex-col">
-                                <button type="button" onclick="abrirLightbox(0)" class="lambe-tape group relative w-full h-full min-h-[300px] lg:min-h-[510px] rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 cursor-pointer text-left">
-                                    <img src="https://i.postimg.cc/T14MYJmM/Whats-App-Image-2026-11-18-at-17-22-20.jpg" alt="Último Evento Instituto Fundão 01" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/900x700/131313/d4a13b?text=Evento+Fundao+01';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/85 via-transparent to-transparent"></div>
-                                    <div class="absolute bottom-3.5 left-4 right-4 flex items-center justify-between">
-                                        <span class="px-2.5 py-1 rounded bg-[#d4a13b] text-[#0b0b0b] text-[11px] font-extrabold uppercase tracking-wider">01 • Palco & Cena</span>
-                                        <span class="text-xs font-bold text-[#f4f1ea]">Último Evento</span>
-                                    </div>
-                                </button>
-                            </div>
-
-                            <!-- Coluna Direita: Foto 02 (Topo Direita) + Fotos 03 e 04 (Meio e Base Direita com lg:h-[245px] e object-cover object-top object-[center_8%]) -->
-                            <div class="lg:col-span-6 flex flex-col gap-4 sm:gap-5">
-                                <button type="button" onclick="abrirLightbox(1)" class="group relative aspect-[4/3] lg:h-[215px] lg:aspect-auto rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 cursor-pointer text-left">
-                                    <img src="https://i.postimg.cc/4NKV4vHL/Whats-App-Image-2026-11-18-at-18-24-31.jpg" alt="Último Evento Instituto Fundão 02" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x500/131313/c25934?text=Evento+Fundao+02';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/80 via-transparent to-transparent"></div>
-                                    <span class="absolute bottom-3 left-4 text-[11px] font-bold text-[#f4f1ea] uppercase tracking-wider">02 • Cultura de Rua</span>
-                                </button>
-
-                                <button type="button" onclick="abrirLightbox(2)" class="group relative aspect-[4/3] lg:h-[245px] lg:aspect-auto rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 cursor-pointer text-left">
-                                    <img src="https://i.postimg.cc/zBx40Fxy/Whats-App-Image-2026-11-18-at-17-22-21-(1).jpg" alt="Último Evento Instituto Fundão 03" class="w-full h-full object-cover object-top object-[center_8%] group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/131313/644482?text=Evento+Fundao+03';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/75 via-transparent to-transparent"></div>
-                                    <span class="absolute bottom-3 left-4 text-[11px] font-bold text-[#f4f1ea] uppercase tracking-wider">03 • Movimento Local</span>
-                                </button>
-
-                                <button type="button" onclick="abrirLightbox(3)" class="group relative aspect-[4/3] lg:h-[245px] lg:aspect-auto rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 cursor-pointer text-left">
-                                    <img src="https://i.postimg.cc/Qx2w4tJk/Whats-App-Image-2026-11-18-at-17-22-21-(3).jpg" alt="Último Evento Instituto Fundão 04" class="w-full h-full object-cover object-top object-[center_8%] group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/131313/3c6e47?text=Evento+Fundao+04';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/75 via-transparent to-transparent"></div>
-                                    <span class="absolute bottom-3 left-4 text-[11px] font-bold text-[#f4f1ea] uppercase tracking-wider">04 • Juventude Presente</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Bloco Inferior: Registros do Direito na Comunidade + Botão 'Ver todas as 10 fotos' -->
-                        <div class="mt-4 sm:mt-5 grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5">
-                            <button type="button" onclick="abrirLightbox(4)" class="sm:col-span-5 group relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 cursor-pointer text-left">
-                                <img src="https://i.postimg.cc/zvQHkTn9/Whats-App-Image-2026-11-18-at-15-48-31.jpg" alt="Direito na Comunidade 05" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/800x600/131313/325d88?text=Direito+05';">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/80 via-transparent to-transparent"></div>
-                                <span class="absolute bottom-3 left-3.5 text-[11px] font-bold text-[#f4f1ea] uppercase tracking-wider">05 • Direito na Comunidade</span>
-                            </button>
-
-                            <div class="sm:col-span-7 relative rounded-2xl overflow-hidden bg-[#131313] border border-[#f4f1ea]/18 aspect-[4/3] sm:aspect-auto">
-                                <button type="button" onclick="abrirLightbox(5)" class="w-full h-full block group cursor-pointer text-left">
-                                    <img src="https://i.postimg.cc/PqMLRgW4/Whats-App-Image-2026-11-18-at-15-48-31-(1).jpg" alt="Direito na Comunidade 06" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null;this.src='https://placehold.co/900x600/131313/325d88?text=Direito+06';">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b]/85 via-transparent to-transparent"></div>
-                                    <span class="absolute bottom-3 left-3.5 text-[11px] font-bold text-[#f4f1ea] uppercase tracking-wider">06 • Atendimento Jurídico</span>
-                                </button>
-
-                                <button type="button" onclick="abrirLightbox(0)" class="absolute bottom-3 right-3 px-4 py-2 rounded-full bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] text-xs font-extrabold uppercase tracking-wider transition-colors cursor-pointer">
-                                    Ver todas as 10 fotos ↗
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1151,7 +946,7 @@
                                     20/12/2026 às 14:00h • Itapevi - SP
                                 </p>
                                 <p class="text-xs sm:text-sm text-[#b5b0a6] font-medium leading-relaxed mb-4">
-                                    Batalha de rima, pocket shows com artistas locais, distribuição de brinquedos, cestas básicas e apadrinhamento das cartinhas das crianças.
+                                    Batalha de rima, pocket shows com artistas locais, alimentação comunitária, distribuição de brinquedos extras para as outras crianças da comunidade, cestas básicas e apadrinhamento das cartinhas.
                                 </p>
                                 <a href="#natal-fundao" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#d4a13b] hover:bg-[#be8e30] text-[#0b0b0b] font-extrabold text-xs uppercase tracking-wider transition-colors mb-2.5">
                                     <span>🎁 Adotar uma Cartinha Agora</span>
@@ -1727,7 +1522,7 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[#f4f1ea]/12">
                         <div class="flex flex-wrap items-center gap-2">
                             <span id="equipe-cartinhas-contador" class="px-3 py-1.5 rounded-full bg-[#3c6e47] text-[#f4f1ea] text-xs font-extrabold uppercase">
-                                0 / 18 apadrinhadas
+                                0 / 21 apadrinhadas
                             </span>
                             <input type="search" id="equipe-cartinhas-busca" oninput="renderizarListaCartinhasEquipe()" placeholder="Buscar criança ou padrinho..." class="px-3.5 py-1.5 rounded-xl bg-[#1a1a1a] border border-[#f4f1ea]/20 text-xs font-medium text-[#f4f1ea] placeholder-[#b5b0a6]/60 outline-none focus:border-[#d4a13b]">
                         </div>
@@ -2818,6 +2613,36 @@
                 carta: '"Opção 1: Conjunto preto da Gaviões • Opção 2: Celular. Eu espero que o senhor consiga me dá ☆"',
                 tags: ['🖤 Conjunto preto da Gaviões', '📱 Celular', '👕 Camisa (16)', '👟 Tênis (40)', '⚽ Bola / Acessórios'],
                 tamanhos: 'Camisa 16 • Tênis 40',
+                status: 'disponivel'
+            },
+            {
+                id: 19,
+                numero: '19',
+                nome: 'Alicia Fernanda',
+                idade: '9 anos',
+                carta: '"Oi papai Noel meu nome é Alicia Fernanda eu tenho 9 anos eu queria muito ganhar um celular ou uma boneca da Katlen do Grupo dos Rosa. Muito obrigada"',
+                tags: ['🎀 Boneca Katlen (Grupo dos Rosa)', '📱 Celular', '👕 Roupa (Tam. 12)', '👟 Sapato (33)', '🧸 Brinquedos'],
+                tamanhos: 'Roupa 12 • Sapato 33',
+                status: 'disponivel'
+            },
+            {
+                id: 20,
+                numero: '20',
+                nome: 'Emanuelly Sophia',
+                idade: '10 anos',
+                carta: '"Oi Papai Noel, meu nome é Emanuelly Sophia, tenho 10 anos. Eu gostaria de ganhar uma Bebê reborn para brincar com minha tia ou um patins número 36. Deus abençoe muito."',
+                tags: ['👶 Bebê Reborn', '🛼 Patins (36)', '👕 Roupa (Tam. 14)', '👟 Sapato (35)', '🧸 Brinquedos'],
+                tamanhos: 'Roupa 14 • Sapato 35',
+                status: 'disponivel'
+            },
+            {
+                id: 21,
+                numero: '21',
+                nome: 'João Luca',
+                idade: '6 anos',
+                carta: '"Oi papai noel eu sou o João Luca, tenho 6 anos. Como ainda não sei escrever minha mamãe escreveu pra mim. Desenhei para você papai noel algumas coisas que são meus sonhos, e se você puder me dar algum deles ficarei muito muito feliz. Porque eu vou poder brincar com minhas irmãs, queria muito poder ter um tablete, ou uma pista hot wheels, ou um patins numero 33, ou o que Deus me abençoar. TE AMO PAPAI NOEL"',
+                tags: ['🏎️ Pista Hot Wheels', '🛼 Patins (33)', '📚 Tablet', '👕 Roupa (Tam. 10)', '👟 Sapato (32/33)'],
+                tamanhos: 'Roupa 10 • Sapato 32/33',
                 status: 'disponivel'
             }
         ];
